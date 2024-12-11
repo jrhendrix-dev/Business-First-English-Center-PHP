@@ -1,0 +1,456 @@
+/* NAVBAR CSS */
+.navbar-nav {
+    /*makes the navbar logo stay left while the menu goes right*/
+    margin-left: auto;
+    color: white;
+
+}
+
+
+.navbar-nav a:hover {
+    background-color: crimson;
+
+}
+
+.navbar-nav span:hover {
+    background-color: crimson;
+}
+
+img{
+    max-width:100%;
+    height:auto;
+}
+
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    outline-style: solid;
+    outline-color: white;
+    outline-width: thin;
+
+}
+
+.list-color a {
+    color: white !important;
+}
+
+.list-color span {
+    color: white !important;
+}
+
+.Menu-Style {
+    background-color: midnightblue;
+}
+
+/* Navbar color */
+#Navegación {
+    background-color: midnightblue;
+
+
+}
+
+#Navbar_Login {
+    padding: 15px;
+    padding-bottom: 10px;
+}
+
+/* #Navbar_Hide{
+                display:none;
+            } */
+#Navbar_Logo {
+    width: 95%;
+    /* height: 100%; */
+    height:auto;
+}
+
+
+/*INDEX CSS*/
+a.anchor {
+
+    display: block;
+    position: relative;
+    top: -110px;
+    visibility: hidden;
+}
+
+
+
+
+/* .dropdown-menu{
+    background-color:midnightblue;
+    
+} */
+
+
+.panel-link {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+
+.Row-Even {
+    background-color: aliceblue;
+    /* height: 230px; */
+    height:auto;
+    overflow: auto;
+    position: relative;
+}
+
+.Row-Even:hover {
+    background-color: white;
+    /* font-weight:bold; */
+}
+
+/* .Row-Even:hover h3{
+    color:red;
+} */
+
+.Row-Even:hover img {
+    border-style: solid;
+    border-color: navy;
+    border-width: thin;
+}
+
+
+
+.Row-Uneven {
+    background-color: lightsteelblue;
+    /* height: 230px; */
+    height:auto;
+    overflow: auto;
+    position: relative;
+}
+
+.Row-Uneven:hover {
+    background-color: rgb(219, 224, 230);
+    /* font-weight:bold; */
+
+}
+
+/* .Row-Uneven:hover h3{
+    color:red;
+} */
+
+.Row-Uneven:hover img {
+    border-style: solid;
+    border-color: navy;
+    border-width: thin;
+}
+
+.row-pic {
+    /* width: 30%; */
+    width:32%;
+    
+    max-height: 350px;
+    float: left;
+    margin: 0 20px;
+
+
+}
+
+.rows h3{
+    margin-left:30px;
+}
+
+.rows p{
+    font-size:22px;
+    font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+}
+
+.Row-Header {
+    background-color: midnightblue;
+    color: white;
+    text-align: center;
+    outline-style: solid;
+    outline-color: crimson;
+
+}
+
+.row-text {
+    /* margin-left:480px; */
+    float: none;
+}
+
+.footer-bg {
+    background-color: rgb(219, 216, 216);
+
+}
+
+.fa {
+    padding: 20px;
+    font-size: 30px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+    /* border-radius: 50%; */
+}
+
+.fa:hover {
+    opacity: 0.7;
+}
+
+#Title-Image {
+    max-height: 400px;
+    width: 100%;
+}
+
+
+
+.footer-map {
+    max-width: 500px;
+    /* max-height: 300px; */
+    max-height:auto;
+    border-style: solid;
+    border-width: thin;
+
+}
+
+#Contenido {
+    text-align: center;
+    font-family: Arial;
+    font-size: 20px;
+}
+
+.fa-facebook {
+    background: #3B5998;
+    color: white;
+}
+
+.fa-twitter{ 
+    background:#55ACEE;
+    color:white;
+}
+
+.fa-google{
+    background:#dd4b39;
+    color:white;
+
+}
+
+.fa-instagram{
+    background:#125688;
+    color:white;
+}
+
+.fa-linkedin{
+    background: #007bb5;
+    color:white;
+}
+
+
+/*INDEX CSS END */
+
+/*ALL PAGES CSS */
+
+.error {
+
+    color: red;
+    margin: 10px;
+
+}
+
+
+h3 {
+    color: navy;
+}
+
+p {
+    color: navy;
+}
+
+table tr td {
+    color:navy;
+    font-size: 20px;
+}
+
+table tr th{
+    font-size:25px;
+}
+
+
+
+/*ALL PAGES CSS END*/
+
+/*IC, Exámenes, Clasesesp CSS */
+.TítuloPágina{
+    font-size: 38px;
+    font-family:lucida;
+    color: navy;
+    text-align: center;
+    font-weight: bolder;
+    margin-top:15px;
+    /* margin-left:15px; */
+}
+
+.TítuloMenor{
+    font-family: Arial;
+    font-weight:bold;
+    color:crimson;
+}
+
+.pageContent{
+    color:navy;
+    
+    /* border:red;
+    border-style:solid; */
+    width:70%;
+   
+}
+.pageSide{
+    width:30%;
+}
+.pageSide img{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    width:70%;
+    height:auto;
+    
+
+    /* width:32%;
+    
+    max-height: 350px;
+    float: left;
+    margin: 0 20px; */
+
+
+}
+
+.pageSide p{
+    text-align:center;
+    font-family:Arial;
+    font-size:25px;
+    font-weight:bolder;
+}
+.pageContent ul{
+    font-size: 20px;
+    font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+    /* font-weight:bold; */
+    line-height:1.8;
+
+}
+
+/* Changes the bullet for a li element, find the codes here: https://unicode-table.com/en/sets/check/ */
+#Bulletchange::marker{
+content:"✓   ";
+}
+
+
+.infotable{
+     width:50%; 
+     margin-left:20px;
+     color:navy;
+}
+.infotable thead tr:first-child{
+    background-color: midnightblue;
+}
+.infotable tfoot tr:first-child{
+    background-color:midnightblue;
+}
+.infotable tfoot th{
+    text-align:center;
+}
+
+.infotable tfoot input{
+    margin-left:20px;
+    margin-right:20px;
+}
+.infotable th h2{
+    text-align:center;
+    color:white;    
+    font-weight:bolder;
+}
+
+.infotable input[type=text]{
+    width:100%;
+}
+
+.all{
+    background-color:ghostwhite;
+}
+
+
+.info-column{
+    margin-left:30px;
+    /* background-color:black; */
+    }
+
+/*IC, Exámenes, Clasesesp CSS END */
+
+
+/* ADMIN, TEACHER, STUDENT CSS */
+
+#sidebar {
+    min-width: 200px;
+    max-width: 200px;
+    background-color: midnightblue;
+    min-height:100vh;  
+    height:auto;  
+    /* position:fixed; */
+    align-items:start;
+    position:sticky;
+    position:-webkit-sticky;
+    top:10px;
+    border-style: solid;
+    border-width:thin;
+    border-color:red;
+    overflow:hidden;
+  
+    
+}
+
+
+.wrapper {
+    display: flex;
+    align-items: stretch;
+    /* border-style: solid;
+    border-width:thin;
+    border-color:red; */
+    width:100%;
+    height:100%;
+    background-color:ghostwhite;
+ 
+    
+}
+
+/* .navbar .sidebar{
+ 
+} */
+
+#side-title {
+    color: white;
+}
+
+.db-window{
+    margin-left:20px;
+    width:100%;
+    /* border-style:solid;
+    border-color:red; */
+}
+
+
+.content{
+    width:80%;
+}
+
+.table-title {
+    background-color: midnightblue;
+    color: white;
+    text-align: center;
+    outline-style: solid;
+    outline-color: crimson;
+}
+
+
+
+
+
+
+
