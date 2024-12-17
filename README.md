@@ -1,4 +1,4 @@
-# Project RBE
+# Project Rota Business English
 
 ## Overview
 Project RBE is a comprehensive web-based application designed to facilitate the management of an academic institution. It provides a user-friendly interface for students, teachers, and administrators to interact with the system efficiently. The application is built using PHP and leverages Bootstrap for a responsive design, ensuring accessibility across various devices.
@@ -55,4 +55,4 @@ We welcome contributions! Please fork the repository and submit a pull request f
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
 
 ## Contact
-For any inquiries or support, please contact [your-email@example.com](mailto:your-email@example.com).
+For any inquiries or support, please contact [soth26@gmail.com](soth26@gmail.com).
