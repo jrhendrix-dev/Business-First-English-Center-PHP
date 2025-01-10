@@ -124,13 +124,6 @@ $(document).ready(function(){
 }); //$(document).ready(function() END
 //PAGE LOAD END
 
-
-
-
-
-
-
-
 function rowDelete(ctl,ctl_window){
 
 
@@ -600,8 +593,7 @@ function rowNormal(){
     $(".editIcon").attr('hidden',false);
     $(".update_button").attr('hidden', true);
     $(".formEdit-control").attr('hidden',true);
-    
-    
+
 
 }//rowNormal End
 

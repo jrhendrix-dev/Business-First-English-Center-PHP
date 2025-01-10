@@ -22,9 +22,6 @@
         <!-- My Personal CSS Sheet -->
         <link href="css/index.css" rel="stylesheet" type="text/css"/>
 
-      
-
-
     </head>
 
     <body>
@@ -38,7 +35,6 @@
            $_SESSION["msg2"]="";
        }
 
-      
         //Si no eres admin, te redirige al índice
         if(check_login()===true){
                 if($_SESSION["lvl"] != 1){
@@ -215,7 +211,7 @@
 
 
 
-    <div class="content">        
+    <div class="content">
 
             <?php      
             if(check_login() === true){
