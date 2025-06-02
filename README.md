@@ -1,4 +1,4 @@
-# Project Rota Business English
+# Business First English Center
 
 ## Overview
 Project RBE is a comprehensive web-based application designed to facilitate the management of an academic institution. It provides a user-friendly interface for students, teachers, and administrators to interact with the system efficiently. The application is built using PHP and leverages Bootstrap for a responsive design, ensuring accessibility across various devices.
