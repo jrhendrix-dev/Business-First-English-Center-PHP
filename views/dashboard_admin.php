@@ -1,14 +1,25 @@
 <?php
 // dashboard_admin.php
 
-require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/adminHandlers.php';
+require_once __DIR__ . '/../src/controllers/create.php';
+require_once __DIR__ . '/../src/controllers/delete.php';
+require_once __DIR__ . '/../src/controllers/update.php';
 
 if (!isset($con)) {
     require_once __DIR__ . '/../src/models/Database.php';
     $con = Database::connect();
 }
 
+// ============================================================================
+//                                 OUTPUT JS VARIABLES
+// ============================================================================
 
+/**
+ * Outputs JS variables for class and teacher options for use in the frontend.
+ */
+echo "<script>window.classOptions = {$classOptionsJS}; window.teacherOptions = {$teacherOptionsJS};</script>";
+echo "<script>window.classOptions = " . json_encode($classOptions) . ";</script>";
 
 ?>
 

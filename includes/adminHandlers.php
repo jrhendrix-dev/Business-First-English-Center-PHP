@@ -1,20 +1,45 @@
 <?php
+/**
+ * adminHandlers.php
+ *
+ * Contains utility functions and AJAX handlers for the Business First English Center admin dashboard.
+ * Handles user authentication, dynamic dropdowns, and data retrieval (read-only) operations for users, classes, grades, and schedules.
+ *
+ * PHP version 7+
+ *
+ * @package    BusinessFirstEnglishCenter
+ * @author     Jonathan Ray Hendrix <jrhendrixdev@gmail.com>
+ * @license    MIT LICENSE
+ */
+
 if (!isset($con)) {
     require_once __DIR__ . '/../src/models/Database.php';
     $con = Database::connect();
 }
 
+/**
+ * Checks if the user is logged in.
+ *
+ * @return bool True if user is logged in, false otherwise.
+ */
 function check_login(){
     return (isset($_SESSION['login'])) ? true : false;
 }//end check_login
 
 
-//                                              DASHBOARD ADMIN HANDLERS
+// ============================================================================
+//                              DASHBOARD ADMIN HANDLERS
+// ============================================================================
 
 
-//                                      INYECCIÓN DE DATOS
+// ============================================================================
+//                              INYECCIÓN DE DATOS
+// ============================================================================
 
-// USUARIOS  ////////////Handler para que el dropdown de clases disponibles solo muestre clases sin profesor asignado
+/**
+ * Handler for AJAX request: Get available classes (classes without assigned teacher).
+ * Outputs <option> elements for each available class.
+ */
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['availableClasses'])) {
     $query = "SELECT classid, classname FROM clases 
               WHERE classid NOT IN (SELECT class FROM users WHERE ulevel = 2 AND class IS NOT NULL)";
@@ -24,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['availableClasses'])) {
     }
     exit;
 }
-
 
 // Obtener clases para el dropdown
 $classOptions = "";
@@ -49,12 +73,14 @@ $teacherOptionsJS = json_encode($teacherOptions);
 
 
 
-
-//
+// ============================================================================
 //                              HANDLERS DE USUARIOS
-//
+// ============================================================================
 
-// Handler para que el dropdown de clases disponibles solo muestre clases sin profesor asignado
+/**
+ * Handler for AJAX request: Get available classes for dropdown (duplicate, for legacy compatibility).
+ * Outputs <option> elements for each available class.
+ */
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['availableClasses'])) {
     $query = "SELECT classid, classname FROM clases 
               WHERE classid NOT IN (SELECT class FROM users WHERE ulevel = 2 AND class IS NOT NULL)";
@@ -65,10 +91,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['availableClasses'])) {
     exit;
 }
 
-
-
-
-// AJAX handler para lista de usuarios
+/**
+ * Handler for AJAX request: Load users list.
+ * Outputs an HTML table with user data.
+ */
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadUsers'])) {
     $res = $con->query("SELECT users.*, clases.classname FROM users LEFT JOIN clases ON users.class = clases.classid ORDER BY users.user_id ASC");
     if ($res && $res->num_rows > 0) {
@@ -93,37 +119,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadUsers'])) {
     exit;
 }
 
-// AJAX handler para actualizar usuario
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateUser'])) {
-    $id = $_POST['user_id'];
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $class = $_POST['class'];
-    $ulevel = $_POST['ulevel'];
-
-    $stmt = $con->prepare("UPDATE users SET username=?, email=?, class=?, ulevel=? WHERE user_id=?");
-    $stmt->bind_param("ssssi", $username, $email, $class, $ulevel, $id);
-
-    echo $stmt->execute() ? "success" : "error";
-    exit;
-}
-
-// AJAX handler para eliminar usuario
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deleteUser'])) {
-    $id = $_POST['user_id'];
-    $stmt = $con->prepare("DELETE FROM users WHERE user_id = ?");
-    $stmt->bind_param("i", $id);
-
-    echo $stmt->execute() ? "success" : "error";
-    exit;
-}
-
-
-//
+// ============================================================================
 //                  HANDLERS DE CLASES
-//
+// ============================================================================
 
-// AJAX handler para clases
+/**
+ * Handler for AJAX request: Load classes list.
+ * Outputs an HTML table with class data.
+ */
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadClasses'])) {
     $res = $con->query("SELECT * FROM clases LEFT JOIN users ON clases.classid=users.class AND users.ulevel='2'");
     if ($res && $res->num_rows > 0) {
@@ -146,87 +149,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadClasses'])) {
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createClass'])) {
-    $classname = $_POST['classname'];
-    $profesor_id = $_POST['profesor'];
-
-    $stmt = $con->prepare("INSERT INTO clases (classname) VALUES (?)");
-    $stmt->bind_param("s", $classname);
-    $success1 = $stmt->execute();
-
-    if (!$success1) {
-        echo "error";
-        exit;
-    }
-
-    $classid = $con->insert_id; // Capturamos el ID autogenerado
-
-// Si no se asigna profesor, terminamos aquí
-    if ($profesor_id == '') {
-        echo "success";
-        exit;
-    }
-
-// Asignamos el profesor a la clase
-    $stmt2 = $con->prepare("UPDATE users SET class=? WHERE user_id=?");
-    $stmt2->bind_param("si", $classid, $profesor_id);
-    $success2 = $stmt2->execute();
-
-    echo ($success2) ? "success" : "error";
-    exit;
-
-
-    $stmt2 = $con->prepare("UPDATE users SET class=? WHERE user_id=?");
-    $stmt2->bind_param("si", $classid, $profesor_id);
-    $success2 = $stmt2->execute();
-
-    if ($success1 && $success2) {
-        echo "success";
-    } else {
-        echo "error";
-    }
-
-    exit;
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateClass'])) {
-    $classid = $_POST['classid'];
-    $classname = $_POST['classname'];
-    $profesor_id = $_POST['profesor'];
-
-    // 1. Actualizar nombre de la clase
-    $stmt1 = $con->prepare("UPDATE clases SET classname=? WHERE classid=?");
-    $stmt1->bind_param("si", $classname, $classid);
-    $success1 = $stmt1->execute();
-
-    // 2. Desasignar a ese profesor de cualquier clase previa
-    $stmt2 = $con->prepare("UPDATE users SET class='' WHERE ulevel=2 AND class=?");
-    $stmt2->bind_param("s", $classid);
-    $success2 = $stmt2->execute();
-
-    // 3. Asignar al nuevo profesor la clase
-    $stmt3 = $con->prepare("UPDATE users SET class=? WHERE user_id=?");
-    $stmt3->bind_param("si", $classid, $profesor_id);
-    $success3 = $stmt3->execute();
-
-    if ($success1 && $success2 && $success3) {
-        echo "success";
-    } else {
-        echo "error";
-    }
-    exit;
-}
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deleteClass'])) {
-    $classid = $_POST['classid'];
-    $stmt = $con->prepare("DELETE FROM clases WHERE classid = ?");
-    $stmt->bind_param("i", $classid);
-
-    echo $stmt->execute() ? "success" : "error";
-    exit;
-}
-
+/**
+ * Handler for AJAX request: Get available teachers (not assigned to any class).
+ * Outputs <option> elements for each available teacher.
+ */
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['availableTeachers'])) {
     $query = "SELECT user_id, username FROM users WHERE ulevel = 2 AND (class IS NULL OR class = '')";
     $result = $con->query($query);
@@ -236,11 +162,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['availableTeachers'])) {
     exit;
 }
 
-//
-//                                 HANDLERS DE NOTAS
-//
 
-// Handler para cargar notas
+// ============================================================================
+//                                 HANDLERS DE NOTAS
+// ============================================================================
+
+/**
+ * Handler for AJAX request: Load grades for students.
+ * Outputs an HTML table with grades.
+ */
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadNotas'])) {
     $res = $con->query("SELECT u.user_id, u.username, c.classname, n.Nota1, n.Nota2, n.Nota3
                          FROM users u
@@ -273,41 +203,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadNotas'])) {
     exit;
 }
 
-// Guardar notas actualizadas
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateNota'])) {
-    $id = $_POST['idAlumno'];
-    $nota1 = floatval($_POST['nota1']);
-    $nota2 = floatval($_POST['nota2']);
-    $nota3 = floatval($_POST['nota3']);
-
-//      Validar que se han introducido valores válidos en las notas
-    function validarNota($n) {
-        return is_numeric($n) && $n >= 0 && $n <= 10;
-    }
-
-    if (!validarNota($nota1) || !validarNota($nota2) || !validarNota($nota3)) {
-        echo "error: valores de nota fuera de rango";
-        exit;
-    }
-
-    $res = $con->query("SELECT * FROM notas WHERE idAlumno = $id");
-    if ($res && $res->num_rows > 0) {
-        $stmt = $con->prepare("UPDATE notas SET Nota1=?, Nota2=?, Nota3=? WHERE idAlumno=?");
-        $stmt->bind_param("dddi", $nota1, $nota2, $nota3, $id);
-    } else {
-        $stmt = $con->prepare("INSERT INTO notas (Nota1, Nota2, Nota3, idAlumno) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("dddi", $nota1, $nota2, $nota3, $id);
-    }
-
-    echo $stmt->execute() ? "success" : "error";
-    exit;
-}
-
-//
+// ============================================================================
 //                                 HANDLERS DE HORARIOS
-//
+// ============================================================================
 
-// Cargar horarios
+/**
+ * Handler for AJAX request: Load class schedules.
+ * Outputs an HTML table with schedule data.
+ */
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadHorarios'])) {
     $res = $con->query("
     SELECT s.day_id, s.week_day,
@@ -345,29 +248,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadHorarios'])) {
     }
     exit;
 }
-
-// Guardar horario
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateHorario'])) {
-    $id = $_POST['day_id'];
-    $first = $_POST['firstclass'];
-    $second = $_POST['secondclass'];
-    $third = $_POST['thirdclass'];
-
-    $stmt = $con->prepare("UPDATE schedule SET firstclass=?, secondclass=?, thirdclass=? WHERE day_id=?");
-    $stmt->bind_param("sssi", $first, $second, $third, $id);
-
-    echo $stmt->execute() ? "success" : "error";
-    exit;
-}
-
-
-
-
-echo "<script>window.classOptions = {$classOptionsJS}; window.teacherOptions = {$teacherOptionsJS};</script>";
-echo "<script>window.classOptions = " . json_encode($classOptions) . ";</script>";
-
-
-
 
 
 

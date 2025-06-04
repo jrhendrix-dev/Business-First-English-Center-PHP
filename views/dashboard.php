@@ -5,7 +5,7 @@ $pageTitle = "Dashboard | Business First English Center";
 include_once __DIR__ . '/../views/header.php';
 
 
-require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/adminHandlers.php';
 require_once __DIR__ . '/../src/models/Database.php';
 
 if (!check_login()) {

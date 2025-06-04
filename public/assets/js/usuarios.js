@@ -1,9 +1,33 @@
+/**
+ * @fileoverview
+ * Handles user (usuarios) management for the admin dashboard.
+ * Includes AJAX calls for loading, creating, updating, and deleting users,
+ * as well as dynamic class dropdown population and inline editing in the UI.
+ *
+ * @author Jonathan Ray Hendrix <jrhendrixdev@gmail.com>
+ * @license MIT
+ */
+
+/**
+ * Loads the list of users from the server and injects them into the DOM.
+ *
+ * @function
+ * @returns {void}
+ */
 function loadUsers() {
     $.get('dashboard_admin.php?loadUsers=1', function(data) {
         $('#user-table-container').html(data);
     });
 }
 
+/**
+ * Fetches available classes for assignment to a user (typically for teachers).
+ * Returns a jQuery <select> element with class options.
+ *
+ * @function
+ * @param {?number|string} [selectedId=null] - The ID of the class to pre-select (if any).
+ * @returns {Promise<jQuery>} Promise resolving to a jQuery <select> element.
+ */
 function fetchAvailableClasses(selectedId = null) {
     return $.get('dashboard_admin.php?availableClasses=1').then(function (optionsHtml) {
         const select = $('<select class="form-control" name="class"></select>')
@@ -19,25 +43,37 @@ function fetchAvailableClasses(selectedId = null) {
     });
 }
 
+/**
+ * Loads the class dropdown for the user creation form (for teachers).
+ *
+ * @function
+ * @returns {void}
+ */
 function loadAvailableClassesDropdown() {
     fetchAvailableClasses().then(function(select) {
         $('#user-create-form select[name="class"]').replaceWith(select);
     });
 }
 
-//              LISTENER
+/**
+ * Handles changes to the user level dropdown in the user creation form.
+ * Dynamically updates the class field based on the selected user level.
+ *
+ * @event change
+ * @memberof module:usuarios
+ * @param {Event} e - The change event.
+ */
 $(document).on('change', '#user-create-form select[name="ulevel"]', function () {
     const selected = $(this).val();
     const $form = $('#user-create-form');
 
-    // Elimina cualquier campo anterior de clase (select o input hidden)
+    // Remove any previous class field (select or hidden input)
     $form.find('[name="class"]').remove();
 
-    // Crear el nuevo contenedor de clase
     let $classField;
 
     if (selected === '1') {
-        // Admin → sin clase (input hidden)
+        // Admin → no class (hidden input)
         $classField = $('<input>', {
             type: 'hidden',
             name: 'class',
@@ -45,7 +81,7 @@ $(document).on('change', '#user-create-form select[name="ulevel"]', function () 
         });
         $form.find('button[type="submit"]').before($classField);
     } else if (selected === '2') {
-        // Profesor → dropdown con clases disponibles
+        // Teacher → dropdown with available classes
         fetchAvailableClasses().then(function (select) {
             select.attr({
                 name: 'class',
@@ -55,7 +91,7 @@ $(document).on('change', '#user-create-form select[name="ulevel"]', function () 
             $form.find('button[type="submit"]').before(select);
         });
     } else if (selected === '3') {
-        // Alumno → dropdown con todas las clases
+        // Student → dropdown with all classes
         $classField = $(`
             <select name="class" class="form-control mb-2" required>
                 <option value="" disabled selected>Seleccione una clase</option>
@@ -66,14 +102,22 @@ $(document).on('change', '#user-create-form select[name="ulevel"]', function () 
     }
 });
 
-// ON PAGE LOAD
 $(document).ready(function() {
+    // On page load, set up the form and load users
     if ($('#user-create-form select[name="ulevel"]').val() === '2') {
         loadAvailableClassesDropdown();
     }
 
     loadUsers();
 
+    /**
+     * Handles the submission of the user creation form.
+     * Sends an AJAX POST request to create a new user.
+     *
+     * @event submit
+     * @memberof module:usuarios
+     * @param {Event} e - The submit event.
+     */
     $('#user-create-form').on('submit', function(e) {
         e.preventDefault();
         $.post('../src/controllers/create.php', $(this).serialize())
@@ -93,6 +137,14 @@ $(document).ready(function() {
             });
     });
 
+    /**
+     * Handles the click event for editing a user row.
+     * Replaces the row's cells with editable inputs and dropdowns.
+     *
+     * @event click
+     * @memberof module:usuarios
+     * @param {Event} e - The click event.
+     */
     $(document).on('click', '.edit-btn', function () {
         const row = $(this).closest('tr');
         const id = row.data('id');
@@ -106,7 +158,7 @@ $(document).ready(function() {
         row.find('.username').html(`<input class="form-control" value="${username}">`);
         row.find('.email').html(`<input class="form-control" value="${email}">`);
 
-        // Nivel de usuario (admin, profesor, alumno)
+        // User level select
         const ulevelSelect = $(`
         <select class='form-control'>
             <option value=''>Rango de usuario</option>
@@ -118,12 +170,12 @@ $(document).ready(function() {
         ulevelSelect.val(currentUlevel);
         row.find('.ulevel').html(ulevelSelect);
 
-        // Cargar clases disponibles (según si es profesor)
+        // Load available classes (for teachers)
         if (currentUlevel === '2') {
             fetchAvailableClasses(currentClassId).then(function (select) {
                 row.find('.class').html(select);
 
-                // Reemplazar botones cuando todo esté cargado
+                // Replace buttons after loading
                 row.find('.edit-btn').replaceWith('<button class="btn btn-sm btn-success save-btn">Aceptar</button>');
                 row.find('.delete-btn').replaceWith('<button class="btn btn-sm btn-secondary cancel-btn">Cancelar</button>');
             });
@@ -138,6 +190,14 @@ $(document).ready(function() {
         }
     });
 
+    /**
+     * Handles the change event for the user level select in the edit row.
+     * Dynamically updates the class field based on the selected user level.
+     *
+     * @event change
+     * @memberof module:usuarios
+     * @param {Event} e - The change event.
+     */
     $(document).on('change', 'tr .ulevel select', function () {
         const row = $(this).closest('tr');
         const selected = $(this).val();
@@ -157,12 +217,26 @@ $(document).ready(function() {
         }
     });
 
-
-
+    /**
+     * Handles the click event for canceling user edit.
+     * Refreshes all tabs to restore the original state.
+     *
+     * @event click
+     * @memberof module:usuarios
+     * @param {Event} e - The click event.
+     */
     $(document).on('click', '.cancel-btn', function () {
         refreshAllTabs();
     });
 
+    /**
+     * Handles the click event for saving user edits.
+     * Sends an AJAX POST request to update the user.
+     *
+     * @event click
+     * @memberof module:usuarios
+     * @param {Event} e - The click event.
+     */
     $(document).on('click', '.save-btn', function () {
         const row = $(this).closest('tr');
         const id = row.data('id');
@@ -183,6 +257,14 @@ $(document).ready(function() {
         });
     });
 
+    /**
+     * Handles the click event for deleting a user.
+     * Sends an AJAX POST request to delete the user after confirmation.
+     *
+     * @event click
+     * @memberof module:usuarios
+     * @param {Event} e - The click event.
+     */
     $(document).on('click', '.delete-btn', function () {
         const row = $(this).closest('tr');
         const id = row.data('id');

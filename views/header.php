@@ -18,7 +18,7 @@
 
     <!-- Index.php,login JS File -->
     <script src="/Business-First-English-Center/public/assets/js/common.js"></script>
-    <script src="/Business-First-English-Center/public/assets/js/login.js"></script>
+
     <!-- Icon Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- My Personal CSS Sheet -->
@@ -90,8 +90,10 @@
                     <h4 class="modal-title">Login</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-
-                <form id="login-form" name="login" role="form" onsubmit="return test()">
+                <!-- //////////////////////////////////////////////////////-->
+                <!--                LOGIN FORM                             -->
+                <!-- //////////////////////////////////////////////////////-->
+                <form id="login-form" name="login" role="form">
                     <div class="modal-body">
                         <label>Name</label>
                         <input type="text" name="username" id="username" placeholder="Username..." class="form-control" required />

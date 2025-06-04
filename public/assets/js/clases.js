@@ -1,5 +1,19 @@
-// public/js/clases.js
+/**
+ * @fileoverview
+ * Handles class management (CRUD) for the admin dashboard.
+ * Includes AJAX calls for loading, creating, updating, and deleting classes,
+ * as well as dynamic teacher dropdown population.
+ *
+ * @author Jonathan Ray Hendrix <jrhendrixdev@gmail.com>
+ * @license MIT
+ */
 
+/**
+ * Loads the list of classes from the server and injects them into the DOM.
+ *
+ * @function
+ * @returns {void}
+ */
 function loadClasses() {
     $.get('dashboard_admin.php?loadClasses=1', function(data) {
         $('#class-table-container').html(data);
@@ -8,6 +22,14 @@ function loadClasses() {
     });
 }
 
+/**
+ * Fetches available teachers for assignment to a class.
+ * Returns a jQuery <select> element with teacher options.
+ *
+ * @function
+ * @param {?number|string} [selectedId=null] - The ID of the teacher to pre-select (if any).
+ * @returns {Promise<jQuery>} Promise resolving to a jQuery <select> element.
+ */
 function fetchAvailableTeachers(selectedId = null) {
     return $.get('dashboard_admin.php?availableTeachers=1').then(function (optionsHtml) {
         const select = $('<select class="form-control" name="profesor"></select>').append(`<option value="">-- Sin asignar --</option>`, optionsHtml);
@@ -20,16 +42,32 @@ function fetchAvailableTeachers(selectedId = null) {
     });
 }
 
+/**
+ * Loads the teacher dropdown for the class creation form.
+ *
+ * @function
+ * @returns {void}
+ */
 function loadTeacherDropdown() {
     fetchAvailableTeachers().then(function(select) {
         $('#class-create-form select[name="profesor"]').replaceWith(select);
     });
 }
 
+
+//ON PAGE LOAD
 $(document).ready(function () {
     loadClasses();
     loadTeacherDropdown();
 
+    /**
+     * Handles the submission of the class creation form.
+     * Sends an AJAX POST request to create a new class.
+     *
+     * @event submit
+     * @memberof module:clases
+     * @param {Event} e - The submit event.
+     */
     $('#class-create-form').on('submit', function (e) {
         e.preventDefault();
         const classname = $(this).find('[name="classname"]').val();
@@ -66,6 +104,13 @@ $(document).ready(function () {
         });
     });
 
+    /**
+     * Handles the click event for editing a class row.
+     * Replaces the row's cells with editable inputs and dropdowns.
+     *
+     * @event click
+     * @memberof module:clases
+     */
     $(document).on('click', '.edit-class-btn', async function () {
         const row = $(this).closest('tr');
         const classid = row.data('id');
@@ -81,10 +126,24 @@ $(document).ready(function () {
         row.find('.delete-class-btn').replaceWith('<button class="btn btn-sm btn-secondary cancel-class-btn">Cancelar</button>');
     });
 
+    /**
+     * Handles the click event for canceling class edit.
+     * Refreshes all tabs to restore the original state.
+     *
+     * @event click
+     * @memberof module:clases
+     */
     $(document).on('click', '.cancel-class-btn', function () {
         refreshAllTabs();
     });
 
+    /**
+     * Handles the click event for saving class edits.
+     * Sends an AJAX POST request to update the class.
+     *
+     * @event click
+     * @memberof module:clases
+     */
     $(document).on('click', '.save-class-btn', function () {
         const row = $(this).closest('tr');
         const classid = row.data('id');
@@ -111,6 +170,13 @@ $(document).ready(function () {
         });
     });
 
+    /**
+     * Handles the click event for deleting a class.
+     * Sends an AJAX POST request to delete the class after confirmation.
+     *
+     * @event click
+     * @memberof module:clases
+     */
     $(document).on('click', '.delete-class-btn', function () {
         const row = $(this).closest('tr');
         const classid = row.data('id');

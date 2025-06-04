@@ -1,3 +1,19 @@
+/**
+ * @fileoverview
+ * Handles schedule (horarios) management for the admin dashboard.
+ * Includes AJAX calls for loading and updating class schedules,
+ * and dynamic editing of schedule rows in the UI.
+ *
+ * @author Jonathan Ray Hendrix <jrhendrixdev@gmail.com>
+ * @license MIT
+ */
+
+/**
+ * Loads the list of class schedules from the server and injects them into the DOM.
+ *
+ * @function
+ * @returns {void}
+ */
 function loadHorarios() {
     $.get('dashboard_admin.php?loadHorarios=1', function (data) {
         $('#horarios-table-container').html(data);
@@ -9,6 +25,14 @@ function loadHorarios() {
 $(document).ready(function () {
     loadHorarios();
 
+    /**
+     * Handles the click event for editing a schedule row.
+     * Replaces the row's class cells with <select> dropdowns for editing.
+     *
+     * @event click
+     * @memberof module:horarios
+     * @param {Event} e - The click event.
+     */
     $(document).on('click', '.edit-horario-btn', function () {
         const row = $(this).closest('tr');
 
@@ -17,7 +41,7 @@ $(document).ready(function () {
             const currentOption = window.classOptions;
             const select = $('<select class="form-control"></select>').append(currentOption);
 
-            // Intenta seleccionar la opción por texto visible
+            // Try to select the option by visible text
             select.find('option').filter(function () {
                 return $(this).text().trim() === originalText;
             }).prop('selected', true);
@@ -29,11 +53,26 @@ $(document).ready(function () {
         row.find('.save-horario-btn, .cancel-horario-btn').removeClass('d-none');
     });
 
-
+    /**
+     * Handles the click event for canceling schedule edit.
+     * Refreshes all tabs to restore the original state.
+     *
+     * @event click
+     * @memberof module:horarios
+     * @param {Event} e - The click event.
+     */
     $(document).on('click', '.cancel-horario-btn', function () {
         refreshAllTabs();
     });
 
+    /**
+     * Handles the click event for saving schedule edits.
+     * Sends an AJAX POST request to update the schedule for the day.
+     *
+     * @event click
+     * @memberof module:horarios
+     * @param {Event} e - The click event.
+     */
     $(document).on('click', '.save-horario-btn', function () {
         const row = $(this).closest('tr');
         const day_id = row.data('id');

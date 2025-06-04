@@ -1,58 +1,58 @@
 <?php
-session_start();
-require_once __DIR__ . '/../src/models/Database.php';
+/**
+ * delete.php
+ *
+ * Handles deletion operations for the Business First English Center application.
+ * Includes handlers for deleting users and classes via AJAX requests.
+ *
+ * PHP version 7+
+ *
+ * @package    BusinessFirstEnglishCenter
+ * @author     Jonathan Ray Hendrix <jrhendrixdev@gmail.com>
+ * @license    MIT License
+ */
+
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+require_once __DIR__ . '/../models/Database.php';
+
 $con = Database::connect();
-require_once __DIR__ . '/../includes/functions.php';
 
-if(isset($_POST['user_id']) && isset($_POST['ulevel'])){
-    $del=$_POST['user_id'];
-    $level=$_POST['ulevel'];
+// USERS
 
-    
-    $sql = "DELETE FROM users WHERE user_id='$del'";
+/**
+ * Deletes a user from the database.
+ *
+ * @param int $_POST['user_id'] The ID of the user to delete.
+ * @return void Outputs "success" on success, "error" on failure.
+ */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deleteUser'])) {
+    $id = $_POST['user_id'];
+    $stmt = $con->prepare("DELETE FROM users WHERE user_id = ?");
+    $stmt->bind_param("i", $id);
 
-    $delete = $con->query($sql);
-
-    if($delete === TRUE){
-        echo "Yes";
-    }else{
-        echo "No";
-    }
-
-    //notas delete
-    if($level=3){
-        $sql = "DELETE FROM notas WHERE idAlumno='$del'";
-
-        $delete = $con->query($sql);
-    }
-
-    
-
-
-
-    mysqli_free_result($delete);
-    mysqli_close($con);
-
-
-
-
-}//end user
-
-
-
-if(isset($_POST['classid'])){
-    $del=$_POST['classid'];
-
-    $sql = "DELETE FROM clases WHERE classid='$del'";
-
-    $delete = $con->query($sql);
-
-    if($delete === TRUE){
-        echo "Yes";
-    }else{
-        echo "No";
-    }
-
-    mysqli_free_result($delete);
-    mysqli_close($con);
+    echo $stmt->execute() ? "success" : "error";
+    exit;
 }
+
+// CLASSES
+
+/**
+ * Deletes a class from the database.
+ *
+ * @param int $_POST['classid'] The ID of the class to delete.
+ * @return void Outputs "success" on success, "error" on failure.
+ */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deleteClass'])) {
+    $classid = $_POST['classid'];
+    $stmt = $con->prepare("DELETE FROM clases WHERE classid = ?");
+    $stmt->bind_param("i", $classid);
+
+    echo $stmt->execute() ? "success" : "error";
+    exit;
+}
+
+?>
