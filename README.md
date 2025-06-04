@@ -1,58 +1,87 @@
 # Business First English Center
 
 ## Overview
-Project RBE is a comprehensive web-based application designed to facilitate the management of an academic institution. It provides a user-friendly interface for students, teachers, and administrators to interact with the system efficiently. The application is built using PHP and leverages Bootstrap for a responsive design, ensuring accessibility across various devices.
+
+Business First English Center is a web-based application designed to streamline the management of an academic institution. It enables administrators to manage users, classes, grades, and schedules efficiently. The system offers dedicated views and interactions for administrators, teachers, and students.
 
 ## Features
-- **User Authentication**: Secure login system for students, teachers, and administrators.
-- **Role-Based Access Control**: Different functionalities and views for each user role.
-- **Responsive Design**: Utilizes Bootstrap to ensure the application is mobile-friendly.
-- **Session Management**: PHP sessions are used to maintain user state across pages.
-- **Custom Styling and Scripts**: Includes personalized CSS and JavaScript for enhanced user experience.
-- **Database Integration**: Connects to a MySQL database for data storage and retrieval.
+
+- 🔐 **User Authentication**: Secure login system with session management.
+- 🧑‍🏫 **Role-Based Access Control**: Different interfaces and privileges for Admins, Teachers, and Students.
+- 📋 **Class Management**: Create, edit, assign, and delete classes.
+- 📝 **Grade Book**: Record, update, and view student grades across trimesters.
+- 🗓️ **Schedule Management**: Assign daily class schedules dynamically.
+- 📱 **Responsive Design**: Built with Bootstrap for compatibility on all devices.
+- 💾 **Persistent Storage**: MySQL backend with robust data structure.
+
+## Technologies Used
+
+- PHP 7+
+- MySQL
+- jQuery + AJAX
+- Bootstrap 4
+- HTML5/CSS3
 
 ## Installation
 
-### Prerequisites
-- **XAMPP**: A PHP development environment to run the application locally.
-- **Web Browser**: Any modern browser like Chrome or Firefox.
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/yourusername/business-first-english-center.git
+   cd business-first-english-center
+   ```
+2. **Configure the Database**
 
-### Setup
-1. **Clone the Repository**: Download the project files to your local machine.
-2. **Move to XAMPP**: Place the project directory in the `htdocs` folder of your XAMPP installation.
-3. **Start XAMPP**: Ensure Apache and MySQL services are running.
-4. **Database Setup**:
-   - Access phpMyAdmin via your browser.
-   - Create a new database named `project_rbe`.
-   - Import the SQL file provided in the `database` directory.
-5. **Configure Database Connection**:
-   - Open `db.php` and update the database credentials if necessary.
+   - Import the schema.sql (or equivalent) into your MySQL server.
 
-6. **Access the Application**: Open your browser and navigate to `http://localhost/Project RBE/`.
+   - Update your DB credentials in /src/models/Database.php.
 
-## Usage
-- **Homepage**: Log in using your credentials to access the system.
-- **Role-Specific Pages**: Depending on your role, you will be directed to the appropriate dashboard (e.g., `student.php`, `teacher.php`, `admin.php`).
-- **Exams Management**: Use `examenes.php` to manage and view exams.
+3. **Run the Server**
 
-## File Structure
-- **index.php**: Main entry point of the application.
-- **student.php, teacher.php, admin.php**: Role-specific pages for different user types.
-- **examenes.php**: Page for managing exams.
-- **js/index.js**: Custom JavaScript for client-side interactions.
-- **css/index.css**: Custom styles for the application.
+   - Serve the project using Apache or PHP’s built-in server:
+```bash
+      php -S localhost:8000 -t public/
+```
 
-## Dependencies
-- **Bootstrap 4.6.1**: For responsive design.
-- **jQuery 3.6.0**: For DOM manipulation and AJAX calls.
-- **Popper.js 1.16.1**: For tooltip and popover positioning.
-- **Font Awesome 4.7.0**: For icons.
+4. **Access the App** 
+   - Open your browser and go to http://localhost:8000.
+
+## Project Structure
+```
+Business-First-English-Center/
+│
+├── public/                  # Public-facing entry point and assets
+│   ├── assets/              # CSS, JS, images
+│   └── index.php
+│
+├── src/
+│   ├── controllers/         # Backend handlers (CRUD)
+│   └── models/              # DB connection & logic
+│
+├── views/                   # Reusable view fragments (HTML/PHP)
+├── includes/                # Shared functions and session logic
+└── README.md
+
+```
 
 ## Contributing
-We welcome contributions! Please fork the repository and submit a pull request for any enhancements or bug fixes. Ensure your code follows the project's coding standards and includes appropriate documentation.
+1. Fork the repository
+
+2. Create a feature branch: git checkout -b feature-name
+
+3. Commit your changes: git commit -m "Add feature"
+
+4. Push to the branch: git push origin feature-name
+
+5. Submit a Pull Request
+
+## Future Improvements
+- Add CSV export for reports
+
+- Enable messaging between users
+
+- Add automated testing (PHPUnit)
+
+- Translate UI for multilingual support
 
 ## License
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
-
-## Contact
-For any inquiries or support, please contact [soth26@gmail.com](soth26@gmail.com).
+This project is licensed under the [MIT License](https://mit-license.org/).
