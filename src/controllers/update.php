@@ -1,8 +1,8 @@
 <?php
-include('db.php');
-include('functions.php');
-
 session_start();
+require_once __DIR__ . '/../src/models/Database.php';
+$con = Database::connect();
+require_once __DIR__ . '/../includes/functions.php';
 
 // $_SESSION["msg2"] = "prueba";
 

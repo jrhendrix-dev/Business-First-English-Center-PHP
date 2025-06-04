@@ -1,4 +1,4 @@
-/* NAVBAR CSS */
+/* NAVBAR CSS -----------------------------------*/
 .navbar-nav {
     /*makes the navbar logo stay left while the menu goes right*/
     margin-left: auto;
@@ -67,7 +67,7 @@ img{
 }
 
 
-/*INDEX CSS*/
+/*INDEX CSS   ---------------------------------------------*/
 a.anchor {
 
     display: block;
@@ -247,7 +247,7 @@ a.anchor {
 
 /*INDEX CSS END */
 
-/*ALL PAGES CSS */
+/*ALL PAGES CSS ---------------------------------------------------------*/
 
 .error {
 
@@ -278,7 +278,7 @@ table tr th{
 
 /*ALL PAGES CSS END*/
 
-/*IC, Exámenes, Clasesesp CSS */
+/*IC, Exámenes, Clasesesp CSS ----------------------------------------------------*/
 .TítuloPágina{
     font-size: 38px;
     font-family:lucida;
@@ -385,7 +385,7 @@ content:"✓   ";
 /*IC, Exámenes, Clasesesp CSS END */
 
 
-/* ADMIN, TEACHER, STUDENT CSS */
+/* ADMIN, TEACHER, STUDENT CSS ----------------------------------------------------*/
 
 #sidebar {
     min-width: 200px;
