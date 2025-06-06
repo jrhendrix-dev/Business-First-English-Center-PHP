@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadClasses'])) {
  * Outputs <option> elements for each available teacher.
  */
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['availableTeachers'])) {
-    $query = "SELECT user_id, username FROM users WHERE ulevel = 2 AND (class IS NULL OR class = '')";
+    $query = "SELECT user_id, username FROM users WHERE ulevel = 2 AND (class IS NULL OR class = '' OR class = '0')";
     $result = $con->query($query);
     while ($row = $result->fetch_assoc()) {
         echo "<option value='{$row['user_id']}'>{$row['username']}</option>";

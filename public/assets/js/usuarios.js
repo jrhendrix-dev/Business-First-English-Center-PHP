@@ -8,6 +8,8 @@
  * @license MIT
  */
 
+let originalUserCreateFormHtml = null;
+
 /**
  * Loads the list of users from the server and injects them into the DOM.
  *
@@ -30,8 +32,9 @@ function loadUsers() {
  */
 function fetchAvailableClasses(selectedId = null) {
     return $.get('dashboard_admin.php?availableClasses=1').then(function (optionsHtml) {
+        // Use value="" for "Sin clase" for consistency
         const select = $('<select class="form-control" name="class"></select>')
-            .append(`<option value="">-- Sin clase' --</option>`, optionsHtml);
+            .append(`<option value="">-- Sin clase --</option>`, optionsHtml);
 
         if (selectedId) {
             select.find(`option[value='${selectedId}']`).prop('selected', true);
@@ -56,14 +59,22 @@ function loadAvailableClassesDropdown() {
 }
 
 /**
+ * Refreshes all admin dashboard tabs (users, classes, teachers, etc.).
+ * Should be defined elsewhere in your codebase.
+ *
+ * @function
+ * @returns {void}
+ */
+// function refreshAllTabs() { ... } // <-- This is function is in common.js
+
+/**
  * Handles changes to the user level dropdown in the user creation form.
  * Dynamically updates the class field based on the selected user level.
  *
  * @event change
- * @memberof module:usuarios
  * @param {Event} e - The change event.
  */
-$(document).on('change', '#user-create-form select[name="ulevel"]', function () {
+function handleUserLevelChangeInCreateForm(e) {
     const selected = $(this).val();
     const $form = $('#user-create-form');
 
@@ -100,66 +111,31 @@ $(document).on('change', '#user-create-form select[name="ulevel"]', function () 
         `);
         $form.find('button[type="submit"]').before($classField);
     }
-});
+}
 
-$(document).ready(function() {
-    // On page load, set up the form and load users
-    if ($('#user-create-form select[name="ulevel"]').val() === '2') {
-        loadAvailableClassesDropdown();
-    }
+/**
+ * Handles the click event for editing a user row.
+ * Replaces the row's cells with editable inputs and dropdowns.
+ *
+ * @event click
+ * @memberof module:usuarios
+ * @param {Event} e - The click event.
+ */
+function handleEditUserClick(e) {
+    const row = $(this).closest('tr');
+    const id = row.data('id');
 
-    loadUsers();
+    const username = row.find('.username').text();
+    const email = row.find('.email').text();
+    const currentClassId = row.find('.class').data('classid');
+    const currentUlevel = row.find('.ulevel').text();
 
-    /**
-     * Handles the submission of the user creation form.
-     * Sends an AJAX POST request to create a new user.
-     *
-     * @event submit
-     * @memberof module:usuarios
-     * @param {Event} e - The submit event.
-     */
-    $('#user-create-form').on('submit', function(e) {
-        e.preventDefault();
-        $.post('../src/controllers/create.php', $(this).serialize())
-            .done(function(response) {
-                $('#create-user-feedback')
-                    .removeClass('text-danger')
-                    .addClass('text-success')
-                    .text('Usuario creado correctamente.');
-                $('#user-create-form')[0].reset();
-                refreshAllTabs();
-            })
-            .fail(function(xhr) {
-                $('#create-user-feedback')
-                    .removeClass('text-success')
-                    .addClass('text-danger')
-                    .text('Error al crear el usuario: ' + xhr.responseText);
-            });
-    });
+    // Editable inputs
+    row.find('.username').html(`<input class="form-control" value="${username}">`);
+    row.find('.email').html(`<input class="form-control" value="${email}">`);
 
-    /**
-     * Handles the click event for editing a user row.
-     * Replaces the row's cells with editable inputs and dropdowns.
-     *
-     * @event click
-     * @memberof module:usuarios
-     * @param {Event} e - The click event.
-     */
-    $(document).on('click', '.edit-btn', function () {
-        const row = $(this).closest('tr');
-        const id = row.data('id');
-
-        const username = row.find('.username').text();
-        const email = row.find('.email').text();
-        const currentClassId = row.find('.class').data('classid');
-        const currentUlevel = row.find('.ulevel').text();
-
-        // Editable inputs
-        row.find('.username').html(`<input class="form-control" value="${username}">`);
-        row.find('.email').html(`<input class="form-control" value="${email}">`);
-
-        // User level select
-        const ulevelSelect = $(`
+    // User level select
+    const ulevelSelect = $(`
         <select class='form-control'>
             <option value=''>Rango de usuario</option>
             <option value='1'>Admin</option>
@@ -167,114 +143,193 @@ $(document).ready(function() {
             <option value='3'>Alumno</option>
         </select>
     `);
-        ulevelSelect.val(currentUlevel);
-        row.find('.ulevel').html(ulevelSelect);
+    ulevelSelect.val(currentUlevel);
+    row.find('.ulevel').html(ulevelSelect);
 
-        // Load available classes (for teachers)
-        if (currentUlevel === '2') {
-            fetchAvailableClasses(currentClassId).then(function (select) {
-                row.find('.class').html(select);
+    // Load available classes (for teachers)
+    if (currentUlevel === '2') {
+        fetchAvailableClasses(currentClassId).then(function (select) {
+            row.find('.class').html(select);
 
-                // Replace buttons after loading
-                row.find('.edit-btn').replaceWith('<button class="btn btn-sm btn-success save-btn">Aceptar</button>');
-                row.find('.delete-btn').replaceWith('<button class="btn btn-sm btn-secondary cancel-btn">Cancelar</button>');
-            });
-        } else {
-            const classSelect = $('<select class="form-control"></select>')
-                .append(`<option value="">-- Sin asignar --</option>`, window.classOptions)
-                .val(currentClassId);
-            row.find('.class').html(classSelect);
-
+            // Replace buttons after loading
             row.find('.edit-btn').replaceWith('<button class="btn btn-sm btn-success save-btn">Aceptar</button>');
             row.find('.delete-btn').replaceWith('<button class="btn btn-sm btn-secondary cancel-btn">Cancelar</button>');
-        }
-    });
+        });
+    } else {
+        const classSelect = $('<select class="form-control"></select>')
+            .append(`<option value="">-- Sin asignar --</option>`, window.classOptions)
+            .val(currentClassId);
+        row.find('.class').html(classSelect);
 
-    /**
-     * Handles the change event for the user level select in the edit row.
-     * Dynamically updates the class field based on the selected user level.
-     *
-     * @event change
-     * @memberof module:usuarios
-     * @param {Event} e - The change event.
-     */
-    $(document).on('change', 'tr .ulevel select', function () {
-        const row = $(this).closest('tr');
-        const selected = $(this).val();
-        const currentClassId = row.find('.class select').val();
+        row.find('.edit-btn').replaceWith('<button class="btn btn-sm btn-success save-btn">Aceptar</button>');
+        row.find('.delete-btn').replaceWith('<button class="btn btn-sm btn-secondary cancel-btn">Cancelar</button>');
+    }
+}
 
-        if (selected === '2') {
-            fetchAvailableClasses(currentClassId).then(function (select) {
-                row.find('.class').html(select);
-            });
-        } else if (selected === '1') {
-            row.find('.class').html('<input type="hidden" name="class" value="">');
-        } else {
-            const classSelect = $('<select class="form-control"></select>')
-                .append(`<option value="">-- Sin asignar --</option>`, window.classOptions)
-                .val(currentClassId);
-            row.find('.class').html(classSelect);
-        }
-    });
+/**
+ * Handles the change event for the user level select in the edit row.
+ * Dynamically updates the class field based on the selected user level.
+ *
+ * @event change
+ * @param {Event} e - The change event.
+ */
+function handleUserLevelChangeInEditRow(e) {
+    const row = $(this).closest('tr');
+    const selected = $(this).val();
+    const currentClassId = row.find('.class select').val();
 
-    /**
-     * Handles the click event for canceling user edit.
-     * Refreshes all tabs to restore the original state.
-     *
-     * @event click
-     * @memberof module:usuarios
-     * @param {Event} e - The click event.
-     */
-    $(document).on('click', '.cancel-btn', function () {
+    if (selected === '2') {
+        fetchAvailableClasses(currentClassId).then(function (select) {
+            row.find('.class').html(select);
+        });
+    } else if (selected === '1') {
+        row.find('.class').html('<input type="hidden" name="class" value="">');
+    } else {
+        const classSelect = $('<select class="form-control"></select>')
+            .append(`<option value="">-- Sin asignar --</option>`, window.classOptions)
+            .val(currentClassId);
+        row.find('.class').html(classSelect);
+    }
+}
+
+/**
+ * Handles the click event for canceling user edit.
+ * Refreshes all tabs to restore the original state.
+ *
+ * @event click
+ * @param {Event} e - The click event.
+ */
+function handleCancelEditUserClick(e) {
+    refreshAllTabs();
+}
+
+/**
+ * Handles the click event for saving user edits.
+ * Sends an AJAX POST request to update the user.
+ *
+ * @event click
+ * @param {Event} e - The click event.
+ */
+function handleSaveUserEditClick(e) {
+    const row = $(this).closest('tr');
+    const id = row.data('id');
+    const username = row.find('.username input').val();
+    const email = row.find('.email input').val();
+    const clase = row.find('.class select').val();
+    const ulevel = row.find('.ulevel select').val();
+
+    $.post('dashboard_admin.php', {
+        updateUser: 1,
+        user_id: id,
+        username: username,
+        email: email,
+        class: clase,
+        ulevel: ulevel
+    }).done(function (resp) {
         refreshAllTabs();
     });
+}
 
-    /**
-     * Handles the click event for saving user edits.
-     * Sends an AJAX POST request to update the user.
-     *
-     * @event click
-     * @memberof module:usuarios
-     * @param {Event} e - The click event.
-     */
-    $(document).on('click', '.save-btn', function () {
-        const row = $(this).closest('tr');
-        const id = row.data('id');
-        const username = row.find('.username input').val();
-        const email = row.find('.email input').val();
-        const clase = row.find('.class select').val();
-        const ulevel = row.find('.ulevel select').val();
-
+/**
+ * Handles the click event for deleting a user.
+ * Sends an AJAX POST request to delete the user after confirmation.
+ *
+ * @event click
+ * @param {Event} e - The click event.
+ */
+function handleDeleteUserClick(e) {
+    const row = $(this).closest('tr');
+    const id = row.data('id');
+    if (confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
         $.post('dashboard_admin.php', {
-            updateUser: 1,
-            user_id: id,
-            username: username,
-            email: email,
-            class: clase,
-            ulevel: ulevel
+            deleteUser: 1,
+            user_id: id
         }).done(function (resp) {
             refreshAllTabs();
         });
-    });
+    }
+}
 
-    /**
-     * Handles the click event for deleting a user.
-     * Sends an AJAX POST request to delete the user after confirmation.
-     *
-     * @event click
-     * @memberof module:usuarios
-     * @param {Event} e - The click event.
-     */
-    $(document).on('click', '.delete-btn', function () {
-        const row = $(this).closest('tr');
-        const id = row.data('id');
-        if (confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
-            $.post('dashboard_admin.php', {
-                deleteUser: 1,
-                user_id: id
-            }).done(function (resp) {
-                refreshAllTabs();
-            });
+/**
+ * Handles the submission of the user creation form.
+ * Sends an AJAX POST request to create a new user.
+ *
+ * @event submit
+ * @memberof module:usuarios
+ * @param {Event} e - The submit event.
+ */
+function handleUserCreateFormSubmit(e) {
+    e.preventDefault();
+    $.post('../src/controllers/create.php', $(this).serialize())
+        .done(function(response) {
+            $('#create-user-feedback')
+                .removeClass('text-danger')
+                .addClass('text-success')
+                .text('Usuario creado correctamente.');
+            // Full reset: replace the form with the original HTML
+            $('#user-create-form').replaceWith(originalUserCreateFormHtml);
+            // Refresh the users table
+            refreshAllTabs(); // or loadUsers();
+        })
+        .fail(function(xhr) {
+            $('#create-user-feedback')
+                .removeClass('text-success')
+                .addClass('text-danger')
+                .text('Error al crear el usuario: ' + xhr.responseText);
+        });
+}
+
+/**
+ * Handles tab switching and resets the user creation form when switching to the Usuarios tab.
+ *
+ * @event shown.bs.tab
+ * @param {Event} e - The tab shown event.
+ */
+function handleTabShown(e) {
+    const target = $(e.target).attr("href");
+    if (target === "#usuarios") {
+        $('#user-create-form')[0].reset();
+        const $ulevel = $('#user-create-form select[name="ulevel"]');
+        if ($ulevel.length) {
+            $ulevel.prop('selectedIndex', 0).trigger('change');
         }
-    });
+        $('#create-user-feedback').text('').removeClass('text-success text-danger');
+    }
+}
+
+/**
+ * Handles the full reset of the user creation form when switching to Usuarios or Clases tab.
+ *
+ * @event shown.bs.tab
+ * @param {Event} e - The tab shown event.
+ */
+function handleFullResetOnTabShown(e) {
+    $('#user-create-form').replaceWith(originalUserCreateFormHtml);
+    $('#create-user-feedback').text('').removeClass('text-success text-danger');
+}
+
+// Main document ready block: binds all event handlers and initializes the UI. Runs on page start
+$(document).ready(function() {
+    // Store the original HTML of the user creation form for full reset
+    originalUserCreateFormHtml = $('#user-create-form').prop('outerHTML');
+
+    // On page load, set up the form and load users
+    if ($('#user-create-form select[name="ulevel"]').val() === '2') {
+        loadAvailableClassesDropdown();
+    }
+
+    loadUsers();
+
+    // Event delegation for dynamic elements and handlers
+    $(document).on('change', '#user-create-form select[name="ulevel"]', handleUserLevelChangeInCreateForm);
+    $(document).on('submit', '#user-create-form', handleUserCreateFormSubmit);
+    $(document).on('click', '.edit-btn', handleEditUserClick);
+    $(document).on('change', 'tr .ulevel select', handleUserLevelChangeInEditRow);
+    $(document).on('click', '.cancel-btn', handleCancelEditUserClick);
+    $(document).on('click', '.save-btn', handleSaveUserEditClick);
+    $(document).on('click', '.delete-btn', handleDeleteUserClick);
+
+    // Tab shown handlers
+    $('a[data-toggle="tab"]').on('shown.bs.tab', handleTabShown);
+    $('a[data-toggle="tab"][href="#usuarios"], a[data-toggle="tab"][href="#clases"]').on('shown.bs.tab', handleFullResetOnTabShown);
 });

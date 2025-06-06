@@ -37,6 +37,10 @@ if (isset($_POST['username'], $_POST['email'], $_POST['pword'], $_POST['ulevel']
     $ulevel = intval($_POST['ulevel']);
     $class = $_POST['class'];
 
+    if ($class === "") {
+        $class = 0; // or $class = '';
+    }
+
     // Basic validation
     if ($username === '' || $email === '' || $password === '' || $ulevel < 1 || $ulevel > 3) {
         echo "No. Error: Invalid input.";
