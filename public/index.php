@@ -7,21 +7,13 @@ session_start();
 $pageTitle = "Home";
 include_once __DIR__ . '/../views/header.php';
 ?>
+<div id="banner-container">
+    <img src="assets/pics/banner.jpg" alt="vista de Nueva York desde oficina" id="Title-Image">
+</div>
 
 <div class="cuerpo">
 
-    <h1 class="TítuloPágina">
-        BUSINESS FIRST ENGLISH CENTER, tu academia de inglés corporativo
-    </h1>
 
-    <img src="assets/pics//new_york_office.png" alt="vista de Nueva York desde oficina" id="Title-Image"/>
-    <p id="Contenido">
-        Saber idiomas es hoy día imprescindible para conseguir llegar lo más arriba posible en el mundo empresarial.<br>
-        Conoce la importancia del inglés corporativo, te abrirá una ventana al mundo.<br>
-        Enseñaremos a tus trabajadores a hablar el inglés de los negocios. <br>
-        Se podrán comunicar con confianza en cualquier situación. <br>
-        Especialistas en cursos para empresas. <br>
-    </p>
 
 </div>
 

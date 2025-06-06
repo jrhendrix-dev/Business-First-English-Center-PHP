@@ -33,7 +33,7 @@
 <a name="Top" class="anchor"></a>
 <nav class="navbar navbar-expand-sm navbar-dark justify-content-sm-start sticky-top" id="Navegación">
     <a class="navbar-brand" href="/Business-First-English-Center/public/index.php">
-        <img src="/Business-First-English-Center/public/assets/pics/logo.png" alt="" id="Navbar_Logo"/>
+        <img src="/Business-First-English-Center/public/assets/pics/logoNew.png" alt="" id="Navbar_Logo"/>
     </a>
 
     <ul class="navbar-nav list-color">

@@ -75,6 +75,8 @@ Business-First-English-Center/
 5. Submit a Pull Request
 
 ## Future Improvements
+- Add Teacher and Student dashboards
+
 - Add CSV export for reports
 
 - Enable messaging between users

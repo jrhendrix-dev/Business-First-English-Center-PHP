@@ -46,7 +46,10 @@ echo "<script>window.classOptions = " . json_encode($classOptions) . ";</script>
         <div class="tab-content mt-3" id="adminTabContent">
             <div class="tab-pane fade show active" id="usuarios" role="tabpanel">
                 <div class="admin-section mb-4">
-                    <h4>Crear nuevo usuario</h4>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8 col-lg-6">
+                            <h4>Crear nuevo usuario</h4>
                     <form id="user-create-form">
                         <input type="text" name="username" placeholder="Nombre de usuario" class="form-control mb-2" required />
                         <input type="email" name="email" placeholder="Email" class="form-control mb-2" required />
@@ -65,6 +68,10 @@ echo "<script>window.classOptions = " . json_encode($classOptions) . ";</script>
                         </select>
                         <button type="submit" class="btn btn-primary">Crear usuario</button>
                     </form>
+                            </div> <!-- col -->
+                        </div> <!-- row -->
+                    </div> <!-- container -->
+
                     <div id="create-user-feedback" class="mt-2 text-success"></div>
                 </div>
                 <div class="admin-section">
@@ -76,6 +83,9 @@ echo "<script>window.classOptions = " . json_encode($classOptions) . ";</script>
             <!--  PESTAÑA CLASES Y FORMULARIO CREACIÓN CLASE -------------------------------->
             <div class="tab-pane fade" id="clases" role="tabpanel">
                 <div class="admin-section mb-4">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8 col-lg-6">
                     <h4>Crear nueva clase</h4>
                     <form id="class-create-form">
                         <input type="text" name="classname" placeholder="Nombre del curso" class="form-control mb-2" required />
@@ -85,6 +95,9 @@ echo "<script>window.classOptions = " . json_encode($classOptions) . ";</script>
                         </select>
                         <button type="submit" class="btn btn-primary">Crear clase</button>
                     </form>
+                            </div> <!-- col -->
+                        </div> <!-- row -->
+                    </div> <!-- container -->
                     <div id="create-class-feedback" class="mt-2 text-success"></div>
                 </div>
                 <div class="admin-section">
