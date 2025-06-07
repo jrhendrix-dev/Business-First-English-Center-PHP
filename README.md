@@ -16,36 +16,63 @@ Business First English Center is a web-based application designed to streamline 
 
 ## Screenshots
 
-Below are some screenshots showcasing the main features and interface of Business First English Center:
-
 ### Home Banner
-![Home](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/pics/banner.jpg)
-*Landing page banner welcoming users to the platform.*
+![BannerFrontPage](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/pics/BannerFrontPage.png)  
+The main landing page of the application, featuring the banner and introductory interface.
 
-### Footer
-![Footer](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/Footer.png)
-*Footer section with contact information and social media links.*
+---
 
-### Admin Dashboard
-![Admin Dashboard](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/AdminDashboard.png)
-*Admin dashboard for managing users, classes, grades, and schedules.*
+### Responsive Layout
+![Responsive](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/pics/Responsive.png)  
+Demonstrates how the application adapts to various screen sizes, ensuring usability across devices.
 
-### User Management
-![User Management](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/UserManagement.png)
-*Interface for creating, editing, and deleting user accounts.*
+---
 
-### Class Management
-![Class Management](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/ClassManagement.png)
-*Section for managing class assignments and teacher allocations.*
+### Admin User List
+![AdminUserList](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/pics/AdminUserList.png)  
+Displays the administrative interface for managing users, including search and filtering options.
 
-### Grade Book
-![Grade Book](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/GradeBook.png)
-*Grade book view for recording and reviewing student grades.*
+---
 
-### Schedule Management
-![Schedule Management](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/ScheduleManagement.png)
-*Dynamic schedule editor for assigning daily classes.*
+### Create User Form
+![AdminUserCreate](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/pics/AdminUserCreate.png)  
+Form used to register new users, including roles, classes, and validation constraints.
 
+---
+
+### Admin Form Controls
+![AdminFormControl](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/pics/AdminFormControl.png)  
+Field-level controls and validation logic implemented for user and class data.
+
+---
+
+### Grade Editing Panel
+![AdminGradesEdit](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/pics/AdminGradesEdit.png)  
+Interface for administrators to view, assign, or update student grades per subject.
+
+---
+
+### Trigger: Create Student
+![TriggerStudentCreate](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/pics/TriggerStudentCreate.png)  
+Internal trigger logic that handles the creation of a new student record in the system.
+
+---
+
+### Trigger: Update Student
+![TriggerStudentUpdate](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/pics/TriggerStudentUpdate.png)  
+Trigger and interface to update student data and reflect changes in the database.
+
+---
+
+### Trigger: Delete Student
+![TriggerStudentDelete](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/pics/TriggerStudentDelete.png)  
+Deletion workflow with confirmation steps to ensure safe record removal.
+
+---
+
+### Application Footer
+![Footer](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/pics/Footer.png)  
+The footer section of the application, containing version info and navigation links.
 
 
 ## Technologies Used
