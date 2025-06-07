@@ -14,6 +14,40 @@ Business First English Center is a web-based application designed to streamline 
 - 📱 **Responsive Design**: Built with Bootstrap for compatibility on all devices.
 - 💾 **Persistent Storage**: MySQL backend with robust data structure.
 
+## Screenshots
+
+Below are some screenshots showcasing the main features and interface of Business First English Center:
+
+### Home Banner
+![Home](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/pics/banner.jpg)
+*Landing page banner welcoming users to the platform.*
+
+### Footer
+![Footer](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/Footer.png)
+*Footer section with contact information and social media links.*
+
+### Admin Dashboard
+![Admin Dashboard](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/AdminDashboard.png)
+*Admin dashboard for managing users, classes, grades, and schedules.*
+
+### User Management
+![User Management](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/UserManagement.png)
+*Interface for creating, editing, and deleting user accounts.*
+
+### Class Management
+![Class Management](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/ClassManagement.png)
+*Section for managing class assignments and teacher allocations.*
+
+### Grade Book
+![Grade Book](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/GradeBook.png)
+*Grade book view for recording and reviewing student grades.*
+
+### Schedule Management
+![Schedule Management](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/ScheduleManagement.png)
+*Dynamic schedule editor for assigning daily classes.*
+
+
+
 ## Technologies Used
 
 - PHP 7+
