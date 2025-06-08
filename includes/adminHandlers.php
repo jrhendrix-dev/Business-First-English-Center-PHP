@@ -17,14 +17,8 @@ if (!isset($con)) {
     $con = Database::connect();
 }
 
-/**
- * Checks if the user is logged in.
- *
- * @return bool True if user is logged in, false otherwise.
- */
-function check_login(){
-    return (isset($_SESSION['login'])) ? true : false;
-}//end check_login
+
+
 
 
 // ============================================================================
