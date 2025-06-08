@@ -21,13 +21,13 @@ $teacherClassId = $_SESSION['curso'] ?? null;
 
 
 if (!isset($teacherClassId)) $teacherClassId = '';
-if (!isset($class_name)) $class_name = '';
+if (!isset($className)) $className = '';
 ?>
 
 <script>
     // Inject class ID for JS use
     window.teacherClassId = `<?php echo $teacherClassId; ?>`;
-    window.class_name = `<?php echo $class_name; ?>`;
+    window.class_name = `<?php echo $className; ?>`;
 </script>
 
 <!-- ===========================================================================
@@ -53,14 +53,14 @@ if (!isset($class_name)) $class_name = '';
         <div class="tab-content mt-3" id="teacherTabsContent">
             <!-- Students & Grades Tab -->
             <div class="tab-pane fade show active" id="students" role="tabpanel" aria-labelledby="students-tab">
-                <h5 class="mb-3">Clase: <?=$class_name; ?></h5>
+                <h5 class="mb-3">Clase: <?=$className; ?></h5>
                 <div id="teacher-students-table-container">
                     <!-- AJAX: Student list and grades will load here via teacher_dash.js -->
                 </div>
             </div>
             <!-- Schedule Tab -->
             <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
-                <h5 class="mb-3">Horario de la Clase</h5>
+                <h5 class="mb-3">Horario de la Clase: <?=$className; ?></h5>
                 <div id="teacher-schedule-table-container">
                     <!-- AJAX: Schedule will load here via teacher_dash.js -->
                 </div>
