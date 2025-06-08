@@ -22,7 +22,13 @@ require_once __DIR__ . '/../src/controllers/update.php';
 // ========================== CONEXIÓN A BASE DE DATOS =========================
 if (!isset($con)) {
     require_once __DIR__ . '/../src/models/Database.php';
-    $con = Database::connect();
+    try {
+        $con = Database::connect();
+} catch (Exception $e) {
+    error_log('Exception caught: ' . $e->getMessage());
+    // Display an error message to the user
+    echo "<div class='alert alert-danger'>Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.</div>";
+}
 }
 
 // ========================== VARIABLES DE OPCIONES ============================
@@ -83,20 +89,35 @@ if (!isset($teacherOptions)) $teacherOptions = '';
                                 <h4>Crear nuevo usuario</h4>
                                 <!-- Formulario para crear usuarios (admin, profesor, alumno) -->
                                 <form id="user-create-form">
-                                    <input type="text" name="username" placeholder="Nombre de usuario" class="form-control mb-2" required />
-                                    <input type="email" name="email" placeholder="Email" class="form-control mb-2" required />
-                                    <input type="password" name="pword" placeholder="Contraseña" class="form-control mb-2" required />
-                                    <select name="ulevel" class="form-control mb-2" required>
-                                        <option value="" disabled selected>Rango de usuario</option>
-                                        <option value="1">Admin</option>
-                                        <option value="2">Profesor</option>
-                                        <option value="3">Alumno</option>
-                                    </select>
-                                    <select name="class" class="form-control mb-2">
-                                        <option value="" disabled selected>Seleccione una clase</option>
-                                        <option value ="">Sin clase</option>
-                                        <?= $classOptions ?>
-                                    </select>
+                                    <div class="form-group mb-2">
+                                            <label for="username">Nombre de usuario</label>
+                                            <input type="text" id="username" name="username" placeholder="Nombre de usuario" class="form-control" required />
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="email">Email</label>
+                                            <input type="email" id="email" name="email" placeholder="Email" class="form-control" required />
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="pword">Contraseña</label>
+                                            <input type="password" id="pword" name="pword" placeholder="Contraseña" class="form-control" required />
+                                        </div>
+                                        <div class="form-group mb-2">
+                                                <label for="ulevel">Rango de usuario</label>
+                                                <select name="ulevel" class="form-control mb-2" id="ulevel" required>
+                                                    <option value="" disabled selected>Rango de usuario</option>
+                                                    <option value="1">Admin</option>
+                                                    <option value="2">Profesor</option>
+                                                    <option value="3">Alumno</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label for="class">Clase asignada</label>
+                                                <select name="class" class="form-control mb-2" id="class">
+                                                    <option value="" disabled selected>Seleccione una clase</option>
+                                                    <option value="">Sin clase</option>
+                                                    <?= $classOptions ?>
+                                                </select>
+                                            </div>
                                     <button type="submit" class="btn btn-primary">Crear usuario</button>
                                 </form>
                             </div> <!-- col -->
@@ -120,11 +141,17 @@ if (!isset($teacherOptions)) $teacherOptions = '';
                                 <h4>Crear nueva clase</h4>
                                 <!-- Formulario para crear clases -->
                                 <form id="class-create-form">
-                                    <input type="text" name="classname" placeholder="Nombre del curso" class="form-control mb-2" required />
-                                    <select name="profesor" class="form-control mb-2" required>
-                                        <option value="" disabled selected>Seleccione un profesor</option>
-                                        <?= $teacherOptions ?>
-                                    </select>
+                                    <div class="form-group mb-2">
+                                            <label for="classname">Nombre del curso</label>
+                                            <input type="text" id="classname" name="classname" placeholder="Nombre del curso" class="form-control mb-2" required />
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="profesor">Profesor</label>
+                                            <select id="profesor" name="profesor" class="form-control mb-2" required>
+                                                <option value="" disabled selected>Seleccione un profesor</option>
+                                                <?= $teacherOptions ?>
+                                            </select>
+                                        </div>
                                     <button type="submit" class="btn btn-primary">Crear clase</button>
                                 </form>
                             </div> <!-- col -->

@@ -81,5 +81,3 @@ include_once __DIR__ . '/../views/header.php';
 <!-- Footer -->
 <?php include_once __DIR__ . '/../views/footer.php'; ?>
 
-</body>
-</html>
