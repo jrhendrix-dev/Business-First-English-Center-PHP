@@ -17,7 +17,7 @@ $pageTitle = "Home";
 include_once __DIR__ . '/../views/header.php';
 ?>
 <div id="banner-container">
-    <img src="assets/pics/banner.jpg" alt="vista de Nueva York desde oficina" id="Title-Image">
+    <img src="assets/pics/banner.jpg" alt="vista oficina corporativa" id="Title-Image">
 </div>
 
 <div class="cuerpo">
