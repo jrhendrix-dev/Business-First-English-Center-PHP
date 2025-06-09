@@ -16,6 +16,13 @@ Business First English Center is a web-based application designed to streamline 
 - **Persistent Storage**: MySQL backend with robust data structure.
 - **SQL Triggers**: Uses MySQL triggers to automate and enforce data integrity for student creation, updates, and deletions.
 - **Brute Force Protection**: Login system includes rate limiting and lockout countdown to prevent brute force attacks.
+- **AJAX-Powered Dashboards**: All dashboards (Admin, Teacher, Student) use AJAX for dynamic content updates and smooth UX.
+- **Auto-gap ID Logic**: Skips deleted IDs when creating new users/classes.
+- **Automatic Foreign-Key Linking**: Student creation triggers notas row.
+- **Input Validation and Error Handling**: Prevents misuse or inconsistent state.
+- **Centralized Bootstrap Initialization**: All PHP entry points include a `bootstrap.php` for secure session and DB setup.
+- **Documented JavaScript and PHP**: All core scripts and handlers include JSDoc/PHPDoc for maintainability.
+
 
 ## Screenshots
 
@@ -80,9 +87,10 @@ The footer section of the application, containing version info and navigation li
 ## Security
 
 - **HTTPS**: All pages and forms are served over HTTPS for encrypted communication.
-- **Session Security**: Session cookies are set with `HttpOnly` and `Secure` flags.
+- **Session Security**: Session cookies are set with `HttpOnly` and `Secure` flags, and session configuration is centralized in `bootstrap.php`.
 - **Brute Force Protection**: Login attempts are rate-limited with a lockout countdown and visual feedback.
 - **Password Hashing**: Passwords are securely hashed using PHP's `password_hash()` and verified with `password_verify()`.
+- **Centralized Initialization**: All entry points include `bootstrap.php` to enforce consistent security and DB connection.
 
 ## Database & Triggers
 
@@ -133,7 +141,9 @@ Business-First-English-Center/
 │   └── models/              # DB connection & logic
 │
 ├── views/                   # Reusable view fragments (HTML/PHP)
-├── includes/                # Shared functions and session logic
+├── includes/                # AJAX handlers and shared session logic
+├── bootstrap.php            # Global session and DB initialization (included everywhere)
+├── schema.sql               # Database schema and triggers
 └── README.md
 
 ```
@@ -184,10 +194,11 @@ This section explains the typical workflow of the **Business First English Cente
 
 ## 4. **Data Flow and Persistence**
 
-- All data operations (CRUD) are handled by controllers in `src/controllers/`.
-- Business logic and database interactions are managed by models in `src/models/`.
+- All data operations (CRUD) are handled by controllers in src/controllers/.
+- Business logic and database interactions are managed by models in src/models/.
 - Data is stored in a MySQL database, with triggers enforcing integrity for student records.
 - AJAX is used for dynamic updates and form submissions, providing a responsive user experience.
+- All AJAX handlers (for admin, teacher, and student dashboards) are located in /includes/ and follow best practices with PHPDoc and input validation.
 
 ---
 
@@ -201,7 +212,10 @@ This section explains the typical workflow of the **Business First English Cente
   - Login attempts are rate-limited and lockouts are enforced after repeated failures.
 - **Role-Based Access Control**:  
   - Each user role has access only to permitted features and views.
-
+- **Input Validation**:
+  - All AJAX handlers and forms validate input and handle errors gracefully.
+- **Code Documentation**:
+  - All major PHP and JavaScript files include PHPDoc/JSDoc comments for maintainability.
 ---
 
 ## 6. **Frontend and User Experience**
@@ -212,7 +226,8 @@ This section explains the typical workflow of the **Business First English Cente
   - Common UI components (header, footer, modals) are included across pages for consistency.
 - **Dynamic Content**:  
   - jQuery and AJAX are used for interactive elements and real-time updates.
-
+- **AJAX Handlers**:
+  - All dashboard tables (users, classes, grades, schedules) are loaded and updated via AJAX for a seamless experience.
 ---
 
 
@@ -229,6 +244,7 @@ This section explains the typical workflow of the **Business First English Cente
 ---
 
 For more details on installation and setup, see the [Installation](#installation) section above.
+
 ## Contributing
 1. Fork the repository
 
@@ -241,7 +257,6 @@ For more details on installation and setup, see the [Installation](#installation
 5. Submit a Pull Request
 
 ## Future Improvements
-- Add Teacher and Student dashboards
 
 - Add CSV export for reports
 
