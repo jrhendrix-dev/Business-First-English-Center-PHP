@@ -1,6 +1,24 @@
 <?php
 
-//INCLUDE THIS FILE FIRST IN OTHER PAGES! It's responsible for handling the db connection.
+/**
+ * bootstrap.php
+ *
+ * Global initialization file for the Business First English Center application.
+ *
+ * Responsibilities:
+ * - Configures secure session cookie parameters (HttpOnly, Secure).
+ * - Starts the PHP session if not already started.
+ * - Establishes a connection to the MySQL database and assigns it to $con.
+ * - Loads authentication helper functions.
+ *
+ * Usage:
+ * - This file should be included at the very top of every PHP page or entry point.
+ * - Ensures consistent session and database setup across the application.
+ *
+ * @package    BusinessFirstEnglishCenter
+ * @author     Jonathan Ray Hendrix <jrhendrixdev@gmail.com>
+ * @license    MIT License
+ */
 
 /*
  These ini_set calls configure how PHP will create the session cookie.
