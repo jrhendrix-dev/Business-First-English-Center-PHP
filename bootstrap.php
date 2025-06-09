@@ -1,6 +1,24 @@
 <?php
 
-//INCLUDE THIS FILE FIRST IN OTHER PAGES!
+/**
+ * bootstrap.php
+ *
+ * Global initialization file for the Business First English Center application.
+ *
+ * Responsibilities:
+ * - Configures secure session cookie parameters (HttpOnly, Secure).
+ * - Starts the PHP session if not already started.
+ * - Establishes a connection to the MySQL database and assigns it to $con.
+ * - Loads authentication helper functions.
+ *
+ * Usage:
+ * - This file should be included at the very top of every PHP page or entry point.
+ * - Ensures consistent session and database setup across the application.
+ *
+ * @package    BusinessFirstEnglishCenter
+ * @author     Jonathan Ray Hendrix <jrhendrixdev@gmail.com>
+ * @license    MIT License
+ */
 
 /*
  These ini_set calls configure how PHP will create the session cookie.
@@ -9,9 +27,13 @@ If you set them after session_start(), the session cookie may already have been 
  */
 
 // Seguridad para la sesión
+
 ini_set('session.cookie_httponly', 1);
 ini_set('session.cookie_secure', 1); // Cambiar a 1 si usas HTTPS
-session_start();
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Base de datos
 require_once __DIR__ . '/src/models/Database.php';
@@ -24,3 +46,5 @@ if (!function_exists('check_login')) {
         return isset($_SESSION['login']);
     }
 }
+
+

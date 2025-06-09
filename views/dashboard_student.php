@@ -1,30 +1,30 @@
 <?php
 // ========================== INCLUDES Y DEPENDENCIAS ==========================
 require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../includes/teacherHandlers.php';
+require_once __DIR__ . '/../includes/studentHandlers.php';
 
-if (!isset($teacherClassId)) $teacherClassId = '';
+if (!isset($studentClassId)) $studentClassId = '';
 if (!isset($className)) $className = '';
 ?>
 
 <script>
     // Inject class ID for JS use
-    window.teacherClassId = `<?php echo $teacherClassId; ?>`;
+    window.studentClassId = `<?php echo $studentClassId; ?>`;
     window.class_name = `<?php echo $className; ?>`;
 </script>
 
 <!-- ===========================================================================
-     PANEL DE PROFESORES
+     PANEL DE ESTUDIANTES
 ============================================================================ -->
 
 <div class="container mt-4">
-    <div class="teacher-dashboard">
-        <h3 class="text-center mb-4">Panel de Profesor</h3>
+    <div class="student-dashboard">
+        <h3 class="text-center mb-4">Panel de Estudiante</h3>
         <!-- Tabs Navigation -->
-        <ul class="nav nav-tabs" id="teacherTabs" role="tablist">
+        <ul class="nav nav-tabs" id="studentTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="students-tab" data-toggle="tab" href="#students" role="tab" aria-controls="students" aria-selected="true">
-                    Alumnos y Notas
+                <a class="nav-link active" id="student-tab" data-toggle="tab" href="#students" role="tab" aria-controls="students" aria-selected="true">
+                    Notas
                 </a>
             </li>
             <li class="nav-item">
@@ -33,19 +33,19 @@ if (!isset($className)) $className = '';
                 </a>
             </li>
         </ul>
-        <div class="tab-content mt-3" id="teacherTabsContent">
-            <!-- Students & Grades Tab -->
+        <div class="tab-content mt-3" id="studentTabsContent">
+            <!-- Grades Tab -->
             <div class="tab-pane fade show active" id="students" role="tabpanel" aria-labelledby="students-tab">
                 <h5 class="mb-3">Clase: <?=$className; ?></h5>
-                <div id="teacher-students-table-container">
-                    <!-- AJAX: Student list and grades will load here via teacher_dash.js -->
+                <div id="student-grades-table-container">
+                    <!-- AJAX: grades will load here via student_dash.js -->
                 </div>
             </div>
             <!-- Schedule Tab -->
             <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
                 <h5 class="mb-3">Horario de la Clase: <?=$className; ?></h5>
-                <div id="teacher-schedule-table-container">
-                    <!-- AJAX: Schedule will load here via teacher_dash.js -->
+                <div id="student-schedule-table-container">
+                    <!-- AJAX: Schedule will load here via student_dash.js -->
                 </div>
             </div>
         </div>
@@ -55,4 +55,4 @@ if (!isset($className)) $className = '';
 <!-- ===========================================================================
      SCRIPTS DE FUNCIONALIDAD DINÁMICA PARA EL PANEL DE PROFESORES
 ============================================================================ -->
-<script src="/Business-First-English-Center/public/assets/js/teacher_dash.js"></script>
+<script src="/Business-First-English-Center/public/assets/js/student_dash.js"></script>
