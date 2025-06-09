@@ -3,9 +3,11 @@
  * login.php
  *
  * Handles user authentication for the Business First English Center application.
- * Accepts POST requests with username and password, verifies credentials,
- * and starts a session on successful login.
- * Implements simple session-based brute force protection to prevent abuse.
+ * - Accepts POST requests with username and password.
+ * - Verifies credentials against the database.
+ * - Implements session-based brute force protection.
+ * - Sets secure session cookie parameters.
+ * - Returns JSON responses for all outcomes.
  *
  * PHP version 7+
  *
@@ -14,20 +16,35 @@
  * @license    MIT License
  */
 
+// ===================== SESSION COOKIE SECURITY SETTINGS =====================
 /*
- These ini_set calls configure how PHP will create the session cookie.
- They must be set before the session is started, so that the cookie is created with the correct flags.
- If you set them after session_start(), the session cookie may already have been sent to the browser without those flags.
-*/
+ * Configure session cookie parameters for security.
+ * These must be set before session_start().
+ * - HttpOnly: Prevents JavaScript access to session cookie.
+ * - Secure: Only send cookie over HTTPS (set to true if using HTTPS).
+ * - SameSite: Lax to help prevent CSRF.
+ */
 ini_set('session.cookie_httponly', 1);
-ini_set('session.cookie_secure', 1); // Only if using HTTPS
+ini_set('session.cookie_secure', 1); // Set to 1 only if using HTTPS
+
+session_set_cookie_params([
+    'lifetime' => 0, // Session cookie (expires on browser close)
+    'path' => '/',
+    'secure' => false, // Set to true if using HTTPS
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
 
 session_start();
+
+// ===================== DEPENDENCIES & HEADERS =====================
 require_once __DIR__ . '/../src/models/Database.php';
 header('Content-Type: application/json');
 
+// ===================== HELPER FUNCTIONS =====================
+
 /**
- * Sends a JSON response and exits.
+ * Sends a JSON response and terminates the script.
  *
  * @param array $data The data to encode as JSON.
  * @return void
@@ -80,6 +97,7 @@ function handle_login() {
         ]);
     }
 
+    // --- Database Authentication ---
     $con = Database::connect();
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -89,6 +107,7 @@ function handle_login() {
     $stmt->execute();
     $result = $stmt->get_result();
 
+    // --- Password Verification ---
     if ($result && $result->num_rows > 0) {
         $user = $result->fetch_assoc();
         // Verify the password using password_verify
@@ -98,9 +117,11 @@ function handle_login() {
             $_SESSION['last_attempt_time'] = 0;
 
             // Set session variables on successful login
-            session_regenerate_id(true); // Regenerate Session ID on Login. This helps prevent session fixation attacks.
+            session_regenerate_id(true); // Prevent session fixation attacks
+            $_SESSION['user_id'] = $user['user_id'];
             $_SESSION["user"] = $user["username"];
             $_SESSION["lvl"] = $user["ulevel"];
+            $_SESSION['curso'] = $user['class'];
             $_SESSION["login"] = true;
             if ($user['ulevel'] == 2) {
                 $_SESSION["curso"] = $user['class'];
@@ -111,7 +132,7 @@ function handle_login() {
         }
     }
 
-    // If login fails: increment brute force counters
+    // --- Failed Login: Increment Brute Force Counters ---
     $_SESSION['login_attempts'] += 1;
     $_SESSION['last_attempt_time'] = time();
 
@@ -121,5 +142,5 @@ function handle_login() {
     ]);
 }
 
-// Main execution
+// ===================== MAIN EXECUTION =====================
 handle_login();
