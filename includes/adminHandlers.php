@@ -2,8 +2,12 @@
 /**
  * adminHandlers.php
  *
- * Contains utility functions and AJAX handlers for the Business First English Center admin dashboard.
- * Handles user authentication, dynamic dropdowns, and data retrieval (read-only) operations for users, classes, grades, and schedules.
+ * AJAX and utility handlers for the Business First English Center admin dashboard.
+ * Handles:
+ *   - User authentication
+ *   - Dynamic dropdowns (classes, teachers)
+ *   - Data retrieval for users, classes, grades, and schedules
+ *   - Outputs HTML fragments for AJAX consumption
  *
  * PHP version 7+
  *
@@ -12,22 +16,21 @@
  * @license    MIT LICENSE
  */
 
+// ============================================================================
+// INITIALIZATION: Database Connection
+// ============================================================================
+
 if (!isset($con)) {
     require_once __DIR__ . '/../src/models/Database.php';
-    $con = Database::connect();
+    try {
+        $con = Database::connect();
+    } catch (Exception $e) {
+        // Optionally log error
+    }
 }
 
-
-
-
-
 // ============================================================================
-//                              DASHBOARD ADMIN HANDLERS
-// ============================================================================
-
-
-// ============================================================================
-//                              INYECCIÓN DE DATOS
+// DROPDOWN DATA HANDLERS
 // ============================================================================
 
 /**
@@ -39,51 +42,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['availableClasses'])) {
               WHERE classid NOT IN (SELECT class FROM users WHERE ulevel = 2 AND class IS NOT NULL)";
     $result = $con->query($query);
     while ($row = $result->fetch_assoc()) {
-        echo "<option value='{$row['classid']}'>{$row['classname']}</option>";
+        echo "<option value='{$row['classid']}'>" . htmlspecialchars($row['classname']) . "</option>";
     }
     exit;
 }
 
-// Obtener clases para el dropdown
+/**
+ * Handler for AJAX request: Get available teachers (not assigned to any class).
+ * Outputs <option> elements for each available teacher.
+ */
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['availableTeachers'])) {
+    $query = "SELECT user_id, username FROM users WHERE ulevel = 2 AND (class IS NULL OR class = '' OR class = '0')";
+    $result = $con->query($query);
+    while ($row = $result->fetch_assoc()) {
+        echo "<option value='{$row['user_id']}'>" . htmlspecialchars($row['username']) . "</option>";
+    }
+    exit;
+}
+
+// ============================================================================
+// PRELOAD DROPDOWN OPTIONS FOR JS (not direct AJAX handlers)
+// ============================================================================
+
+/**
+ * Preloads all classes and teachers as HTML <option> strings for use in JS.
+ */
 $classOptions = "";
 $classResult = $con->query("SELECT classid, classname FROM clases ORDER BY classid ASC");
 if ($classResult && $classResult->num_rows > 0) {
     while ($row = $classResult->fetch_assoc()) {
-        $classOptions .= "<option value='{$row['classid']}'>{$row['classname']}</option>";
+        $classOptions .= "<option value='{$row['classid']}'>" . htmlspecialchars($row['classname']) . "</option>";
     }
 }
 
-// Obtener profesores para el dropdown
 $teacherOptions = "";
 $profResult = $con->query("SELECT user_id, username FROM users WHERE ulevel = 2 ORDER BY username ASC");
 if ($profResult && $profResult->num_rows > 0) {
     while ($row = $profResult->fetch_assoc()) {
-        $teacherOptions .= "<option value='{$row['user_id']}'>{$row['username']}</option>";
+        $teacherOptions .= "<option value='{$row['user_id']}'>" . htmlspecialchars($row['username']) . "</option>";
     }
 }
 
 $classOptionsJS = json_encode($classOptions);
 $teacherOptionsJS = json_encode($teacherOptions);
 
-
-
 // ============================================================================
-//                              HANDLERS DE USUARIOS
+// USER HANDLERS
 // ============================================================================
-
-/**
- * Handler for AJAX request: Get available classes for dropdown (duplicate, for legacy compatibility).
- * Outputs <option> elements for each available class.
- */
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['availableClasses'])) {
-    $query = "SELECT classid, classname FROM clases 
-              WHERE classid NOT IN (SELECT class FROM users WHERE ulevel = 2 AND class IS NOT NULL)";
-    $result = $con->query($query);
-    while ($row = $result->fetch_assoc()) {
-        echo "<option value='{$row['classid']}'>{$row['classname']}</option>";
-    }
-    exit;
-}
 
 /**
  * Handler for AJAX request: Load users list.
@@ -96,9 +101,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadUsers'])) {
         while ($row = $res->fetch_assoc()) {
             echo "<tr data-id='{$row['user_id']}'>
                     <td>{$row['user_id']}</td>
-                    <td class='username'>{$row['username']}</td>
-                    <td class='email'>{$row['email']}</td>
-                    <td class='class' data-classid='{$row['class']}'>{$row['classname']}</td>
+                    <td class='username'>" . htmlspecialchars($row['username']) . "</td>
+                    <td class='email'>" . htmlspecialchars($row['email']) . "</td>
+                    <td class='class' data-classid='{$row['class']}'>" . htmlspecialchars($row['classname']) . "</td>
                     <td class='ulevel'>{$row['ulevel']}</td>
                     <td>
                         <button class='btn btn-sm btn-warning edit-btn'>Editar</button>
@@ -114,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadUsers'])) {
 }
 
 // ============================================================================
-//                  HANDLERS DE CLASES
+// CLASS HANDLERS
 // ============================================================================
 
 /**
@@ -128,8 +133,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadClasses'])) {
         while ($row = $res->fetch_assoc()) {
             echo "<tr data-id='{$row['classid']}'>
                     <td>{$row['classid']}</td>
-                    <td class='classname'>{$row['classname']}</td>
-                    <td class='profesor' data-profid='{$row['user_id']}'>{$row['username']}</td>
+                    <td class='classname'>" . htmlspecialchars($row['classname']) . "</td>
+                    <td class='profesor' data-profid='{$row['user_id']}'>" . htmlspecialchars($row['username']) . "</td>
                     <td>
                         <button class='btn btn-sm btn-warning edit-class-btn'>Editar</button>
                         <button class='btn btn-sm btn-danger delete-class-btn'>Borrar</button>
@@ -143,26 +148,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadClasses'])) {
     exit;
 }
 
-/**
- * Handler for AJAX request: Get available teachers (not assigned to any class).
- * Outputs <option> elements for each available teacher.
- */
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['availableTeachers'])) {
-    $query = "SELECT user_id, username FROM users WHERE ulevel = 2 AND (class IS NULL OR class = '' OR class = '0')";
-    $result = $con->query($query);
-    while ($row = $result->fetch_assoc()) {
-        echo "<option value='{$row['user_id']}'>{$row['username']}</option>";
-    }
-    exit;
-}
-
-
 // ============================================================================
-//                                 HANDLERS DE NOTAS
+// GRADES HANDLERS
 // ============================================================================
 
 /**
- * Handler for AJAX request: Load grades for students.
+ * Handler for AJAX request: Load grades for all students.
  * Outputs an HTML table with grades.
  */
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadNotas'])) {
@@ -178,11 +169,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadNotas'])) {
               </tr></thead><tbody>";
         while ($row = $res->fetch_assoc()) {
             echo "<tr data-id='{$row['user_id']}'>
-                    <td class='alumno'>{$row['username']}</td>
-                    <td class='curso'>{$row['classname']}</td>
-                    <td class='nota1'>" . (isset($row['Nota1']) ? $row['Nota1'] : '') . "</td>
-                    <td class='nota2'>" . (isset($row['Nota2']) ? $row['Nota2'] : '') . "</td>
-                    <td class='nota3'>" . (isset($row['Nota3']) ? $row['Nota3'] : '') . "</td>
+                    <td class='alumno'>" . htmlspecialchars($row['username']) . "</td>
+                    <td class='curso'>" . htmlspecialchars($row['classname']) . "</td>
+                    <td class='nota1'>" . (isset($row['Nota1']) ? htmlspecialchars($row['Nota1']) : '') . "</td>
+                    <td class='nota2'>" . (isset($row['Nota2']) ? htmlspecialchars($row['Nota2']) : '') . "</td>
+                    <td class='nota3'>" . (isset($row['Nota3']) ? htmlspecialchars($row['Nota3']) : '') . "</td>
                     <td>
                         <button class='btn btn-sm btn-warning edit-nota-btn'>Editar</button>
                         <button class='btn btn-sm btn-success save-nota-btn d-none'>Guardar</button>
@@ -198,7 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadNotas'])) {
 }
 
 // ============================================================================
-//                                 HANDLERS DE HORARIOS
+// SCHEDULE HANDLERS
 // ============================================================================
 
 /**
@@ -224,7 +215,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadHorarios'])) {
               </tr></thead><tbody>";
         while ($row = $res->fetch_assoc()) {
             echo "<tr data-id='{$row['day_id']}'>
-                <td class='weekday'>{$row['week_day']}</td>
+                <td class='weekday'>" . htmlspecialchars($row['week_day']) . "</td>
                 <td class='firstclass'>" . ($row['firstclass_name'] ?? '') . "</td>
                 <td class='secondclass'>" . ($row['secondclass_name'] ?? '') . "</td>
                 <td class='thirdclass'>" . ($row['thirdclass_name'] ?? '') . "</td>
@@ -234,7 +225,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadHorarios'])) {
                     <button class='btn btn-sm btn-secondary cancel-horario-btn d-none'>Cancelar</button>
                 </td>
               </tr>";
-
         }
         echo "</tbody></table>";
     } else {
@@ -243,5 +233,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadHorarios'])) {
     exit;
 }
 
-
-
+?>
