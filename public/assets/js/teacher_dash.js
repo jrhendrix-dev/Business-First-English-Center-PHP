@@ -1,13 +1,13 @@
 /**
- * teacher_dash.js
- * Maneja la carga de alumnos y edición de notas para el panel del profesor.
- * Requiere jQuery y Bootstrap.
+ * @file teacher_dash.js
+ * @description Handles loading students, editing grades, and schedule management for the teacher dashboard.
+ * Requires jQuery and Bootstrap.
  */
 
 $(document).ready(function () {
     initializeNotasModule();
 
-    // Manejar cambio de pestañas
+    // Handle tab changes
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         const target = $(e.target).attr('href');
         if (target === '#students') {
@@ -19,7 +19,20 @@ $(document).ready(function () {
 });
 
 /**
- * Carga la tabla de alumnos y notas.
+ * Initializes the grades module and binds event handlers for editing, saving, and canceling grade edits.
+ * Loads the students table on initialization.
+ */
+function initializeNotasModule() {
+    loadTeacherStudentsTable();
+
+    $(document).on('click', '.edit-nota-btn', handleEditNotaBtnClick);
+    $(document).on('click', '.cancel-nota-btn', handleCancelNotaBtnClick);
+    $(document).on('click', '.save-nota-btn', handleSaveNotaBtnClick);
+}
+
+/**
+ * Loads the students and grades table via AJAX and inserts it into the dashboard.
+ * Calls the PHP handler with action 'getStudentsAndGrades'.
  */
 function loadTeacherStudentsTable() {
     $.get('../includes/teacherHandlers.php?action=getStudentsAndGrades', function (data) {
@@ -33,7 +46,8 @@ function loadTeacherStudentsTable() {
 }
 
 /**
- * Carga la tabla de horarios.
+ * Loads the teacher's schedule table via AJAX and inserts it into the dashboard.
+ * Calls the PHP handler with action 'getClassSchedule'.
  */
 function loadTeacherScheduleTable() {
     $.get('../includes/teacherHandlers.php?action=getClassSchedule', function (html) {
@@ -44,15 +58,18 @@ function loadTeacherScheduleTable() {
     });
 }
 
-
 /**
- * Permite editar una fila de notas.
+ * Handles the click event for editing a student's grades.
+ * Converts grade cells into input fields for editing and toggles action buttons.
+ * @param {Event} e - The click event.
  */
 function handleEditNotaBtnClick(e) {
     const row = $(this).closest('tr');
     row.find('.nota1, .nota2, .nota3').each(function () {
         const value = $(this).text().trim();
-        $(this).html(`<input type='number' min='0' max='10' step='0.01' class='form-control' value='${value}' />`);
+        $(this).html(
+            `<input type='number' min='0' max='10' step='0.01' class='form-control' value='${value}' />`
+        );
     });
 
     row.find('.edit-nota-btn').addClass('d-none');
@@ -61,14 +78,18 @@ function handleEditNotaBtnClick(e) {
 }
 
 /**
- * Cancela la edición de notas recargando la tabla.
+ * Handles the click event for canceling grade edits.
+ * Reloads the students table to revert any unsaved changes.
+ * @param {Event} e - The click event.
  */
 function handleCancelNotaBtnClick(e) {
     loadTeacherStudentsTable();
 }
 
 /**
- * Guarda las notas editadas vía AJAX.
+ * Handles the click event for saving edited grades.
+ * Validates input, sends updated grades via AJAX, and reloads the table on success.
+ * @param {Event} e - The click event.
  */
 function handleSaveNotaBtnClick(e) {
     const row = $(this).closest('tr');
@@ -102,15 +123,4 @@ function handleSaveNotaBtnClick(e) {
         console.error('Fallo al guardar notas:', xhr.responseText);
         alert('Error al guardar notas');
     });
-}
-
-/**
- * Inicializa el módulo de notas y enlaza eventos.
- */
-function initializeNotasModule() {
-    loadTeacherStudentsTable();
-
-    $(document).on('click', '.edit-nota-btn', handleEditNotaBtnClick);
-    $(document).on('click', '.cancel-nota-btn', handleCancelNotaBtnClick);
-    $(document).on('click', '.save-nota-btn', handleSaveNotaBtnClick);
 }
