@@ -1,6 +1,6 @@
 <?php
 
-//INCLUDE THIS FILE FIRST IN OTHER PAGES!
+//INCLUDE THIS FILE FIRST IN OTHER PAGES! It's responsible for handling the db connection.
 
 /*
  These ini_set calls configure how PHP will create the session cookie.
@@ -9,9 +9,13 @@ If you set them after session_start(), the session cookie may already have been 
  */
 
 // Seguridad para la sesión
+
 ini_set('session.cookie_httponly', 1);
 ini_set('session.cookie_secure', 1); // Cambiar a 1 si usas HTTPS
-session_start();
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Base de datos
 require_once __DIR__ . '/src/models/Database.php';
@@ -24,3 +28,5 @@ if (!function_exists('check_login')) {
         return isset($_SESSION['login']);
     }
 }
+
+
