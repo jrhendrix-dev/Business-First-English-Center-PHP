@@ -1,3 +1,5 @@
+// noinspection SpellCheckingInspection
+
 /**
  * @fileoverview
  * Handles user (usuarios) management for the admin dashboard.
@@ -28,7 +30,7 @@ function loadUsers() {
  *
  * @function
  * @param {?number|string} [selectedId=null] - The ID of the class to pre-select (if any).
- * @returns {Promise<jQuery>} Promise resolving to a jQuery <select> element.
+ *  @returns {JQuery.jqXHR}
  */
 function fetchAvailableClasses(selectedId = null) {
     return $.get('dashboard_admin.php?availableClasses=1').then(function (optionsHtml) {
@@ -70,9 +72,7 @@ function loadAvailableClassesDropdown() {
 /**
  * Handles changes to the user level dropdown in the user creation form.
  * Dynamically updates the class field based on the selected user level.
- *
- * @event change
- * @param {Event} e - The change event.
+ * @param {Event} e - jQuery change event
  */
 function handleUserLevelChangeInCreateForm(e) {
     const selected = $(this).val();
@@ -117,11 +117,8 @@ function handleUserLevelChangeInCreateForm(e) {
  * Handles the click event for editing a user row.
  * Replaces the row's cells with editable inputs and dropdowns.
  *
- * @event click
- * @memberof module:usuarios
- * @param {Event} e - The click event.
  */
-function handleEditUserClick(e) {
+function handleEditUserClick() {
     const row = $(this).closest('tr');
     const id = row.data('id');
 
@@ -170,10 +167,8 @@ function handleEditUserClick(e) {
  * Handles the change event for the user level select in the edit row.
  * Dynamically updates the class field based on the selected user level.
  *
- * @event change
- * @param {Event} e - The change event.
  */
-function handleUserLevelChangeInEditRow(e) {
+function handleUserLevelChangeInEditRow() {
     const row = $(this).closest('tr');
     const selected = $(this).val();
     const currentClassId = row.find('.class select').val();
@@ -234,17 +229,16 @@ function handleSaveUserEditClick(e) {
  * Handles the click event for deleting a user.
  * Sends an AJAX POST request to delete the user after confirmation.
  *
- * @event click
- * @param {Event} e - The click event.
- */
-function handleDeleteUserClick(e) {
+ * * @param {Event} event - Click event
+ * */
+function handleDeleteUserClick() {
     const row = $(this).closest('tr');
     const id = row.data('id');
     if (confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
         $.post('dashboard_admin.php', {
             deleteUser: 1,
             user_id: id
-        }).done(function (resp) {
+        }).done(function () {
             refreshAllTabs();
         });
     }
@@ -255,13 +249,12 @@ function handleDeleteUserClick(e) {
  * Sends an AJAX POST request to create a new user.
  *
  * @event submit
- * @memberof module:usuarios
  * @param {Event} e - The submit event.
  */
 function handleUserCreateFormSubmit(e) {
     e.preventDefault();
     $.post('../src/controllers/create.php', $(this).serialize())
-        .done(function(response) {
+        .done(function() {
             $('#create-user-feedback')
                 .removeClass('text-danger')
                 .addClass('text-success')
@@ -301,9 +294,8 @@ function handleTabShown(e) {
  * Handles the full reset of the user creation form when switching to Usuarios or Clases tab.
  *
  * @event shown.bs.tab
- * @param {Event} e - The tab shown event.
  */
-function handleFullResetOnTabShown(e) {
+function handleFullResetOnTabShown() {
     $('#user-create-form').replaceWith(originalUserCreateFormHtml);
     $('#create-user-feedback').text('').removeClass('text-success text-danger');
 }

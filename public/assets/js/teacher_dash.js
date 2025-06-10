@@ -29,7 +29,6 @@ function initializeNotasModule() {
     $(document).on('click', '.cancel-nota-btn', handleCancelNotaBtnClick);
     $(document).on('click', '.save-nota-btn', handleSaveNotaBtnClick);
 }
-
 /**
  * Loads the students and grades table via AJAX and inserts it into the dashboard.
  * Calls the PHP handler with action 'getStudentsAndGrades'.
@@ -61,9 +60,8 @@ function loadTeacherScheduleTable() {
 /**
  * Handles the click event for editing a student's grades.
  * Converts grade cells into input fields for editing and toggles action buttons.
- * @param {Event} e - The click event.
  */
-function handleEditNotaBtnClick(e) {
+function handleEditNotaBtnClick() {
     const row = $(this).closest('tr');
     row.find('.nota1, .nota2, .nota3').each(function () {
         const value = $(this).text().trim();
@@ -80,18 +78,18 @@ function handleEditNotaBtnClick(e) {
 /**
  * Handles the click event for canceling grade edits.
  * Reloads the students table to revert any unsaved changes.
- * @param {Event} e - The click event.
+
  */
-function handleCancelNotaBtnClick(e) {
+function handleCancelNotaBtnClick() {
     loadTeacherStudentsTable();
+
 }
 
 /**
  * Handles the click event for saving edited grades.
  * Validates input, sends updated grades via AJAX, and reloads the table on success.
- * @param {Event} e - The click event.
  */
-function handleSaveNotaBtnClick(e) {
+function handleSaveNotaBtnClick() {
     const row = $(this).closest('tr');
     const nota1val = row.find('.nota1 input').val();
     const nota2val = row.find('.nota2 input').val();

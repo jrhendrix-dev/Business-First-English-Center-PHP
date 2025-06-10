@@ -18,7 +18,7 @@ include_once __DIR__ . '/header.php';
 
 
     <div class="content">
-        <h2>Bienvenido/a, <?php echo htmlspecialchars($_SESSION["user"]); ?>.</h2>
+        <h2 style="padding-left: 200px;">Bienvenido/a, <?php echo htmlspecialchars($_SESSION["user"]); ?>.</h2>
 
         <?php
         switch ($_SESSION["lvl"]) {
