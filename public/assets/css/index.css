@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
 /**
  * @file index.css
  * @description Main stylesheet for Business First English Center public site.
@@ -16,11 +18,14 @@
 /* ==========================================================================
    1. NAVBAR STYLES
    ========================================================================== */
-
+.navbar {
+    background-color: midnightblue !important;
+}
 /* Navbar container and alignment */
 .navbar-nav {
-    margin-left: auto; /* Logo left, menu right */
-    color: white;
+    display: flex;
+    align-items: center;    /* vertically align items */
+    gap: 80px;              /* horizontal spacing between items */
 }
 
 /* Navbar hover effects */
@@ -31,8 +36,9 @@
 
 /* Navbar logo */
 #Navbar_Logo {
-    width: 200px;
+    width: 280px;
     height: auto;
+    margin-left: 200px;
 }
 
 /* Navbar menu style */
@@ -42,7 +48,7 @@
 }
 
 #Navbar_Login {
-    padding: 15px 0 10px 0;
+    padding: 15px 0 15px 0;
 }
 
 /* Dropdown menu */
@@ -61,6 +67,19 @@
 .list-color span {
     color: white !important;
 }
+
+/* Navbar link colors */
+nav ul li {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 23px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+
+
+
 
 /* ==========================================================================
    2. INDEX PAGE LAYOUT
@@ -126,8 +145,9 @@ a.anchor {
     margin: 0 20px;
 }
 
-.rows h3 {
+.rows h2 {
     margin-left: 30px;
+    padding-left: 30px;
 }
 
 .rows p {
@@ -157,7 +177,6 @@ a.anchor {
 
 .footer-map {
     max-width: 500px;
-    max-height: auto;
     border-style: solid;
     border-width: thin;
 }
@@ -320,7 +339,6 @@ table tr th {
     height: auto;
     align-items: start;
     position: sticky;
-    position: -webkit-sticky;
     top: 10px;
     border-style: solid;
     border-width: thin;
@@ -356,6 +374,158 @@ table tr th {
     outline-style: solid;
     outline-color: crimson;
 }
+
+/* ==========================================================================
+   MEDIA QUERIES PARA DISPOSITIVOS MÓVILES
+   ========================================================================== */
+@media (max-width: 768px) {
+
+    /* --- NAVBAR --- */
+    @media (max-width: 768px) {
+        .navbar-collapse {
+            background-color: midnightblue;
+            padding: 10px;
+        }
+        .navbar-nav {
+            flex-direction: column;
+            display:flex;
+            gap: 10px;
+            width: 100%;
+        }
+        .navbar-toggler {
+            border: none;
+            font-size: 28px;
+            color: white;
+        }
+    }
+        nav ul li {
+            font-size: 14px;
+            padding: 4px 0;
+            line-height: 1.1;
+        }
+
+        #Navbar_Logo {
+            width: 120px;
+            margin: 5px auto;
+        }
+
+
+
+
+    .navbar-collapse {
+        background-color: midnightblue;
+        padding: 10px;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+    /* Optional: hide dropdown arrows if too bulky */
+    .navbar-nav a::after {
+        display: none;
+    }
+
+    .navbar-toggler {
+        border: none;
+        font-size: 28px;
+        color: white;
+    }
+
+
+    /* --- INDEX PAGE LAYOUT --- */
+    .row-pic {
+        width: 90%;
+        float: none;
+        margin: 10px auto;
+        display: block;
+    }
+
+    .rows h2, p {
+        margin-left: 10px;
+        font-size: 18px;
+    }
+
+    .Row-Header {
+        font-size: 20px;
+        padding: 10px;
+    }
+
+    /* --- FOOTER --- */
+    .footer-map {
+        max-width: 100%;
+        margin: 10px auto;
+    }
+
+    .fa {
+        padding: 10px;
+        font-size: 20px;
+        width: 40px;
+    }
+
+    /* --- GENERAL TYPOGRAPHY & TABLES --- */
+    #Contenido {
+        font-size: 16px;
+    }
+
+    table tr td,
+    table tr th {
+        font-size: 16px;
+    }
+
+    /* --- PAGE CONTENT AREAS (IC, EXAMS, etc.) --- */
+    .pageContent,
+    .pageSide {
+        width: 100%;
+    }
+
+    .pageSide p {
+        font-size: 18px;
+    }
+
+    .pageContent ul {
+        font-size: 16px;
+    }
+
+    .infotable {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .infotable input[type=text] {
+        font-size: 14px;
+    }
+
+    /* --- DASHBOARD LAYOUT --- */
+    .wrapper {
+        flex-direction: column;
+    }
+
+    #sidebar {
+        max-width: 100%;
+        min-width: 100%;
+        height: auto;
+        position: relative;
+        top: 0;
+        border: none;
+        border-bottom: 1px solid crimson;
+    }
+
+    .db-window,
+    .content {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .table-title {
+        font-size: 18px;
+        padding: 10px;
+    }
+}
+
+
+
 
 /* ==========================================================================
    END OF FILE
