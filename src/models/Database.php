@@ -24,7 +24,7 @@ class Database {
      * @throws \Exception If the connection fails.
      */
     public static function connect() {
-        $con = new mysqli('localhost', 'root', 'admin', 'academy_db');
+        $con = new mysqli('localhost', 'silversoth', 'PucelaSpain52686', 'businessfirst');
         if ($con->connect_error) {
             die("Connection failed: " . $con->connect_error);
         }

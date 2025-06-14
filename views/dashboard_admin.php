@@ -193,7 +193,7 @@ if (!isset($teacherOptions)) $teacherOptions = '';
      SCRIPTS DE FUNCIONALIDAD DINÁMICA PARA EL PANEL DE ADMINISTRACIÓN
      Cada archivo JS gestiona la lógica de su sección correspondiente.
 ============================================================================ -->
-<script src="/Business-First-English-Center/public/assets/js/usuarios.js"></script>
-<script src="/Business-First-English-Center/public/assets/js/clases.js"></script>
-<script src="/Business-First-English-Center/public/assets/js/notas.js"></script>
-<script src="/Business-First-English-Center/public/assets/js/horarios.js"></script>
+<script src="/Business-First-English-Center/assets/js/usuarios.js"></script>
+<script src="/Business-First-English-Center/assets/js/clases.js"></script>
+<script src="/Business-First-English-Center/assets/js/notas.js"></script>
+<script src="/Business-First-English-Center/assets/js/horarios.js"></script>

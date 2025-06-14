@@ -37,8 +37,8 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Custom CSS & JS -->
-    <link href="/Business-First-English-Center/public/assets/css/index.css" rel="stylesheet" type="text/css"/>
-    <script src="/Business-First-English-Center/public/assets/js/common.js"></script>
+    <link href="/assets/css/index.css" rel="stylesheet" type="text/css">
+    <script src="/assets/js/common.js"></script>
 
     <!-- Responsive Navbar Styles -->
 
@@ -49,8 +49,8 @@ if (session_status() === PHP_SESSION_NONE) {
      ========================= -->
 <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top" id="Navegación">
     <!-- Brand Logo -->
-    <a class="navbar-brand" href="/Business-First-English-Center/public/index.php">
-        <img src="/Business-First-English-Center/public/assets/pics/logoNew.png" alt="Logo" id="Navbar_Logo"/>
+    <a class="navbar-brand" href="/index.php">
+        <img src="/assets/pics/logoNew.png" alt="Logo" id="Navbar_Logo"/>
     </a>
 
     <!-- Responsive Navbar Toggler -->
@@ -63,15 +63,15 @@ if (session_status() === PHP_SESSION_NONE) {
         <ul class="navbar-nav ml-auto list-color">
             <!-- Home -->
             <li class="nav-item">
-                <a class="nav-link" href="/Business-First-English-Center/public/index.php">Inicio</a>
+                <a class="nav-link" href="/">Inicio</a>
             </li>
             <!-- Courses Dropdown -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="cursosDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cursos</a>
                 <div class="dropdown-menu Menu-Style" aria-labelledby="cursosDropdown">
-                    <a class="dropdown-item" href="/Business-First-English-Center/public/ic.php">Inglés corporativo</a>
-                    <a class="dropdown-item" href="/Business-First-English-Center/public/examenes.php">Preparación exámenes oficiales</a>
-                    <a class="dropdown-item" href="/Business-First-English-Center/public/clasesesp.php">Español para extranjeros</a>
+                    <a class="dropdown-item" href="/ic.php">Inglés corporativo</a>
+                    <a class="dropdown-item" href="/examenes.php">Preparación exámenes oficiales</a>
+                    <a class="dropdown-item" href="/clasesesp.php">Español para extranjeros</a>
                 </div>
             </li>
             <!-- Contact Dropdown -->
@@ -105,7 +105,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 </li>
                 <!-- Logout Link -->
                 <li class="nav-item">
-                    <a class="nav-link" href="/Business-First-English-Center/public/logout.php">
+                    <a class="nav-link" href="/logout.php">
                         <?= htmlspecialchars($_SESSION["user"]) ?>(logout)
                     </a>
                 </li>

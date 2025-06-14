@@ -100,7 +100,7 @@ The front-end uses jQuery to:
 ##  Related Files
 
 - `/models/Database.php` – DB connection
-- `/public/assets/js/common.js` – AJAX login script
+- `/assets/js/common.js` – AJAX login script
 - `/views/dashboard.php` – redirection target on successful login
 
 ---

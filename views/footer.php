@@ -49,7 +49,7 @@
                     <p><i class="fa fa-home me-3"></i>Avd. De la Marina 52, Rota (Cádiz)</p>
                     <a name="Localización" class="anchor"></a>
                     <p>
-                        <img src="/Business-First-English-Center/public/assets/pics/google_map.png" alt="" class="footer-map"/>
+                        <img src="/assets/pics/google_map.png" alt="" class="footer-map"/>
                     </p>
                 </div>
 

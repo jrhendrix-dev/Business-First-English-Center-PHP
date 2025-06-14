@@ -27,61 +27,61 @@ Business First English Center is a web-based application designed to streamline 
 ## Screenshots
 
 ### Home Banner
-![Banner](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/pics/banner.jpg)
+![Banner](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/pics/banner.jpg)
 The main landing page of the application, featuring the banner and introductory interface.
 
 ---
 
 ### Responsive Layout
-![Responsive](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/Responsive.png)  
+![Responsive](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/Responsive.png)  
 Demonstrates how the application adapts to various screen sizes, ensuring usability across devices.
 
 ---
 
 ### Admin User List
-![AdminUserList](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/AdminUserList.png)  
+![AdminUserList](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/AdminUserList.png)  
 Displays the administrative interface for managing users, including search and filtering options.
 
 ---
 
 ### Create User Form
-![AdminUserCreate](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/AdminUserCreate.png)  
+![AdminUserCreate](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/AdminUserCreate.png)  
 Form used to register new users, including roles, classes, and validation constraints.
 
 ---
 
 ### Admin Form Controls
-![AdminFormControl](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/AdminFormControl.png)  
+![AdminFormControl](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/AdminFormControl.png)  
 Field-level controls and validation logic implemented for user and class data.
 
 ---
 
 ### Grade Editing Panel
-![AdminGradesEdit](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/AdminGradesEdit.png)  
+![AdminGradesEdit](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/AdminGradesEdit.png)  
 Interface for administrators to view, assign, or update student grades per subject.
 
 ---
 
 ### Trigger: Create Student
-![TriggerStudentCreate](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/TriggerStudentCreate.png)  
+![TriggerStudentCreate](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/TriggerStudentCreate.png)  
 Internal trigger logic that handles the creation of a new student record in the system.
 
 ---
 
 ### Trigger: Update Student
-![TriggerStudentUpdate](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/TriggerStudentUpdate.png)  
+![TriggerStudentUpdate](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/TriggerStudentUpdate.png)  
 Trigger and interface to update student data and reflect changes in the database.
 
 ---
 
 ### Trigger: Delete Student
-![TriggerStudentDelete](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/TriggerStudentDelete.png)  
+![TriggerStudentDelete](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/TriggerStudentDelete.png)  
 Deletion workflow with confirmation steps to ensure safe record removal.
 
 ---
 
 ### Application Footer
-![Footer](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/public/assets/screenshots/Footer.png)  
+![Footer](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/Footer.png)  
 The footer section of the application, containing version info and navigation links.
 
 ## Security

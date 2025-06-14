@@ -55,4 +55,4 @@ if (!isset($className)) $className = '';
 <!-- ===========================================================================
      SCRIPTS DE FUNCIONALIDAD DINÁMICA PARA EL PANEL DE PROFESORES
 ============================================================================ -->
-<script src="/Business-First-English-Center/public/assets/js/student_dash.js"></script>
+<script src="/Business-First-English-Center/assets/js/student_dash.js"></script>
