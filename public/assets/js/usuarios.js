@@ -1,4 +1,3 @@
-// noinspection SpellCheckingInspection
 
 /**
  * @fileoverview
@@ -19,7 +18,7 @@ let originalUserCreateFormHtml = null;
  * @returns {void}
  */
 function loadUsers() {
-    $.get('dashboard_admin.php?loadUsers=1', function(data) {
+    $.get('/api/admin?loadUsers=1', function(data) {
         $('#user-table-container').html(data);
     });
 }
@@ -33,7 +32,7 @@ function loadUsers() {
  *  @returns {JQuery.jqXHR}
  */
 function fetchAvailableClasses(selectedId = null) {
-    return $.get('dashboard_admin.php?availableClasses=1').then(function (optionsHtml) {
+    return $.get('/api/admin?availableClasses=1').then(function (optionsHtml) {
         // Use value="" for "Sin clase" for consistency
         const select = $('<select class="form-control" name="class"></select>')
             .append(`<option value="">-- Sin clase --</option>`, optionsHtml);
@@ -213,7 +212,7 @@ function handleSaveUserEditClick(e) {
     const clase = row.find('.class select').val();
     const ulevel = row.find('.ulevel select').val();
 
-    $.post('dashboard_admin.php', {
+    $.post('/api/admin', {
         updateUser: 1,
         user_id: id,
         username: username,
@@ -235,7 +234,7 @@ function handleDeleteUserClick() {
     const row = $(this).closest('tr');
     const id = row.data('id');
     if (confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
-        $.post('dashboard_admin.php', {
+        $.post('/api/admin.php', {
             deleteUser: 1,
             user_id: id
         }).done(function () {
@@ -253,7 +252,7 @@ function handleDeleteUserClick() {
  */
 function handleUserCreateFormSubmit(e) {
     e.preventDefault();
-    $.post('../src/controllers/create.php', $(this).serialize())
+    $.post('/api/admin', $(this).serialize())
         .done(function() {
             $('#create-user-feedback')
                 .removeClass('text-danger')

@@ -87,7 +87,7 @@ function handleClassCreateFormSubmit(e) {
     const classname = $(this).find('[name="classname"]').val();
     const profesor = $(this).find('[name="profesor"]').val();
 
-    $.post('dashboard_admin.php', {
+    $.post('/api/admin', {
         createClass: 1,
         classname: classname,
         profesor: profesor || ''
@@ -165,7 +165,7 @@ function handleSaveClassBtnClick(e) {
     const classname = row.find('.classname input').val();
     const profesor = row.find('.profesor select').val();
 
-    $.post('dashboard_admin.php', {
+    $.post('/api/adminp', {
         updateClass: 1,
         classid: classid,
         classname: classname,
@@ -197,7 +197,7 @@ function handleDeleteClassBtnClick(e) {
     const row = $(this).closest('tr');
     const classid = row.data('id');
     if (confirm('¿Estás seguro de que quieres eliminar esta clase?')) {
-        $.post('dashboard_admin.php', {
+        $.post('/api/admin', {
             deleteClass: 1,
             classid: classid
         }).done(function (response) {
