@@ -49,7 +49,7 @@ if (session_status() === PHP_SESSION_NONE) {
      ========================= -->
 <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top" id="Navegación">
     <!-- Brand Logo -->
-    <a class="navbar-brand" href="/index.php">
+    <a class="navbar-brand" href="/">
         <img src="/assets/pics/logoNew.png" alt="Logo" id="Navbar_Logo"/>
     </a>
 
@@ -87,7 +87,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <?php if (!empty($_SESSION["user"])): ?>
                 <!-- Dashboard Link (Role-based) -->
                 <li class="nav-item">
-                    <a class="nav-link" href="/Business-First-English-Center/views/dashboard.php">
+                    <a class="nav-link" href='/dashboard'>
                         <?php
                         // Display user role
                         switch ($_SESSION["lvl"]) {

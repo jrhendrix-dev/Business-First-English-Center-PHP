@@ -37,7 +37,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Base de datos
 require_once __DIR__ . '/src/models/Database.php';
-require_once __DIR__ . '/includes/auth.php'; // 👈 This line includes i
+require_once __DIR__ . '/includes/auth.php'; //  This line includes i
 $con = Database::connect();
 
 // Funciones de autenticación
