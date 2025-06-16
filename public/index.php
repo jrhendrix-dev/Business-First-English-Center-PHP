@@ -15,7 +15,11 @@ switch ($request) {
         break;
 
     case $basePath . 'login':
-        require_once '../views/login.php';
+        require_once 'login.php';
+        break;
+
+    case $basePath . 'thanks':
+        require_once 'gracias.php';
         break;
 
     //  API ROUTES

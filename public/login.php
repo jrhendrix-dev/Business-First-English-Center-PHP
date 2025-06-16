@@ -142,5 +142,20 @@ function handle_login() {
     ]);
 }
 
+
+
 // ===================== MAIN EXECUTION =====================
 handle_login();
+
+
+//=== LOGIN EXPIRATION ===//
+if (!check_login()) {
+    header("Location: login.php?expired=1"); // Optional query param to explain
+    exit();
+}
+
+
+// LOGIN EXPIRATION HTML //
+if (isset($_GET['expired'])): ?>
+    <div class="alert alert-warning">Tu sesión ha expirado. Por favor inicia sesión de nuevo.</div>
+<?php endif; ?>
