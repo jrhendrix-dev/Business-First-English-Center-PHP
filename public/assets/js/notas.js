@@ -15,7 +15,7 @@
  * @returns {void}
  */
 function loadNotas() {
-    $.get('dashboard_admin.php?loadNotas=1', function (data) {
+    $.get('/api/admin?loadNotas=1', function (data) {
         $('#notas-table-container').html(data);
     }).fail(function (xhr) {
         console.error('Fallo al cargar notas:', xhr.responseText);
@@ -77,7 +77,7 @@ function handleSaveNotaBtnClick(e) {
         return;
     }
 
-    $.post('dashboard_admin.php', {
+    $.post('/api/admin?', {
         updateNota: 1,
         idAlumno: row.data('id'),
         nota1: nota1,

@@ -15,7 +15,7 @@
  * @returns {void}
  */
 function loadHorarios() {
-    $.get('dashboard_admin.php?loadHorarios=1', function (data) {
+    $.get('/api/admin?loadHorarios=1', function (data) {
         $('#horarios-table-container').html(data);
     }).fail(function (xhr) {
         console.error('Error al cargar horarios:', xhr.responseText);
@@ -74,7 +74,7 @@ function handleSaveHorarioBtnClick(e) {
     const secondclass = row.find('.secondclass select').val();
     const thirdclass = row.find('.thirdclass select').val();
 
-    $.post('dashboard_admin.php', {
+    $.post('/api/admin?', {
         updateHorario: 1,
         day_id,
         firstclass,

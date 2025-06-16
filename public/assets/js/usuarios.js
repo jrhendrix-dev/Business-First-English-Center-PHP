@@ -234,7 +234,7 @@ function handleDeleteUserClick() {
     const row = $(this).closest('tr');
     const id = row.data('id');
     if (confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
-        $.post('/api/admin.php', {
+        $.post('/api/admin', {
             deleteUser: 1,
             user_id: id
         }).done(function () {

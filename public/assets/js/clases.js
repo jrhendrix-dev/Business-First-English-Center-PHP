@@ -15,7 +15,7 @@
  * @returns {void}
  */
 function loadClasses() {
-    $.get('dashboard_admin.php?loadClasses=1', function(data) {
+    $.get('/api/admin?loadClasses=1', function(data) {
         $('#class-table-container').html(data);
     }).fail(function(xhr) {
         console.error('Fallo al cargar clases:', xhr.responseText);
@@ -31,7 +31,7 @@ function loadClasses() {
  * @returns {Promise<jQuery>} Promise resolving to a jQuery <select> element.
  */
 function fetchAvailableTeachers(selectedId = null) {
-    return $.get('dashboard_admin.php?availableTeachers=1').then(function (optionsHtml) {
+    return $.get('/api/admin?availableTeachers=1').then(function (optionsHtml) {
         const select = $('<select class="form-control" name="profesor"></select>')
             .append(`<option value="">-- Sin asignar --</option>`, optionsHtml);
         if (selectedId) {
@@ -165,7 +165,7 @@ function handleSaveClassBtnClick(e) {
     const classname = row.find('.classname input').val();
     const profesor = row.find('.profesor select').val();
 
-    $.post('/api/adminp', {
+    $.post('/api/admin', {
         updateClass: 1,
         classid: classid,
         classname: classname,
