@@ -234,6 +234,11 @@ a.anchor {
 .fa-instagram{ background: #125688; color: white; }
 .fa-linkedin { background: #007bb5; color: white; }
 
+.mail-tel {
+    margin-right: 5px;
+}
+
+
 /* Title image */
 #Title-Image {
     max-height: 600px;
@@ -393,6 +398,16 @@ table tr th {
     outline-style: solid;
     outline-color: crimson;
 }
+
+.nav-tabs .nav-link {
+    color: midnightblue !important;  /* or another visible color */
+}
+
+.nav-tabs .nav-link.active {
+    color: crimson !important;       /* active tab */
+    font-weight: bold;
+}
+
 
 /* ==========================================================================
    7. Login Screen
