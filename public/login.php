@@ -30,7 +30,7 @@ ini_set('session.cookie_secure', 1); // Set to 1 only if using HTTPS
 session_set_cookie_params([
     'lifetime' => 0, // Session cookie (expires on browser close)
     'path' => '/',
-    'secure' => false, // Set to true if using HTTPS
+    'secure' => true, // Set to true if using HTTPS
     'httponly' => true,
     'samesite' => 'Lax'
 ]);
@@ -61,6 +61,7 @@ function send_json_response(array $data) {
  * login is temporarily blocked for a cooldown period.
  *
  * @return void
+ * @throws Exception
  */
 function handle_login() {
     // --- Brute Force Protection Settings ---
@@ -155,7 +156,3 @@ if (!check_login()) {
 }
 
 
-// LOGIN EXPIRATION HTML //
-if (isset($_GET['expired'])): ?>
-    <div class="alert alert-warning">Tu sesión ha expirado. Por favor inicia sesión de nuevo.</div>
-<?php endif; ?>

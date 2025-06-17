@@ -21,6 +21,9 @@ switch ($request) {
     case $basePath . 'thanks':
         require_once 'gracias.php';
         break;
+    case $basePath . 'login_screen':
+        require_once 'login_screen.php';
+        break;
 
     //  API ROUTES
     case $basePath . 'api/admin':
