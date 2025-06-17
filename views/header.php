@@ -34,7 +34,8 @@ if (session_status() === PHP_SESSION_NONE) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- FontAwesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 
     <!-- Custom CSS & JS -->
     <link href="/assets/css/index.css" rel="stylesheet" type="text/css">
@@ -44,6 +45,14 @@ if (session_status() === PHP_SESSION_NONE) {
 
 </head>
 <body>
+<!-- =========================
+     DEMO NOTICE
+     ========================= -->
+<div id="demo-notice" class="demo-notice">
+    <span>Este sitio es un proyecto ficticio con fines demostrativos.</span>
+    <button id="close-notice" aria-label="Cerrar aviso">✕</button>
+</div>
+
 <!-- =========================
      NAVIGATION BAR SECTION
      ========================= -->
@@ -67,7 +76,10 @@ if (session_status() === PHP_SESSION_NONE) {
             </li>
             <!-- Courses Dropdown -->
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="cursosDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cursos</a>
+                <a class="nav-link dropdown-toggle" href="#" id="cursosDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Cursos
+                    <span class="custom-caret"></span>
+                </a>
                 <div class="dropdown-menu Menu-Style" aria-labelledby="cursosDropdown">
                     <a class="dropdown-item" href="/ingles-corporativo">Inglés corporativo</a>
                     <a class="dropdown-item" href="/examenes">Preparación exámenes oficiales</a>
@@ -76,7 +88,10 @@ if (session_status() === PHP_SESSION_NONE) {
             </li>
             <!-- Contact Dropdown -->
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="contactoDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contacto</a>
+                <a class="nav-link dropdown-toggle" href="#" id="contactoDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Contacto
+                    <span class="custom-caret"></span>
+                </a>
                 <div class="dropdown-menu Menu-Style" aria-labelledby="contactoDropdown">
                     <span class="dropdown-item"><a href="tel:+34635507365">Tlf: +34 600 000 000</a></span>
                     <span class="dropdown-item"><a href="mailto:jrhendrixdev@gmail.com">jrhendrixdev@gmail.com</a></span>
@@ -159,3 +174,4 @@ if (session_status() === PHP_SESSION_NONE) {
 <!-- =========================
      END LOGIN MODAL
      ========================= -->
+

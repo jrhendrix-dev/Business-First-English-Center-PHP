@@ -1,88 +1,19 @@
-<!-- Footer -->
+<footer class="footer">
+    <div class="footer-container">
 
-<footer class="text-center footer-bg text-lg-start text-muted">
-    <!-- Section: Social media -->
-    <section
-        class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
-    >
-        <!-- Left -->
-        <div class="me-5 d-none d-lg-block">
-            <span>Get connected with us on social networks:</span>
+        <!-- Contact Info -->
+        <div class="footer-contact">
+            <h3>Contáctanos</h3>
+            <p><i class="fas fa-envelope"></i> <a href="mailto:jrhendrixdev@gmail.com">jrhendrixdev@gmail.com</a></p>
+            <p><i class="fas fa-phone"></i> <a href="tel:+34635507365">+34 635 507 365</a></p>
+            <p style="color: #cccccc"><i class="fas fa-map-marker-alt"></i> Rota, Andalucía, España</p>
+            <p class="footer-note">Este sitio es un proyecto ficticio con fines demostrativos.</p>
         </div>
-        <!-- Left -->
 
-        <!-- Right -->
-        <div>
-            <!-- Section: Social media -->
-            <a href="" class="me-4 text-reset">
-                <i class="fa fa-facebook"></i>
-            </a>
-            <a href="" class="me-4 text-reset">
-                <i class="fa fa-twitter"></i>
-            </a>
-            <a href="" class="me-4 text-reset">
-                <i class="fa fa-google"></i>
-            </a>
-            <a href="" class="me-4 text-reset">
-                <i class="fa fa-instagram"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/jonathan-hendrix-dev/" class="me-4 text-reset">
-                <i class="fa fa-linkedin"></i>
-            </a>
-
+        <!-- Map -->
+        <div class="footer-map">
+            <iframe src="https://www.google.com/maps/d/u/0/embed?mid=147ttNc5LBtFJbYr1Y1zbFzP81kWxk1s&ehbc=2E312F&noprof=1" width="640" height="480"></iframe>
         </div>
-        <!-- Right -->
-    </section>
 
-
-    <!-- Section: Links  -->
-    <section class="">
-        <div class="container text-center text-md-start mt-5">
-            <!-- Grid row -->
-            <div class="row mt-3">
-                <!-- Grid column -->
-                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                    <!-- Content -->
-                    <h6 class="text-uppercase fw-bold mb-4">
-                        <i class="fas fa-gem me-3"></i>Encuéntranos
-                    </h6>
-                    <p><i class="fa fa-home me-3"></i>Rota, Andalucía, España</p>
-                    <a name="Localización" class="anchor"></a>
-                    <p>
-                        <img src="/assets/pics/google_map.png" alt="" class="footer-map"/>
-                    </p>
-                </div>
-
-
-                <!-- Grid column -->
-                <!-- <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4"> -->
-                <div class="col-lg-4">
-                    <!-- Links -->
-                    <h6 class="text-uppercase fw-bold mb-4">
-                        Contáctanos
-                    </h6>
-
-                    <p>
-                        <i class="fa fa-envelope me-3 mail-tel"></i>
-                        <a href="mailto:jrhendrixdev@gmail.com">jrhendrixdev@gmail.com</a>
-                    </p>
-                    <p>
-                        <i class="fa fa-phone me-3 mail-tel"></i>
-                        <a href="tel:+34635507365">+34 635 507 365</a>
-                    </p>
-                </div>
-                <!-- Grid column -->
-            </div>
-            <!-- Grid row -->
-        </div>
-    </section>
-    <!-- Section: Links  -->
-
-    <!-- Copyright -->
-    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-        © 2025 Copyright:
-        <a class="text-reset fw-bold" href="#Top">Business First English Academy</a>
     </div>
-    <!-- Copyright -->
 </footer>
-<!-- Footer -->
