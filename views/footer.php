@@ -26,7 +26,7 @@
             <a href="" class="me-4 text-reset">
                 <i class="fa fa-instagram"></i>
             </a>
-            <a href="" class="me-4 text-reset">
+            <a href="https://www.linkedin.com/in/jonathan-hendrix-dev/" class="me-4 text-reset">
                 <i class="fa fa-linkedin"></i>
             </a>
 
@@ -46,7 +46,7 @@
                     <h6 class="text-uppercase fw-bold mb-4">
                         <i class="fas fa-gem me-3"></i>Encuéntranos
                     </h6>
-                    <p><i class="fa fa-home me-3"></i>Avd. De la Marina 52, Rota (Cádiz)</p>
+                    <p><i class="fa fa-home me-3"></i>Rota, Andalucía, España</p>
                     <a name="Localización" class="anchor"></a>
                     <p>
                         <img src="/assets/pics/google_map.png" alt="" class="footer-map"/>
@@ -63,11 +63,13 @@
                     </h6>
 
                     <p>
-                        <i class="fa fa-envelope me-3"></i>
-                        businessfirstenglish@gmail.com
+                        <i class="fa fa-envelope me-3 mail-tel"></i>
+                        <a href="mailto:jrhendrixdev@gmail.com">jrhendrixdev@gmail.com</a>
                     </p>
-                    <p><i class="fa fa-phone me-3"></i> + 34 983 542 740</p>
-                    <p><i class="fa fa-print me-3"></i> + 34 983 542 741</p>
+                    <p>
+                        <i class="fa fa-phone me-3 mail-tel"></i>
+                        <a href="tel:+34635507365">+34 635 507 365</a>
+                    </p>
                 </div>
                 <!-- Grid column -->
             </div>

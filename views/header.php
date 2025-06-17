@@ -69,18 +69,18 @@ if (session_status() === PHP_SESSION_NONE) {
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="cursosDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cursos</a>
                 <div class="dropdown-menu Menu-Style" aria-labelledby="cursosDropdown">
-                    <a class="dropdown-item" href="/ic.php">Inglés corporativo</a>
-                    <a class="dropdown-item" href="/examenes.php">Preparación exámenes oficiales</a>
-                    <a class="dropdown-item" href="/clasesesp.php">Español para extranjeros</a>
+                    <a class="dropdown-item" href="/ingles-corporativo">Inglés corporativo</a>
+                    <a class="dropdown-item" href="/examenes">Preparación exámenes oficiales</a>
+                    <a class="dropdown-item" href="/clases-espanol">Español para extranjeros</a>
                 </div>
             </li>
             <!-- Contact Dropdown -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="contactoDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contacto</a>
                 <div class="dropdown-menu Menu-Style" aria-labelledby="contactoDropdown">
-                    <span class="dropdown-item">Tlf: 983 542 740</span>
-                    <span class="dropdown-item">businessfirstenglish@gmail.com</span>
-                    <span class="dropdown-item">Avd. De la Marina 52, Rota (Cádiz)</span>
+                    <span class="dropdown-item"><a href="tel:+34635507365">Tlf: +34 600 000 000</a></span>
+                    <span class="dropdown-item"><a href="mailto:jrhendrixdev@gmail.com">jrhendrixdev@gmail.com</a></span>
+                    <span class="dropdown-item"> Rota (Cádiz)</span>
                 </div>
             </li>
             <!-- User Authentication Links -->

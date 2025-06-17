@@ -36,8 +36,6 @@ include_once __DIR__ . '/../views/header.php';
         <h2>Inglés corporativo para empresas</h2>
         <img src="assets/pics/presentation.png" alt="office presentation" class="row-pic" />
         <p class="row-text" id="row-text">
-            <br>
-            <br>
             Mejora el nivel de inglés de tu equipo con nuestros cursos adaptados a empresas.<br><br>
             🔹 Evita malentendidos en reuniones, presentaciones y negociaciones internacionales.<br>
             🔹 Formación práctica para comunicarse con clientes y socios globales.<br>
@@ -45,7 +43,7 @@ include_once __DIR__ . '/../views/header.php';
             🔹 Metodología cómoda, flexible y adaptada a tu sector.<br><br>
             💼 La mejor solución para equipos que quieren crecer sin fronteras.
         </p>
-        <a class="panel-link" href="javascript:void(0)" onclick="window.location = 'ic.php'"></a>
+        <a class="panel-link" href="javascript:void(0)" onclick="window.location = 'ingles-corporativo'"></a>
     </div>
 
     <div class="Row-Uneven">
@@ -53,7 +51,6 @@ include_once __DIR__ . '/../views/header.php';
         <h2>Preparación de exámenes oficiales</h2>
         <img src="assets/pics/estudiantes1.png" alt="estudiantes universitarios" class="row-pic" />
         <p class="row-text" style="padding-left: 620px;">
-            <br>
             Prepárate con nosotros para alcanzar tus metas académicas y profesionales.<br><br>
             🎯 Aprende inglés para:<br>
             ▪ Estudiar en una universidad extranjera<br>
@@ -63,7 +60,7 @@ include_once __DIR__ . '/../views/header.php';
             📚 Método práctico, personalizado y eficaz.<br><br>
             <strong>¡Matricúlate hoy y da el siguiente paso en tu futuro!</strong>
         </p>
-        <a class="panel-link" href="javascript:void(0)" onclick="window.location = 'examenes.php'"></a>
+        <a class="panel-link" href="javascript:void(0)" onclick="window.location = 'examenes'"></a>
     </div>
     <div class="Row-Even">
         <a id="Sección-Español-Extranjeros" class="anchor"></a>
@@ -79,7 +76,7 @@ include_once __DIR__ . '/../views/header.php';
             ✍️ Aprende con nosotros de forma cómoda y práctica.<br>
             ¡Inscríbete hoy y empieza a hablar español con confianza!
         </p>
-        <a class="panel-link" href="javascript:void(0)" onclick="window.location = 'clasesesp.php'"></a>
+        <a class="panel-link" href="javascript:void(0)" onclick="window.location = 'clases-espanol'"></a>
 
     </div>
 </div>

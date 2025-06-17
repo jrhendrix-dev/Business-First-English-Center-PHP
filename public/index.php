@@ -21,8 +21,21 @@ switch ($request) {
     case $basePath . 'thanks':
         require_once 'gracias.php';
         break;
-    case $basePath . 'login_screen':
+
+        case $basePath . 'login_screen':
         require_once 'login_screen.php';
+        break;
+
+    case $basePath . 'ingles-corporativo':
+        require_once 'ic.php';
+        break;
+
+    case $basePath . 'examenes':
+        require_once 'examenes.php';
+        break;
+
+    case $basePath . 'clases-espanol':
+        require_once 'clasesesp.php';
         break;
 
     //  API ROUTES
