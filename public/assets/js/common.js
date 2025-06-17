@@ -104,6 +104,28 @@ function handleLoginFormSubmit(e) {
     return false;
 }
 
+function handleLoginScreenFormSubmit(e) {
+    e.preventDefault();
+    var username = $('#login-screen-user').val();
+    var password = $('#login-screen-password').val();
+
+    $.post('login.php', {username, password}, function(response){
+        if (response.success) {
+            window.location.href = '/dashboard';
+        } else {
+            if (response.wait) {
+                startLockoutCountdown(response.wait);
+            } else {
+                $('#login-screen-error').text(response.message);
+            }
+        }
+    }, 'json').fail(function() {
+        $('#login-screen-error').text("Error de conexión con el servidor.");
+    });
+
+    return false;
+}
+
 /**
  * Event handler for when the login modal is hidden.
  * Resets the login form, clears lockout countdown, and re-enables inputs.
@@ -129,4 +151,5 @@ function handleLoginModalHidden(e) {
 $(document).ready(function () {
     $('#login-modal').on('hidden.bs.modal', handleLoginModalHidden);
     $('#login-form').on('submit', handleLoginFormSubmit);
+    $('#login-screen-form').on('submit', handleLoginScreenFormSubmit);
 });
