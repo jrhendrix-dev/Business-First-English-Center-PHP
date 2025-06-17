@@ -28,11 +28,45 @@
     gap: 80px;              /* horizontal spacing between items */
 }
 
-/* Navbar hover effects */
-.navbar-nav a:hover,
-.navbar-nav span:hover {
-    background-color: crimson;
+.nav-link {
+    color: white;
+    transition: color 0.3s ease, background 0.3s ease;
+    border-radius: 5px;
+    padding: 8px 16px;
 }
+
+.nav-link:hover {
+    color: crimson !important;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Modern dropdown hover effect with crimson background */
+.dropdown-item {
+    outline-style: solid;
+    outline-color: white;
+    outline-width: thin;
+    color: white;
+    background-color: midnightblue;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover state: Crimson background + white text */
+.dropdown-item:hover {
+    background-color: crimson;
+    color: white !important;
+}
+
+/* Optional: slight padding and smoother spacing for dropdowns */
+.dropdown-menu {
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+    padding: 0;
+    background-color: midnightblue;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 
 /* Navbar logo */
 #Navbar_Logo {
@@ -331,21 +365,6 @@ table tr th {
    6. ADMIN, TEACHER, STUDENT LAYOUT
    ========================================================================== */
 
-#sidebar {
-    min-width: 200px;
-    max-width: 200px;
-    background-color: midnightblue;
-    min-height: 100vh;
-    height: auto;
-    align-items: start;
-    position: sticky;
-    top: 10px;
-    border-style: solid;
-    border-width: thin;
-    border-color: red;
-    overflow: hidden;
-}
-
 .wrapper {
     display: flex;
     align-items: stretch;
@@ -374,6 +393,27 @@ table tr th {
     outline-style: solid;
     outline-color: crimson;
 }
+
+/* ==========================================================================
+   7. Login Screen
+   ========================================================================== */
+
+.login-container{
+    text-align: center;
+    margin: 5rem 40rem 10rem;
+
+
+}
+
+.login-container label {
+    display: block;
+    text-align: left;
+    margin-bottom: 0.25rem;
+    font-weight: bold;
+}
+
+
+
 
 /* ==========================================================================
    MEDIA QUERIES PARA DISPOSITIVOS MÓVILES
