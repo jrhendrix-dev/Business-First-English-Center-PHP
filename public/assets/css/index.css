@@ -8,11 +8,12 @@
  *
  * @sections
  *   1. Navbar & Demo Notice
- *   2. Index Page Layout
+ *   2. HOME Page Layout
  *   3. Footer
  *   4. General Typography & Tables
  *   5. IC, Exams, Special Classes
  *   6. Admin, Teacher, Student Layout
+ *   7. Login Screen
  */
 
 /* ==========================================================================
@@ -199,7 +200,7 @@ nav ul li {
 
 
 /* ==========================================================================
-   2. INDEX PAGE LAYOUT
+   2. HOME PAGE LAYOUT
    ========================================================================== */
 
 /* Responsive images */
@@ -207,6 +208,27 @@ img {
     max-width: 100%;
     height: auto;
 }
+
+/* titular image */
+#banner-container {
+    width: 100%;
+    max-height: 450px; /* Optional: control max height */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0c145a; /* fallback background if image fails */
+    height: 350px;
+}
+
+#Title-Image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* crop and scale to fill */
+    display: block;
+}
+
+
 
 /* Anchor offset for smooth scroll */
 a.anchor {
