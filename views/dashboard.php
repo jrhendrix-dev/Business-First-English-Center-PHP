@@ -34,13 +34,13 @@ include_once __DIR__ . '/header.php';
         <?php
         switch ($_SESSION["lvl"]) {
             case 1:
-                include __DIR__ . '/dashboard_admin.php';
+                include __DIR__ . '/../src/api/dashboard_admin.php';
                 break;
             case 2:
-                include __DIR__ . '/dashboard_teacher.php';
+                include __DIR__ . '/../src/api/dashboard_teacher.php';
                 break;
             case 3:
-                include __DIR__ . '/dashboard_student.php';
+                include __DIR__ . '/../src/api/dashboard_student.php';
                 break;
         }
         ?>
