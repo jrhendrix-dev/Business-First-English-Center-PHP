@@ -24,19 +24,24 @@ function loadUsers() {
 }
 
 /**
- * Fetches available classes for assignment to a user (typically for teachers).
- * Returns a jQuery <select> element with class options.
+ * Fetches available classes for teachers.
+ * Always includes their currently assigned class (if any), even if it's already assigned.
  *
- * @function
- * @param {?number|string} [selectedId=null] - The ID of the class to pre-select (if any).
- *  @returns {JQuery.jqXHR}
+ * @param {?number|string} selectedId - The ID of the class that should appear as selected (optional).
+ * @returns {JQuery.jqXHR} - A jQuery Deferred object resolving to a <select> element.
  */
 function fetchAvailableClasses(selectedId = null) {
-    return $.get('/api/admin?availableClasses=1').then(function (optionsHtml) {
-        // Use value="" for "Sin clase" for consistency
+    // Build the URL: if there's a selected class, include its ID in the query so it's not excluded
+    const url = selectedId
+        ? `/api/admin?availableClasses=1&include=${selectedId}`
+        : '/api/admin?availableClasses=1';
+
+    return $.get(url).then(function (optionsHtml) {
+        // Build the <select> element and prepend a default "no class" option
         const select = $('<select class="form-control" name="class"></select>')
             .append(`<option value="">-- Sin clase --</option>`, optionsHtml);
 
+        // If a selected ID is passed, pre-select it in the dropdown
         if (selectedId) {
             select.find(`option[value='${selectedId}']`).prop('selected', true);
         }
@@ -46,6 +51,8 @@ function fetchAvailableClasses(selectedId = null) {
         console.error('Fallo al obtener clases disponibles:', xhr.responseText);
     });
 }
+
+
 
 /**
  * Loads the class dropdown for the user creation form (for teachers).
@@ -308,6 +315,17 @@ $(document).ready(function() {
     if ($('#user-create-form select[name="ulevel"]').val() === '2') {
         loadAvailableClassesDropdown();
     }
+
+    const toggleBtn = $('#toggleUserForm');
+    const formContainer = $('#userFormContainer');
+
+    toggleBtn.on('click', function () {
+        formContainer.toggleClass('show');
+
+        // Toggle + / -
+        const isExpanded = formContainer.hasClass('show');
+        toggleBtn.text(isExpanded ? '- Ocultar formulario' : '+ Añadir usuario');
+    });
 
     loadUsers();
 
