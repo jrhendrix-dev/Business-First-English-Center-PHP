@@ -3,8 +3,7 @@
 /**
  * @file index.css
  * @description Main stylesheet for Business First English Center public site.
- * @author [Your Name]
- * @created [Date]
+
  *
  * @sections
  *   1. Navbar & Demo Notice
@@ -276,6 +275,13 @@ a.anchor {
     background-color: rgb(219, 224, 230);
 }
 
+.Row-Even::after,
+.Row-Uneven::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
 /* Row content */
 .row-pic {
     width: 32%;
@@ -530,6 +536,11 @@ table tr th {
     color: white;
 }
 
+#dashboard-header {
+    text-align: left !important;
+    padding-left: 3rem;
+}
+
 .db-window {
     margin-left: 20px;
     width: 100%;
@@ -639,140 +650,124 @@ table tr th {
 }
 
 
-
-
 /* ==========================================================================
-   MEDIA QUERIES PARA DISPOSITIVOS MÓVILES
+   MEDIA QUERIES FOR TABLETS & PHONES ONLY
    ========================================================================== */
 @media (max-width: 768px) {
-
-    /* --- NAVBAR --- */
-    @media (max-width: 768px) {
-        .navbar-collapse {
-            background-color: midnightblue;
-            padding: 10px;
-        }
-        .navbar-nav {
-            flex-direction: column;
-            display:flex;
-            gap: 10px;
-            width: 100%;
-        }
-        .navbar-toggler {
-            border: none;
-            font-size: 28px;
-            color: white;
-        }
-    }
-        nav ul li {
-            font-size: 14px;
-            padding: 4px 0;
-            line-height: 1.1;
-        }
-
-        #Navbar_Logo {
-            width: 120px;
-            margin: 5px auto;
-        }
-
-    .navbar-collapse {
-        background-color: midnightblue;
-        padding: 10px;
-    }
-
     .navbar-nav {
         flex-direction: column;
         gap: 10px;
+        align-items: center;
         width: 100%;
     }
-    /* Optional: hide dropdown arrows if too bulky */
-    .navbar-nav a::after {
-        display: none;
-    }
 
-    .navbar-toggler {
-        border: none;
-        font-size: 28px;
-        color: white;
-    }
-
-
-    /* --- INDEX PAGE LAYOUT --- */
-    .row-pic {
-        width: 90%;
-        float: none;
-        margin: 10px auto;
-        display: block;
-    }
-
-    .rows h2, p {
-        margin-left: 10px;
-        font-size: 18px;
-    }
-
-    .Row-Header {
-        font-size: 20px;
-        padding: 10px;
-    }
-
-    /* --- FOOTER --- */
-    .footer-map {
-        max-width: 100%;
+    #Navbar_Logo {
+        width: 140px;
         margin: 10px auto;
     }
 
-    .fa {
-        padding: 10px;
-        font-size: 20px;
-        width: 40px;
+    nav ul li {
+        font-size: 14px;
+        text-align: center;
     }
 
-    /* --- GENERAL TYPOGRAPHY & TABLES --- */
-    #Contenido {
-        font-size: 16px;
+    .dropdown-menu {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out;
     }
 
-    table tr td,
-    table tr th {
-        font-size: 16px;
+    .dropdown.show .dropdown-menu {
+        max-height: 500px;
     }
 
-    /* --- PAGE CONTENT AREAS (IC, EXAMS, etc.) --- */
+    .demo-notice {
+        flex-direction: column;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .row-pic,
     .pageContent,
     .pageSide {
         width: 100%;
+        max-width: 100%;
+        padding: 0 1rem;
+        box-sizing: border-box;
     }
 
-    .pageSide p {
-        font-size: 18px;
+    .Row-Uneven,
+    .Row-Even {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+        margin: 0 auto;
+        width: 100%;
+        box-sizing: border-box;
+        background-color: inherit;
+        position: relative;
     }
 
-    .pageContent ul {
+    .Row-Uneven > *,
+    .Row-Even > * {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .row-pic {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        float: none !important;
+        display: block;
+    }
+
+    .row-text {
         font-size: 16px;
+        line-height: 1.6;
+        margin-top: 1rem;
+        padding: 0 1rem;
+        color: navy;
+        text-align: center;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: auto !important;
+        max-height: unset !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
 
+    .panel-link {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 120px;
+        display: block;
+        z-index: 2;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-map,
     .infotable {
         width: 100%;
-        margin-left: 0;
+        margin: 1rem 0;
     }
 
-    .infotable input[type=text] {
-        font-size: 14px;
+    .login-container {
+        max-width: 95vw;
+        margin: 2rem auto;
+        padding: 1rem;
     }
 
-    /* --- DASHBOARD LAYOUT --- */
     .wrapper {
         flex-direction: column;
-    }
-
-    #sidebar {
-        max-width: 100%;
-        min-width: 100%;
-        height: auto;
-        position: relative;
-        top: 0;
-        border: none;
-        border-bottom: 1px solid crimson;
     }
 
     .db-window,
@@ -781,14 +776,81 @@ table tr th {
         margin-left: 0;
     }
 
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        border-collapse: collapse;
+        font-size: 15px;
+    }
+
+    table thead {
+        display: none;
+    }
+
+    table tr {
+        display: block;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #ccc;
+        background: #f9f9f9;
+        padding: 1rem;
+    }
+
+    table td {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        font-size: 15px;
+        border: none;
+    }
+
+    table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: navy;
+    }
+
     .table-title {
-        font-size: 18px;
-        padding: 10px;
+        font-size: 20px;
+        padding: 12px;
+    }
+
+    .nav-tabs .nav-link {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    #Title-Image {
+        object-fit: cover;
+        height: auto;
+        max-height: 300px;
+    }
+
+    a.anchor {
+        display: none;
+    }
+
+    .Row-Uneven:empty,
+    .Row-Even:empty {
+        display: none;
+    }
+
+    .teacher-dashboard h3,
+    .admin-dashboard h3,
+    .student-dashboard h3 {
+        text-align: left !important;
+        padding-left: 1rem;
+        font-size: 1.5rem;
+    }
+
+    #dashboard-header {
+        text-align: left !important;
+        padding-left: 1rem;
     }
 }
 
 
-
+/* END OF MOBILE/TABLET STYLES */
 
 /* ==========================================================================
    END OF FILE
