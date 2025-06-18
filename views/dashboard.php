@@ -1,9 +1,10 @@
 <?php
-ini_set('session.cookie_httponly', 1);
-ini_set('session.cookie_secure', 1); // Only if using HTTPS
 
-ob_start();
-session_start();
+
+// Enable output buffering (only once per request)
+if (!headers_sent()) {
+    ob_start();
+}
 
 $pageTitle = "Dashboard | Business First English Center";
 require_once __DIR__ . '/../bootstrap.php';

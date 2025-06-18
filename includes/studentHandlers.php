@@ -13,11 +13,6 @@
  * @license    MIT License
  */
 
-// ========================== SESSION INITIALIZATION ==========================
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 // ========================== DATABASE CONNECTION ==========================
 if (!isset($con)) {
     require_once __DIR__ . '/../src/models/Database.php';

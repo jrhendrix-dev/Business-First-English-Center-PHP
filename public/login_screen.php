@@ -1,7 +1,4 @@
 <?php
-ini_set('session.cookie_httponly', 1);
-ini_set('session.cookie_secure', 1); // Only if using HTTPS
-session_start();
 
 $pageTitle = "You are not logged in";
 include_once __DIR__ . '/../views/header.php';
