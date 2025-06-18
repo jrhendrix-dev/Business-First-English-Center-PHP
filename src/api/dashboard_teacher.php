@@ -1,7 +1,7 @@
 <?php
 // ========================== INCLUDES Y DEPENDENCIAS ==========================
-require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../includes/teacherHandlers.php';
+require_once __DIR__ . '/../../bootstrap.php';
+require_once __DIR__ . '/../../includes/teacherHandlers.php';
 
 if (!isset($teacherClassId)) $teacherClassId = '';
 if (!isset($className)) $className = '';
@@ -12,6 +12,10 @@ if (!isset($className)) $className = '';
     window.teacherClassId = `<?php echo $teacherClassId; ?>`;
     window.class_name = `<?php echo $className; ?>`;
 </script>
+
+<?php
+
+?>
 
 <!-- ===========================================================================
      PANEL DE PROFESORES
@@ -55,4 +59,4 @@ if (!isset($className)) $className = '';
 <!-- ===========================================================================
      SCRIPTS DE FUNCIONALIDAD DINÁMICA PARA EL PANEL DE PROFESORES
 ============================================================================ -->
-<script src="/Business-First-English-Center/assets/js/teacher_dash.js"></script>
+<script src="/assets/js/teacher_dash.js"></script>

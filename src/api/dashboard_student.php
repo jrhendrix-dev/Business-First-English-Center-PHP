@@ -1,7 +1,7 @@
 <?php
 // ========================== INCLUDES Y DEPENDENCIAS ==========================
-require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../includes/studentHandlers.php';
+require_once __DIR__ . '/../../bootstrap.php';
+require_once __DIR__ . '/../../includes/studentHandlers.php';
 
 if (!isset($studentClassId)) $studentClassId = '';
 if (!isset($className)) $className = '';
@@ -55,4 +55,4 @@ if (!isset($className)) $className = '';
 <!-- ===========================================================================
      SCRIPTS DE FUNCIONALIDAD DINÁMICA PARA EL PANEL DE PROFESORES
 ============================================================================ -->
-<script src="/Business-First-English-Center/assets/js/student_dash.js"></script>
+<script src="/assets/js/student_dash.js"></script>
