@@ -19,6 +19,8 @@
         - Includes meta tags for charset and viewport
         - Loads Bootstrap, jQuery, Popper.js, FontAwesome, and custom assets
     -->
+    <link rel="icon" type="image/png" href="/assets/pics/logoNew.png"> <!-- adds page tab icon -->
+
     <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Academia de Idiomas' ?></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
