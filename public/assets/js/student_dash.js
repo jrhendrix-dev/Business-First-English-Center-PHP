@@ -30,7 +30,7 @@ function initializeNotasModule() {
  * On failure, displays an error message in the grades container.
  */
 function loadStudentGradesTable() {
-    $.get('../includes/studentHandlers.php?action=getStudentGrades', function (data) {
+    $.get('/api/student?action=getStudentGrades', function (data) {
         $('#student-grades-table-container').html(data);
     }).fail(function (xhr) {
         console.error('Fallo al cargar notas:', xhr.responseText);
@@ -45,7 +45,7 @@ function loadStudentGradesTable() {
  * On failure, displays an error message in the schedule container.
  */
 function loadStudentScheduleTable() {
-    $.get('../includes/studentHandlers.php?action=getClassSchedule', function (html) {
+    $.get('/api/student?action=getClassSchedule', function (html) {
         $('#student-schedule-table-container').html(html);
     }).fail(function (xhr) {
         console.error('Error al cargar horario:', xhr.responseText);

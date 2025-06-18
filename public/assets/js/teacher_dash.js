@@ -34,7 +34,7 @@ function initializeNotasModule() {
  * Calls the PHP handler with action 'getStudentsAndGrades'.
  */
 function loadTeacherStudentsTable() {
-    $.get('../includes/teacherHandlers.php?action=getStudentsAndGrades', function (data) {
+    $.get('api/teacher?action=getStudentsAndGrades', function (data) {
         $('#teacher-students-table-container').html(data);
     }).fail(function (xhr) {
         console.error('Fallo al cargar alumnos:', xhr.responseText);
@@ -49,7 +49,7 @@ function loadTeacherStudentsTable() {
  * Calls the PHP handler with action 'getClassSchedule'.
  */
 function loadTeacherScheduleTable() {
-    $.get('../includes/teacherHandlers.php?action=getClassSchedule', function (html) {
+    $.get('api/teacher?action=getClassSchedule', function (html) {
         $('#teacher-schedule-table-container').html(html);
     }).fail(function (xhr) {
         console.error('Error al cargar horario:', xhr.responseText);
@@ -104,7 +104,7 @@ function handleSaveNotaBtnClick() {
         return;
     }
 
-    $.post('../includes/teacherHandlers.php', {
+    $.post('/api/teacher?', {
         updateNota: 1,
         idAlumno: row.data('id'),
         nota1: nota1,
