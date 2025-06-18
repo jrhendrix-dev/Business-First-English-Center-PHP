@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 $pageTitle = "Exámenes";
 include_once __DIR__ . '/../views/header.php';
 ?>

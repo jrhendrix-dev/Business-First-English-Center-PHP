@@ -1,6 +1,6 @@
 
 <?php
-
+session_start();
 $pageTitle = "Clases Español";
 include_once __DIR__ . '/../views/header.php';
 ?>
