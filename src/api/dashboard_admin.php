@@ -19,8 +19,6 @@ require_once __DIR__ . '/../../src/controllers/UserController.php';
 require_once __DIR__ . '/../../src/controllers/ClassController.php';
 require_once __DIR__ . '/../../src/controllers/GradesController.php';
 require_once __DIR__ . '/../../src/controllers/ScheduleController.php';
-require_once __DIR__ . '/../../src/controllers/delete.php';         // Eliminar usuarios
-require_once __DIR__ . '/../../src/controllers/update.php';         // Editar usuarios
 require_once __DIR__ . '/../../includes/adminHandlers.php';         // Lógica de carga de usuarios, clases, etc.
 
 // ========================== CONEXIÓN A BASE DE DATOS =========================
@@ -43,15 +41,6 @@ if (!isset($con)) {
 if (!isset($classOptions)) $classOptions = '';
 if (!isset($teacherOptions)) $teacherOptions = '';
 
-
-
-                        // ================ GRADES HANDLERS ================//
-
-
-                        // ================ SCHEDULE HANDLERS ================//
-
-
-                        // ================ MISC HANDLERS ================//
 /**
  * Handles public contact form submissions.
  *
@@ -86,7 +75,6 @@ if (isset($_POST['nombre'], $_POST['apellidos'], $_POST['teléfono'], $_POST['em
         exit;
     }
 }
-
 
 ?>
 
