@@ -186,37 +186,40 @@ if (isset($_POST['nombre'], $_POST['apellidos'], $_POST['teléfono'], $_POST['em
 
             <!-- ======================== PESTAÑA CLASES ======================== -->
             <div class="tab-pane fade" id="clases" role="tabpanel">
-                <div class="admin-section mb-4">
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-md-8 col-lg-6">
-                                <h4>Crear nueva clase</h4>
-                                <!-- Formulario para crear clases -->
-                                <form id="class-create-form">
-                                    <div class="form-group mb-2">
-                                            <label for="classname">Nombre del curso</label>
-                                            <input type="text" id="classname" name="classname" placeholder="Nombre del curso" class="form-control mb-2" required />
-                                        </div>
-                                        <div class="form-group mb-2">
-                                            <label for="profesor">Profesor</label>
-                                            <select id="profesor" name="profesor" class="form-control mb-2" required>
-                                                <option value="" disabled selected>Seleccione un profesor</option>
-                                                <?= $teacherOptions ?>
-                                            </select>
-                                        </div>
-                                    <button type="submit" class="btn btn-primary">Crear clase</button>
-                                </form>
-                            </div> <!-- col -->
-                        </div> <!-- row -->
-                    </div> <!-- container -->
+                <!-- Crear nueva clase -->
+                <div class="admin-section mb-4 px-3 px-md-4">
+                    <div class="class-toggle-wrapper">
+                        <button id="toggleClassForm" class="btn-toggle-class mb-3">
+                            + Añadir clase
+                        </button>
+
+                        <div id="classFormContainer" class="class-form-collapsible">
+                            <form id="class-create-form">
+                                <div class="form-group mb-2">
+                                    <label for="classname">Nombre del curso</label>
+                                    <input type="text" id="classname" name="classname" placeholder="Nombre del curso" class="form-control" required />
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="profesor">Profesor</label>
+                                    <select id="profesor" name="profesor" class="form-control" required>
+                                        <option value="" disabled selected>Seleccione un profesor</option>
+                                        <?= $teacherOptions ?>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Crear clase</button>
+                            </form>
+                        </div>
+                    </div>
                     <div id="create-class-feedback" class="mt-2 text-success"></div>
                 </div>
-                <div class="admin-section">
+
+                <!-- Lista de clases -->
+                <div class="admin-section px-3 px-md-4">
                     <h4>Lista de clases</h4>
-                    <!-- Aquí se carga la tabla de clases vía AJAX -->
                     <div id="class-table-container"></div>
                 </div>
             </div>
+
 
             <!-- ======================== PESTAÑA NOTAS ======================== -->
             <div class="tab-pane fade" id="notas" role="tabpanel">
