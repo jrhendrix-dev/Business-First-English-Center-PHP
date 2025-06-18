@@ -21,10 +21,7 @@ if (!isset($con)) {
     try {
         $con = Database::connect();
     } catch (Exception $e) {
-        // Log error and show generic message
-        error_log('Database connection error: ' . $e->getMessage());
-        echo "<div class='alert alert-danger'>Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.</div>";
-        exit;
+        // Optionally log error
     }
 }
 
