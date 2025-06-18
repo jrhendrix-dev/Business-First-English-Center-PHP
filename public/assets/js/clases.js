@@ -216,6 +216,7 @@ function handleDeleteClassBtnClick(e) {
     }
 }
 
+// CLASS CREATION FORM TOGGLE. HANDLED DIFFERENTLY THAN IN USER
 document.addEventListener("DOMContentLoaded", function () {
     const toggleClassBtn = document.getElementById("toggleClassForm");
     const classFormContainer = document.getElementById("classFormContainer");

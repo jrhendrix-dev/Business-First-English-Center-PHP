@@ -316,6 +316,7 @@ $(document).ready(function() {
         loadAvailableClassesDropdown();
     }
 
+    // USER CREATION FORM TOGGLE
     const toggleBtn = $('#toggleUserForm');
     const formContainer = $('#userFormContainer');
 
