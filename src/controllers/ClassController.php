@@ -6,9 +6,6 @@ require_once __DIR__ . '/../models/Database.php';
 
 // ==================== CREATION HANDLERS ==================//
 
-
-// ================ CLASS HANDLERS ================//
-
 /**
  * Handles creation of a new class.
  *
@@ -70,5 +67,70 @@ if (
     $success2 = $stmt2->execute();
 
     echo ($success2) ? "success" : "error";
+    exit;
+}
+// ==================== UPDATE HANDLERS ==================//
+
+/**
+ * Update class information and assign a teacher.
+ *
+ * Handles POST requests to update class data and assign a teacher to the class.
+ * Unassigns the class from any previous teacher before assigning the new one.
+ *
+ * Expects the following POST parameters:
+ * - updateClass: (any value, used as a flag)
+ * - classid: int, the class ID to update
+ * - classname: string, the new class name
+ * - profesor: int, the user ID of the teacher to assign
+ *
+ * @return void Outputs "success" on success, "error" on failure.
+ */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateClass'])) {
+    //CONNECT TO DB
+    $con = Database::connect();
+
+    $classid = $_POST['classid'];
+    $classname = $_POST['classname'];
+    $profesor_id = $_POST['profesor'];
+
+    // 1. Update class name
+    $stmt1 = $con->prepare("UPDATE clases SET classname=? WHERE classid=?");
+    $stmt1->bind_param("si", $classname, $classid);
+    $success1 = $stmt1->execute();
+
+    // 2. Unassign this class from any previous teacher
+    $stmt2 = $con->prepare("UPDATE users SET class='' WHERE ulevel=2 AND class=?");
+    $stmt2->bind_param("s", $classid);
+    $success2 = $stmt2->execute();
+
+    // 3. Assign the new teacher to the class
+    $stmt3 = $con->prepare("UPDATE users SET class=? WHERE user_id=?");
+    $stmt3->bind_param("si", $classid, $profesor_id);
+    $success3 = $stmt3->execute();
+
+    if ($success1 && $success2 && $success3) {
+        echo "success";
+    } else {
+        echo "error";
+    }
+    exit;
+}
+
+// ==================== DELETE HANDLERS ==================//
+/**
+ * Deletes a class from the database.
+ *
+ * @param int $_POST['classid'] The ID of the class to delete.
+ * @return void Outputs "success" on success, "error" on failure.
+ */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deleteClass'])) {
+    //CONNECT TO DB
+    $con = Database::connect();
+
+    $classid = $_POST['classid'];
+    $stmt = $con->prepare("DELETE FROM clases WHERE classid = ?");
+    $stmt->bind_param("i", $classid);
+
+    echo $stmt->execute() ? "success" : "error";
     exit;
 }

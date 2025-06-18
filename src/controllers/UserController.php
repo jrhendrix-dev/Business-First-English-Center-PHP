@@ -2,12 +2,7 @@
 
 require_once __DIR__ . '/../models/Database.php';
 
-
-// ========================== ADMIN PHP HANDLERS ====================================//
-
 // ==================== CREATION HANDLERS ===================//
-
-// ================ USER HANDLERS ================//
 /**
  * Handles creation of a new user (admin, teacher, or student).
  *
@@ -72,5 +67,80 @@ if (isset($_POST['username'], $_POST['email'], $_POST['pword'], $_POST['ulevel']
     } else {
         echo "No. Error: " . $stmt->error;
     }
+    exit;
+}
+
+
+
+// ==================== UPDATE HANDLERS ===================//
+/**
+ * Update user information.
+ *
+ * Handles POST requests to update user data. If the user's level is set to student (ulevel == 3),
+ * ensures a corresponding row exists in the 'notas' table for grade tracking.
+ *
+ * Expects the following POST parameters:
+ * - updateUser: (any value, used as a flag)
+ * - user_id: int, the user's ID
+ * - username: string, the user's name
+ * - email: string, the user's email address
+ * - class: string, the class ID or name
+ * - ulevel: int, the user's level (e.g., 3 for student)
+ *
+ * @return void Outputs "success" on success, "error" on failure.
+ */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateUser'])) {
+    $con = Database::connect();
+
+    $id = $_POST['user_id'];
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $class = $_POST['class'];
+    $ulevel = $_POST['ulevel'];
+
+    $stmt = $con->prepare("UPDATE users SET username=?, email=?, class=?, ulevel=? WHERE user_id=?");
+    $stmt->bind_param("ssssi", $username, $email, $class, $ulevel, $id);
+
+    if ($stmt->execute()) {
+        // If the user is now a student, ensure they have a notas row
+        if ($ulevel == 3) {
+            // Check if notas row exists
+            $checkNotas = $con->prepare("SELECT 1 FROM notas WHERE idAlumno = ?");
+            $checkNotas->bind_param("i", $id);
+            $checkNotas->execute();
+            $checkNotas->store_result();
+
+            if ($checkNotas->num_rows === 0) {
+                // Insert notas row for this student
+                $insertNotas = $con->prepare("INSERT INTO notas (idAlumno) VALUES (?)");
+                $insertNotas->bind_param("i", $id);
+                $insertNotas->execute();
+                // Optionally, you can check for errors here as well
+            }
+            $checkNotas->close();
+        }
+        echo "success";
+    } else {
+        echo "error";
+    }
+    exit;
+}
+
+
+// ==================== DELETE HANDLERS ===================//
+/**
+ * Deletes a user from the database.
+ *
+ * @param int $_POST['user_id'] The ID of the user to delete.
+ * @return void Outputs "success" on success, "error" on failure.
+ */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deleteUser'])) {
+    $con = Database::connect();
+
+    $id = $_POST['user_id'];
+    $stmt = $con->prepare("DELETE FROM users WHERE user_id = ?");
+    $stmt->bind_param("i", $id);
+
+    echo $stmt->execute() ? "success" : "error";
     exit;
 }
