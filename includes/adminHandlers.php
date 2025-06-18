@@ -34,18 +34,38 @@ if (!isset($con)) {
 // ============================================================================
 
 /**
- * Handler for AJAX request: Get available classes (classes without assigned teacher).
- * Outputs <option> elements for each available class.
+ * Returns <option> elements for all available classes.
+ * If a class ID is passed as `include`, that class is also shown even if it's already assigned.
  */
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['availableClasses'])) {
-    $query = "SELECT classid, classname FROM clases 
-              WHERE classid NOT IN (SELECT class FROM users WHERE ulevel = 2 AND class IS NOT NULL)";
+    // Optional override: allow a specific class to appear even if already assigned
+    $includeClassId = isset($_GET['include']) ? intval($_GET['include']) : 0;
+
+    // Query all unassigned classes (no teacher)
+    $query = "
+        SELECT classid, classname FROM clases
+        WHERE classid NOT IN (
+            SELECT class FROM users
+            WHERE ulevel = 2 AND class IS NOT NULL AND class != $includeClassId
+        )
+    ";
+
+    // Ensure the teacher's current class is included if specified
+    if ($includeClassId > 0) {
+        $query .= " UNION SELECT classid, classname FROM clases WHERE classid = $includeClassId"; //UNION adds this query to the other
+    }
+
+    $query .= " ORDER BY classname ASC";
+
+    // Execute and output options
     $result = $con->query($query);
     while ($row = $result->fetch_assoc()) {
         echo "<option value='{$row['classid']}'>" . htmlspecialchars($row['classname'] ?? '') . "</option>";
     }
     exit;
 }
+
+
 
 /**
  * Handler for AJAX request: Get available teachers (not assigned to any class).
