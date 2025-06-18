@@ -120,11 +120,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadUsers'])) {
         echo "<table class='table table-striped'><thead><tr><th>ID</th><th>Usuario</th><th>Email</th><th>Clase</th><th>Nivel</th><th>Acciones</th></tr></thead><tbody>";
         while ($row = $res->fetch_assoc()) {
             echo "<tr data-id='{$row['user_id']}'>
-                    <td>{$row['user_id']}</td>
-                    <td class='username'>" . htmlspecialchars($row['username'] ?? ''). "</td>
-                    <td class='email'>" . htmlspecialchars($row['email'] ?? '') . "</td>
-                    <td class='class' data-classid='{$row['class']}'>" . htmlspecialchars($row['classname'] ?? '') . "</td>
-                    <td class='ulevel'>{$row['ulevel']}</td>
+                    <td data-label='id: '>{$row['user_id']}</td>
+                    <td class='username' data-label='user: '>" . htmlspecialchars($row['username'] ?? ''). "</td>
+                    <td class='email' data-label='email: '>" . htmlspecialchars($row['email'] ?? '') . "</td>
+                    <td class='class' data-classid='{$row['class']}' data-label='class: '>" . htmlspecialchars($row['classname'] ?? '') . "</td>
+                    <td class='ulevel' data-label='level: '>{$row['ulevel']}</td>
                     <td>
                         <button class='btn btn-sm btn-warning edit-btn'>Editar</button>
                         <button class='btn btn-sm btn-danger delete-btn'>Borrar</button>
@@ -152,9 +152,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadClasses'])) {
         echo "<table class='table table-striped'><thead><tr><th>ID</th><th>Nombre Curso</th><th>Profesor</th><th>Acciones</th></tr></thead><tbody>";
         while ($row = $res->fetch_assoc()) {
             echo "<tr data-id='{$row['classid']}'>
-                    <td>{$row['classid']}</td>
-                    <td class='classname'>" . htmlspecialchars($row['classname']) . "</td>
-                    <td class='profesor' data-profid='{$row['user_id']}'>" . htmlspecialchars($row['username'] ?? '') . "</td>
+                    <td data-label='id: '>{$row['classid']}</td>
+                    <td class='classname'data-label='clase: '>" . htmlspecialchars($row['classname']) . "</td>
+                    <td class='profesor' data-label='profesor: 'data-profid='{$row['user_id']}'>" . htmlspecialchars($row['username'] ?? '') . "</td>
                     <td>
                         <button class='btn btn-sm btn-warning edit-class-btn'>Editar</button>
                         <button class='btn btn-sm btn-danger delete-class-btn'>Borrar</button>
@@ -189,11 +189,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadNotas'])) {
               </tr></thead><tbody>";
         while ($row = $res->fetch_assoc()) {
             echo "<tr data-id='{$row['user_id']}'>
-                    <td class='alumno'>" . htmlspecialchars($row['username'] ?? '') . "</td>
-                    <td class='curso'>" . htmlspecialchars($row['classname'] ?? '') . "</td>
-                    <td class='nota1'>" . (isset($row['Nota1']) ? htmlspecialchars($row['Nota1'] ?? '') : '') . "</td>
-                    <td class='nota2'>" . (isset($row['Nota2']) ? htmlspecialchars($row['Nota2'] ?? '') : '') . "</td>
-                    <td class='nota3'>" . (isset($row['Nota3']) ? htmlspecialchars($row['Nota3'] ?? '') : '') . "</td>
+                    <td class='alumno' data-label='alumno: '>" . htmlspecialchars($row['username'] ?? '') . "</td>
+                    <td class='curso' data-label='clase: '>" . htmlspecialchars($row['classname'] ?? '') . "</td>
+                    <td class='nota1' data-label='nota 1: '>" . (isset($row['Nota1']) ? htmlspecialchars($row['Nota1'] ?? '') : '') . "</td>
+                    <td class='nota2' data-label='nota 2: '>" . (isset($row['Nota2']) ? htmlspecialchars($row['Nota2'] ?? '') : '') . "</td>
+                    <td class='nota3' data-label='nota 3: '>" . (isset($row['Nota3']) ? htmlspecialchars($row['Nota3'] ?? '') : '') . "</td>
                     <td>
                         <button class='btn btn-sm btn-warning edit-nota-btn'>Editar</button>
                         <button class='btn btn-sm btn-success save-nota-btn d-none'>Guardar</button>
@@ -235,10 +235,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadHorarios'])) {
               </tr></thead><tbody>";
         while ($row = $res->fetch_assoc()) {
             echo "<tr data-id='{$row['day_id']}'>
-                <td class='weekday'>" . htmlspecialchars($row['week_day'] ?? '') . "</td>
-                <td class='firstclass'>" . ($row['firstclass_name'] ?? '') . "</td>
-                <td class='secondclass'>" . ($row['secondclass_name'] ?? '') . "</td>
-                <td class='thirdclass'>" . ($row['thirdclass_name'] ?? '') . "</td>
+                <td class='weekday' data-label='día: '>" . htmlspecialchars($row['week_day'] ?? '') . "</td>
+                <td class='firstclass' data-label='clase 1: '>" . ($row['firstclass_name'] ?? '') . "</td>
+                <td class='secondclass' data-label='clase 2: '>" . ($row['secondclass_name'] ?? '') . "</td>
+                <td class='thirdclass' data-label='clase 3: '>" . ($row['thirdclass_name'] ?? '') . "</td>
                 <td>
                     <button class='btn btn-sm btn-warning edit-horario-btn'>Editar</button>
                     <button class='btn btn-sm btn-success save-horario-btn d-none'>Guardar</button>
