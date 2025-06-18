@@ -216,6 +216,23 @@ function handleDeleteClassBtnClick(e) {
     }
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const toggleClassBtn = document.getElementById("toggleClassForm");
+    const classFormContainer = document.getElementById("classFormContainer");
+
+    if (toggleClassBtn && classFormContainer) {
+        toggleClassBtn.addEventListener("click", function () {
+            classFormContainer.classList.toggle("show");
+
+            // Toggle +/− and text
+            const isVisible = classFormContainer.classList.contains("show");
+            toggleClassBtn.textContent = isVisible ? "− Ocultar formulario" : "+ Añadir clase";
+        });
+    }
+});
+
+
+
 // ON PAGE LOAD: Bind all event handlers and initialize UI. On page load.
 $(document).ready(function () {
     loadClasses();
@@ -227,4 +244,9 @@ $(document).ready(function () {
     $(document).on('click', '.cancel-class-btn', handleCancelClassBtnClick);
     $(document).on('click', '.save-class-btn', handleSaveClassBtnClick);
     $(document).on('click', '.delete-class-btn', handleDeleteClassBtnClick);
+
+
+
+
+
 });
