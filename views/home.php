@@ -45,12 +45,11 @@ include_once __DIR__ . '/../views/header.php';
         </p>
         <a class="panel-link" href="javascript:void(0)" onclick="window.location = 'ingles-corporativo'"></a>
     </div>
-
     <div class="Row-Uneven">
         <a  id="Sección-Exámenes-Oficiales" class="anchor"></a>
         <h2>Preparación de exámenes oficiales</h2>
         <img src="assets/pics/estudiantes1.png" alt="estudiantes universitarios" class="row-pic" />
-        <p class="row-text" style="padding-left: 620px;">
+        <p class="row-text">
             Prepárate con nosotros para alcanzar tus metas académicas y profesionales.<br><br>
             🎯 Aprende inglés para:<br>
             ▪ Estudiar en una universidad extranjera<br>
@@ -65,7 +64,7 @@ include_once __DIR__ . '/../views/header.php';
     <div class="Row-Even">
         <a id="Sección-Español-Extranjeros" class="anchor"></a>
         <h2>Español para extranjeros</h2>
-        <img src="assets/pics/espanol.png" alt="foto de aprende español" class="row-pic" />
+        <img src="assets/pics/espanol.png" alt="aprende español" class="row-pic" />
         <p class="row-text">
             🌍 El español es uno de los idiomas más hablados del mundo.<br><br>
             ¿Vives, trabajas o estudias en España? ¿Quieres comunicarte con fluidez?<br><br>
