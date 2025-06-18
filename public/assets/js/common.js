@@ -125,7 +125,6 @@ function handleLoginScreenFormSubmit(e) {
 
     return false;
 }
-
 /**
  * Event handler for when the login modal is hidden.
  * Resets the login form, clears lockout countdown, and re-enables inputs.
@@ -141,6 +140,34 @@ function handleLoginModalHidden(e) {
     $('#login-form :input').prop('disabled', false);
 }
 
+//============== DEMO NOTICE EVENT LISTENER ===========//
+
+document.addEventListener('DOMContentLoaded', function () {
+    const notice = document.getElementById('demo-notice');
+    const closeBtn = document.getElementById('close-notice');
+
+    // Check if a hide timestamp exists and is still valid
+    const hideUntil = localStorage.getItem('hideDemoNoticeUntil');
+    const now = new Date().getTime();
+
+    if (hideUntil && now < parseInt(hideUntil)) {
+        if (notice) notice.style.display = 'none';
+        return;
+    }
+
+    // Show the notice and set up close handler
+    if (notice && closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            notice.style.display = 'none';
+
+            // Set timestamp to 1 hour from now
+            const oneHourLater = now + 60 * 60 * 1000;
+            localStorage.setItem('hideDemoNoticeUntil', oneHourLater.toString());
+        });
+    }
+});
+
+
 //////////////////////////////
 // Document Ready: Bind Event Handlers
 //////////////////////////////
@@ -153,3 +180,6 @@ $(document).ready(function () {
     $('#login-form').on('submit', handleLoginFormSubmit);
     $('#login-screen-form').on('submit', handleLoginScreenFormSubmit);
 });
+
+
+
