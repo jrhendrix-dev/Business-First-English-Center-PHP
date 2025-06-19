@@ -14,8 +14,8 @@ switch ($request) {
         require_once '../views/dashboard.php';
         break;
 
-    case $basePath . 'login':
-        require_once 'login.php';
+    case $basePath . 'create':
+        require_once __DIR__ . '/../src/controllers/create.php';
         break;
 
     case $basePath . 'thanks':
