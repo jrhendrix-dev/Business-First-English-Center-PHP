@@ -33,7 +33,7 @@ include_once __DIR__ . '/../views/header.php';
 
     <div class="Row-Even">
         <a id="Sección-Inglés-Corporativo" class="anchor"></a>
-        <h2>Inglés corporativo para empresas</h2>
+        <h2>Inglés corporativo para empresas <i class="fas fa-arrow-right link-icon icon-button"></i></h2>
         <img src="assets/pics/presentation.png" alt="office presentation" class="row-pic" />
         <p class="row-text" id="row-text">
             Mejora el nivel de inglés de tu equipo con nuestros cursos adaptados a empresas.<br><br>
@@ -47,7 +47,7 @@ include_once __DIR__ . '/../views/header.php';
     </div>
     <div class="Row-Uneven">
         <a  id="Sección-Exámenes-Oficiales" class="anchor"></a>
-        <h2>Preparación de exámenes oficiales</h2>
+        <h2>Preparación de exámenes oficiales<i class="fas fa-arrow-right link-icon icon-button"></i></h2>
         <img src="assets/pics/estudiantes1.png" alt="estudiantes universitarios" class="row-pic" />
         <p class="row-text">
             Prepárate con nosotros para alcanzar tus metas académicas y profesionales.<br><br>
@@ -63,7 +63,7 @@ include_once __DIR__ . '/../views/header.php';
     </div>
     <div class="Row-Even">
         <a id="Sección-Español-Extranjeros" class="anchor"></a>
-        <h2>Español para extranjeros</h2>
+        <h2>Español para extranjeros <i class="fas fa-arrow-right link-icon icon-button"></i></h2>
         <img src="assets/pics/espanol.png" alt="aprende español" class="row-pic" />
         <p class="row-text">
             🌍 El español es uno de los idiomas más hablados del mundo.<br><br>
