@@ -13,6 +13,7 @@
  *   5. IC, Exams, Special Classes
  *   6. Admin, Teacher, Student Layout
  *   7. Login Screen
+ *   8. Thank you screen
  */
 
 /* ==========================================================================
@@ -427,6 +428,9 @@ table tr th {
     font-size: 25px;
 }
 
+
+
+
 /* ==========================================================================
    5. IC, EXAMS, SPECIAL CLASSES
    ========================================================================== */
@@ -647,6 +651,31 @@ table tr th {
     text-align: left;
     margin-bottom: 0.25rem;
     font-weight: bold;
+}
+
+/* ==========================================================================
+   8. Thank you screen
+   ========================================================================== */
+
+.return-button {
+    margin-bottom: 4.7rem;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    background-color: #3b82f6; /* Tailwind's blue-500 */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.return-button:hover {
+    background-color: #2563eb; /* Tailwind's blue-600 */
+    transform: scale(1.05);
+}
+
+.return-button:active {
+    transform: scale(0.97);
 }
 
 
