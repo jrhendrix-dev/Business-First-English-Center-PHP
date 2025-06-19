@@ -35,6 +35,7 @@ function refreshAllTabs() {
     if (typeof loadTeacherDropdown === "function") loadTeacherDropdown();
     if (typeof loadNotas === "function") loadNotas();
     if (typeof loadHorarios === "function") loadHorarios();
+    if (typeof loadFormularioTable === "function") loadFormularioTable();
 }
 
 //////////////////////////////
