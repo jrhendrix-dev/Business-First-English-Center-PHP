@@ -313,7 +313,34 @@ a.anchor {
     float: none;
 }
 
+.link-icon {
+    margin-left: 10px;
+    color: crimson;
+    transition: transform 0.3s ease;
+}
 
+.icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 12px;
+    background-color: crimson;
+    color: white;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.icon-button:hover {
+    background-color: darkred;
+    transform: scale(1.1);
+}
+
+.icon-button i {
+    font-size: 16px;
+}
 
 
 /* ==========================================================================
@@ -777,6 +804,33 @@ table tr th {
         display: block;
         z-index: 2;
     }
+
+    .link-icon {
+        margin-left: 10px;
+        color: crimson;
+        transition: transform 0.3s ease;
+    }
+
+    .icon-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        margin-left: 12px;
+        background-color: crimson;
+        color: white;
+        border-radius: 50%;
+        font-size: 16px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .icon-button:hover {
+        background-color: darkred;
+        transform: scale(1.1);
+    }
+
 
     .footer-container {
         flex-direction: column;
