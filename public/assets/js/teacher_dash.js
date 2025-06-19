@@ -1,13 +1,24 @@
 /**
  * @file teacher_dash.js
- * @description Handles loading students, editing grades, and schedule management for the teacher dashboard.
+ * @description
+ * Handles student grade and schedule management on the teacher dashboard.
+ * Enables grade editing via AJAX and dynamically loads schedule data.
  * Requires jQuery and Bootstrap.
+ *
+ * Author: Jonathan Ray Hendrix
+ * License: MIT
  */
 
+//////////////////////////////
+// DOM READY INITIALIZATION
+//////////////////////////////
+
+/**
+ * Initializes the grades module and binds tab switch handlers.
+ */
 $(document).ready(function () {
     initializeNotasModule();
 
-    // Handle tab changes
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         const target = $(e.target).attr('href');
         if (target === '#students') {
@@ -18,9 +29,16 @@ $(document).ready(function () {
     });
 });
 
+//////////////////////////////
+// MODULE INITIALIZER
+//////////////////////////////
+
 /**
- * Initializes the grades module and binds event handlers for editing, saving, and canceling grade edits.
- * Loads the students table on initialization.
+ * Initializes grade management:
+ * Loads students table and binds edit/save/cancel events.
+ *
+ * @function
+ * @returns {void}
  */
 function initializeNotasModule() {
     loadTeacherStudentsTable();
@@ -29,37 +47,63 @@ function initializeNotasModule() {
     $(document).on('click', '.cancel-nota-btn', handleCancelNotaBtnClick);
     $(document).on('click', '.save-nota-btn', handleSaveNotaBtnClick);
 }
+
+//////////////////////////////
+// LOAD STUDENTS & GRADES
+//////////////////////////////
+
 /**
- * Loads the students and grades table via AJAX and inserts it into the dashboard.
- * Calls the PHP handler with action 'getStudentsAndGrades'.
+ * Loads the teacher's student and grades table via AJAX.
+ * Displays error on failure.
+ *
+ * @function
+ * @returns {void}
  */
 function loadTeacherStudentsTable() {
     $.get('api/teacher?action=getStudentsAndGrades', function (data) {
         $('#teacher-students-table-container').html(data);
     }).fail(function (xhr) {
-        console.error('Fallo al cargar alumnos:', xhr.responseText);
+        console.error('Failed to load students:', xhr.responseText);
         $('#teacher-students-table-container').html(
-            `<div class="alert alert-danger">Error del servidor: ${xhr.status}<br>${xhr.responseText}</div>`
+            `<div class="alert alert-danger">
+                Server error: ${xhr.status}<br>${xhr.responseText}
+             </div>`
         );
     });
 }
 
+//////////////////////////////
+// LOAD CLASS SCHEDULE
+//////////////////////////////
+
 /**
- * Loads the teacher's schedule table via AJAX and inserts it into the dashboard.
- * Calls the PHP handler with action 'getClassSchedule'.
+ * Loads the teacher's class schedule via AJAX.
+ * Displays error on failure.
+ *
+ * @function
+ * @returns {void}
  */
 function loadTeacherScheduleTable() {
     $.get('api/teacher?action=getClassSchedule', function (html) {
         $('#teacher-schedule-table-container').html(html);
     }).fail(function (xhr) {
-        console.error('Error al cargar horario:', xhr.responseText);
-        $('#teacher-schedule-table-container').html('<div class="alert alert-danger">Error al cargar el horario.</div>');
+        console.error('Failed to load schedule:', xhr.responseText);
+        $('#teacher-schedule-table-container').html(
+            '<div class="alert alert-danger">Failed to load schedule.</div>'
+        );
     });
 }
 
+//////////////////////////////
+// GRADE EDITING HANDLERS
+//////////////////////////////
+
 /**
- * Handles the click event for editing a student's grades.
- * Converts grade cells into input fields for editing and toggles action buttons.
+ * Enables inline editing for a student's grades.
+ * Converts grade cells to input fields and toggles buttons.
+ *
+ * @function
+ * @returns {void}
  */
 function handleEditNotaBtnClick() {
     const row = $(this).closest('tr');
@@ -76,18 +120,21 @@ function handleEditNotaBtnClick() {
 }
 
 /**
- * Handles the click event for canceling grade edits.
- * Reloads the students table to revert any unsaved changes.
-
+ * Cancels any ongoing grade edits and reloads the table.
+ *
+ * @function
+ * @returns {void}
  */
 function handleCancelNotaBtnClick() {
     loadTeacherStudentsTable();
-
 }
 
 /**
- * Handles the click event for saving edited grades.
- * Validates input, sends updated grades via AJAX, and reloads the table on success.
+ * Validates and submits updated grades via AJAX.
+ * Reloads the table if successful, otherwise shows error.
+ *
+ * @function
+ * @returns {void}
  */
 function handleSaveNotaBtnClick() {
     const row = $(this).closest('tr');
@@ -100,7 +147,7 @@ function handleSaveNotaBtnClick() {
     const nota3 = nota3val === "" ? null : parseFloat(nota3val);
 
     if ([nota1, nota2, nota3].some(n => n !== null && (isNaN(n) || n < 0 || n > 10))) {
-        alert('Las notas deben estar entre 0 y 10 o vacías.');
+        alert('Grades must be between 0 and 10 or left empty.');
         return;
     }
 
@@ -111,14 +158,14 @@ function handleSaveNotaBtnClick() {
         nota2: nota2,
         nota3: nota3
     }).done(function (response) {
-        console.log('Respuesta al guardar nota:', response);
+        console.log('Grade update response:', response);
         if (response.trim() === 'success') {
             loadTeacherStudentsTable();
         } else {
-            alert('Error al guardar notas: ' + response);
+            alert('Failed to save grades: ' + response);
         }
     }).fail(function (xhr) {
-        console.error('Fallo al guardar notas:', xhr.responseText);
-        alert('Error al guardar notas');
+        console.error('AJAX error while saving grades:', xhr.responseText);
+        alert('Failed to save grades.');
     });
 }

@@ -3,21 +3,20 @@
  * adminHandlers.php
  *
  * AJAX and utility handlers for the Business First English Center admin dashboard.
- * Handles:
- *   - User authentication
- *   - Dynamic dropdowns (classes, teachers)
- *   - Data retrieval for users, classes, grades, and schedules
- *   - Outputs HTML fragments for AJAX consumption
+ * Responsibilities include:
+ *   - Dynamic dropdowns for classes and teachers
+ *   - Data retrieval for users, classes, grades, schedules, and contact forms
+ *   - Outputting HTML snippets in response to AJAX requests
  *
  * PHP version 7+
  *
- * @package    BusinessFirstEnglishCenter
- * @author     Jonathan Ray Hendrix <jrhendrixdev@gmail.com>
- * @license    MIT LICENSE
+ * @package   BusinessFirstEnglishCenter
+ * @author    Jonathan Ray Hendrix <jrhendrixdev@gmail.com>
+ * @license   MIT LICENSE
  */
 
 // ============================================================================
-// INITIALIZATION: Database Connection
+// INITIALIZATION: Establish database connection
 // ============================================================================
 
 if (!isset($con)) {
@@ -25,23 +24,21 @@ if (!isset($con)) {
     try {
         $con = Database::connect();
     } catch (Exception $e) {
-        // Optionally log error
+        // Optional: log error or notify admin
     }
 }
 
 // ============================================================================
-// DROPDOWN DATA HANDLERS
+// DROPDOWN: Get unassigned classes (for teacher form)
 // ============================================================================
 
 /**
- * Returns <option> elements for all available classes.
- * If a class ID is passed as `include`, that class is also shown even if it's already assigned.
+ * AJAX: Return <option> elements for all unassigned classes.
+ * If a `GET['include']` class ID is passed, that class will be shown even if assigned.
  */
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['availableClasses'])) {
-    // Optional override: allow a specific class to appear even if already assigned
     $includeClassId = isset($_GET['include']) ? intval($_GET['include']) : 0;
 
-    // Query all unassigned classes (no teacher)
     $query = "
         SELECT classid, classname FROM clases
         WHERE classid NOT IN (
@@ -50,30 +47,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['availableClasses'])) {
         )
     ";
 
-    // Ensure the teacher's current class is included if specified
     if ($includeClassId > 0) {
-        $query .= " UNION SELECT classid, classname FROM clases WHERE classid = $includeClassId"; //UNION adds this query to the other
+        $query .= " UNION SELECT classid, classname FROM clases WHERE classid = $includeClassId";
     }
 
     $query .= " ORDER BY classname ASC";
-
-    // Execute and output options
     $result = $con->query($query);
+
     while ($row = $result->fetch_assoc()) {
         echo "<option value='{$row['classid']}'>" . htmlspecialchars($row['classname'] ?? '') . "</option>";
     }
     exit;
 }
 
-
+// ============================================================================
+// DROPDOWN: Get available teachers
+// ============================================================================
 
 /**
- * Handler for AJAX request: Get available teachers (not assigned to any class).
- * Outputs <option> elements for each available teacher.
+ * AJAX: Return <option> elements for teachers not assigned to any class.
  */
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['availableTeachers'])) {
     $query = "SELECT user_id, username FROM users WHERE ulevel = 2 AND (class IS NULL OR class = '' OR class = '0')";
     $result = $con->query($query);
+
     while ($row = $result->fetch_assoc()) {
         echo "<option value='{$row['user_id']}'>" . htmlspecialchars($row['username'] ?? '') . "</option>";
     }
@@ -81,12 +78,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['availableTeachers'])) {
 }
 
 // ============================================================================
-// PRELOAD DROPDOWN OPTIONS FOR JS (not direct AJAX handlers)
+// PRELOAD: Classes and teachers for JavaScript usage
 // ============================================================================
 
-/**
- * Preloads all classes and teachers as HTML <option> strings for use in JS.
- */
+/** @var string $classOptionsJS Preloaded HTML <option> string for all classes (JSON encoded) */
 $classOptions = "";
 $classResult = $con->query("SELECT classid, classname FROM clases ORDER BY classid ASC");
 if ($classResult && $classResult->num_rows > 0) {
@@ -94,7 +89,9 @@ if ($classResult && $classResult->num_rows > 0) {
         $classOptions .= "<option value='{$row['classid']}'>" . htmlspecialchars($row['classname'] ?? '') . "</option>";
     }
 }
+$classOptionsJS = json_encode($classOptions);
 
+/** @var string $teacherOptionsJS Preloaded HTML <option> string for all teachers (JSON encoded) */
 $teacherOptions = "";
 $profResult = $con->query("SELECT user_id, username FROM users WHERE ulevel = 2 ORDER BY username ASC");
 if ($profResult && $profResult->num_rows > 0) {
@@ -102,191 +99,195 @@ if ($profResult && $profResult->num_rows > 0) {
         $teacherOptions .= "<option value='{$row['user_id']}'>" . htmlspecialchars($row['username'] ?? '') . "</option>";
     }
 }
-
-$classOptionsJS = json_encode($classOptions);
 $teacherOptionsJS = json_encode($teacherOptions);
 
 // ============================================================================
-// USER HANDLERS
+// USERS: Load user table
 // ============================================================================
 
 /**
- * Handler for AJAX request: Load users list.
- * Outputs an HTML table with user data.
+ * AJAX: Load all users and return an HTML table.
  */
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadUsers'])) {
     $res = $con->query("SELECT users.*, clases.classname FROM users LEFT JOIN clases ON users.class = clases.classid ORDER BY users.user_id ASC");
+
     if ($res && $res->num_rows > 0) {
-        echo "<table class='table table-striped'><thead><tr><th>ID</th><th>Usuario</th><th>Email</th><th>Clase</th><th>Nivel</th><th>Acciones</th></tr></thead><tbody>";
+        echo "<table class='table table-striped'><thead><tr>
+                <th>ID</th><th>Username</th><th>Email</th><th>Class</th><th>Level</th><th>Actions</th>
+              </tr></thead><tbody>";
         while ($row = $res->fetch_assoc()) {
             echo "<tr data-id='{$row['user_id']}'>
                     <td data-label='id: '>{$row['user_id']}</td>
-                    <td class='username' data-label='user: '>" . htmlspecialchars($row['username'] ?? ''). "</td>
+                    <td class='username' data-label='user: '>" . htmlspecialchars($row['username'] ?? '') . "</td>
                     <td class='email' data-label='email: '>" . htmlspecialchars($row['email'] ?? '') . "</td>
                     <td class='class' data-classid='{$row['class']}' data-label='class: '>" . htmlspecialchars($row['classname'] ?? '') . "</td>
                     <td class='ulevel' data-label='level: '>{$row['ulevel']}</td>
                     <td>
-                        <button class='btn btn-sm btn-warning edit-btn'>Editar</button>
-                        <button class='btn btn-sm btn-danger delete-btn'>Borrar</button>
+                        <button class='btn btn-sm btn-warning edit-btn'>Edit</button>
+                        <button class='btn btn-sm btn-danger delete-btn'>Delete</button>
                     </td>
                   </tr>";
         }
         echo "</tbody></table>";
     } else {
-        echo "<p>No hay usuarios registrados.</p>";
+        echo "<p>No users found.</p>";
     }
     exit;
 }
 
 // ============================================================================
-// CLASS HANDLERS
+// CLASSES: Load class table
 // ============================================================================
 
 /**
- * Handler for AJAX request: Load classes list.
- * Outputs an HTML table with class data.
+ * AJAX: Load all classes and return an HTML table.
  */
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadClasses'])) {
     $res = $con->query("SELECT * FROM clases LEFT JOIN users ON clases.classid=users.class AND users.ulevel='2'");
+
     if ($res && $res->num_rows > 0) {
-        echo "<table class='table table-striped'><thead><tr><th>ID</th><th>Nombre Curso</th><th>Profesor</th><th>Acciones</th></tr></thead><tbody>";
+        echo "<table class='table table-striped'><thead><tr>
+                <th>ID</th><th>Course Name</th><th>Teacher</th><th>Actions</th>
+              </tr></thead><tbody>";
         while ($row = $res->fetch_assoc()) {
             echo "<tr data-id='{$row['classid']}'>
                     <td data-label='id: '>{$row['classid']}</td>
-                    <td class='classname'data-label='clase: '>" . htmlspecialchars($row['classname']) . "</td>
-                    <td class='profesor' data-label='profesor: 'data-profid='{$row['user_id']}'>" . htmlspecialchars($row['username'] ?? '') . "</td>
+                    <td class='classname' data-label='class: '>" . htmlspecialchars($row['classname']) . "</td>
+                    <td class='profesor' data-label='teacher: ' data-profid='{$row['user_id']}'>" . htmlspecialchars($row['username'] ?? '') . "</td>
                     <td>
-                        <button class='btn btn-sm btn-warning edit-class-btn'>Editar</button>
-                        <button class='btn btn-sm btn-danger delete-class-btn'>Borrar</button>
+                        <button class='btn btn-sm btn-warning edit-class-btn'>Edit</button>
+                        <button class='btn btn-sm btn-danger delete-class-btn'>Delete</button>
                     </td>
                   </tr>";
         }
         echo "</tbody></table>";
     } else {
-        echo "<p>No hay clases registradas.</p>";
+        echo "<p>No classes found.</p>";
     }
     exit;
 }
 
 // ============================================================================
-// GRADES HANDLERS
+// GRADES: Load student grades
 // ============================================================================
 
 /**
- * Handler for AJAX request: Load grades for all students.
- * Outputs an HTML table with grades.
+ * AJAX: Load student grades and return an HTML table.
  */
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadNotas'])) {
-    $res = $con->query("SELECT u.user_id, u.username, c.classname, n.Nota1, n.Nota2, n.Nota3
-                         FROM users u
-                         LEFT JOIN clases c ON u.class = c.classid
-                         LEFT JOIN notas n ON u.user_id = n.idAlumno
-                         WHERE u.ulevel = 3
-                         ORDER BY c.classname, u.username");
-    if ($res && $res->num_rows > 0) {
-        echo "<table class='table table-striped'><thead><tr>
-                <th>Alumno</th><th>Curso</th><th>Nota 1</th><th>Nota 2</th><th>Nota 3</th><th>Acciones</th>
-              </tr></thead><tbody>";
-        while ($row = $res->fetch_assoc()) {
-            echo "<tr data-id='{$row['user_id']}'>
-                    <td class='alumno' data-label='alumno: '>" . htmlspecialchars($row['username'] ?? '') . "</td>
-                    <td class='curso' data-label='clase: '>" . htmlspecialchars($row['classname'] ?? '') . "</td>
-                    <td class='nota1' data-label='nota 1: '>" . (isset($row['Nota1']) ? htmlspecialchars($row['Nota1'] ?? '') : '') . "</td>
-                    <td class='nota2' data-label='nota 2: '>" . (isset($row['Nota2']) ? htmlspecialchars($row['Nota2'] ?? '') : '') . "</td>
-                    <td class='nota3' data-label='nota 3: '>" . (isset($row['Nota3']) ? htmlspecialchars($row['Nota3'] ?? '') : '') . "</td>
-                    <td>
-                        <button class='btn btn-sm btn-warning edit-nota-btn'>Editar</button>
-                        <button class='btn btn-sm btn-success save-nota-btn d-none'>Guardar</button>
-                        <button class='btn btn-sm btn-secondary cancel-nota-btn d-none'>Cancelar</button>
-                    </td>
-                  </tr>";
-        }
-        echo "</tbody></table>";
-    } else {
-        echo "<p>No hay notas registradas.</p>";
-    }
-    exit;
-}
-
-// ============================================================================
-// SCHEDULE HANDLERS
-// ============================================================================
-
-/**
- * Handler for AJAX request: Load class schedules.
- * Outputs an HTML table with schedule data.
- */
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadHorarios'])) {
     $res = $con->query("
-    SELECT s.day_id, s.week_day,
-           c1.classname AS firstclass_name,
-           c2.classname AS secondclass_name,
-           c3.classname AS thirdclass_name
-    FROM schedule s
-    LEFT JOIN clases c1 ON s.firstclass = c1.classid
-    LEFT JOIN clases c2 ON s.secondclass = c2.classid
-    LEFT JOIN clases c3 ON s.thirdclass = c3.classid
-    ORDER BY s.day_id ASC
+        SELECT u.user_id, u.username, c.classname, n.Nota1, n.Nota2, n.Nota3
+        FROM users u
+        LEFT JOIN clases c ON u.class = c.classid
+        LEFT JOIN notas n ON u.user_id = n.idAlumno
+        WHERE u.ulevel = 3
+        ORDER BY c.classname, u.username
     ");
 
     if ($res && $res->num_rows > 0) {
         echo "<table class='table table-striped'><thead><tr>
-                <th>Día</th><th>Primera Clase</th><th>Segunda Clase</th><th>Tercera Clase</th><th>Acciones</th>
+                <th>Student</th><th>Class</th><th>Grade 1</th><th>Grade 2</th><th>Grade 3</th><th>Actions</th>
+              </tr></thead><tbody>";
+        while ($row = $res->fetch_assoc()) {
+            echo "<tr data-id='{$row['user_id']}'>
+                    <td class='alumno' data-label='student: '>" . htmlspecialchars($row['username'] ?? '') . "</td>
+                    <td class='curso' data-label='class: '>" . htmlspecialchars($row['classname'] ?? '') . "</td>
+                    <td class='nota1' data-label='grade 1: '>" . htmlspecialchars($row['Nota1'] ?? '') . "</td>
+                    <td class='nota2' data-label='grade 2: '>" . htmlspecialchars($row['Nota2'] ?? '') . "</td>
+                    <td class='nota3' data-label='grade 3: '>" . htmlspecialchars($row['Nota3'] ?? '') . "</td>
+                    <td>
+                        <button class='btn btn-sm btn-warning edit-nota-btn'>Edit</button>
+                        <button class='btn btn-sm btn-success save-nota-btn d-none'>Save</button>
+                        <button class='btn btn-sm btn-secondary cancel-nota-btn d-none'>Cancel</button>
+                    </td>
+                  </tr>";
+        }
+        echo "</tbody></table>";
+    } else {
+        echo "<p>No grades found.</p>";
+    }
+    exit;
+}
+
+// ============================================================================
+// SCHEDULES: Load class schedules
+// ============================================================================
+
+/**
+ * AJAX: Load weekly schedule and return an HTML table.
+ */
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadHorarios'])) {
+    $res = $con->query("
+        SELECT s.day_id, s.week_day,
+               c1.classname AS firstclass_name,
+               c2.classname AS secondclass_name,
+               c3.classname AS thirdclass_name
+        FROM schedule s
+        LEFT JOIN clases c1 ON s.firstclass = c1.classid
+        LEFT JOIN clases c2 ON s.secondclass = c2.classid
+        LEFT JOIN clases c3 ON s.thirdclass = c3.classid
+        ORDER BY s.day_id ASC
+    ");
+
+    if ($res && $res->num_rows > 0) {
+        echo "<table class='table table-striped'><thead><tr>
+                <th>Day</th><th>First Class</th><th>Second Class</th><th>Third Class</th><th>Actions</th>
               </tr></thead><tbody>";
         while ($row = $res->fetch_assoc()) {
             echo "<tr data-id='{$row['day_id']}'>
-                <td class='weekday' data-label='día: '>" . htmlspecialchars($row['week_day'] ?? '') . "</td>
-                <td class='firstclass' data-label='clase 1: '>" . ($row['firstclass_name'] ?? '') . "</td>
-                <td class='secondclass' data-label='clase 2: '>" . ($row['secondclass_name'] ?? '') . "</td>
-                <td class='thirdclass' data-label='clase 3: '>" . ($row['thirdclass_name'] ?? '') . "</td>
+                <td class='weekday' data-label='day: '>" . htmlspecialchars($row['week_day'] ?? '') . "</td>
+                <td class='firstclass' data-label='class 1: '>" . ($row['firstclass_name'] ?? '') . "</td>
+                <td class='secondclass' data-label='class 2: '>" . ($row['secondclass_name'] ?? '') . "</td>
+                <td class='thirdclass' data-label='class 3: '>" . ($row['thirdclass_name'] ?? '') . "</td>
                 <td>
-                    <button class='btn btn-sm btn-warning edit-horario-btn'>Editar</button>
-                    <button class='btn btn-sm btn-success save-horario-btn d-none'>Guardar</button>
-                    <button class='btn btn-sm btn-secondary cancel-horario-btn d-none'>Cancelar</button>
+                    <button class='btn btn-sm btn-warning edit-horario-btn'>Edit</button>
+                    <button class='btn btn-sm btn-success save-horario-btn d-none'>Save</button>
+                    <button class='btn btn-sm btn-secondary cancel-horario-btn d-none'>Cancel</button>
                 </td>
               </tr>";
         }
         echo "</tbody></table>";
     } else {
-        echo "<p>No hay horarios registrados.</p>";
+        echo "<p>No schedules found.</p>";
     }
     exit;
 }
 
 // ============================================================================
-// FORMULARIO HANDLERS
+// CONTACT FORM: Load contact form submissions
 // ============================================================================
+
+/**
+ * AJAX: Retrieve all contact form submissions.
+ */
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'getFormulario') {
     $result = $con->query("SELECT * FROM formulario ORDER BY submitted_at DESC");
 
     if ($result && $result->num_rows > 0) {
         echo "<table class='table table-striped'><thead>
-                <tr><th hidden>Id</th><th>Nombre</th><th>Apellidos</th><th>Teléfono</th><th>Email</th><th>Mensaje</th><th>Fecha</th><th>Acciones</th></tr>
+                <tr><th hidden>ID</th><th>Name</th><th>Surname</th><th>Phone</th><th>Email</th><th>Message</th><th>Date</th><th>Actions</th></tr>
               </thead><tbody>";
         while ($row = $result->fetch_assoc()) {
             echo "<tr data-id='{$row['idformulario']}'>
-                        <td hidden>" . htmlspecialchars($row['idformulario']) . "</td>
-                        <td data-label='Nombre: '>" . htmlspecialchars($row['nombre']) . "</td>
-                        <td data-label='Apellidos: '>" . htmlspecialchars($row['apellidos']) . "</td>
-                        <td data-label='Teléfono: '>" . htmlspecialchars($row['teléfono']) . "</td>
-                        <td data-label='Correo: '>" . htmlspecialchars($row['email']) . "</td>
-                        <td data-label='Mensaje: '>" . nl2br(htmlspecialchars($row['mensaje'])) . "</td>
-                        <td data-label='Fecha envío: '>" . htmlspecialchars($row['submitted_at']) . "</td>
-                        <td>
-                            <a href='mailto:" . htmlspecialchars($row['email']) .
-                                    "?subject=Consulta%20desde%20el%20formulario" .
-                                    "&body=Hola%20" . urlencode($row['nombre']) . ",%0A%0AGracias%20por%20contactar%20con%20nosotros.%0A%0AResponderemos%20a%20la%20mayor%20brevedad.'" .
-                                    " class='btn btn-sm btn-primary' title='Responder'>" .
-                                    "<i class='fas fa-envelope'></i></a>
-                            <button class='btn btn-sm btn-danger delete-formtab-btn'>Borrar</button>
-                        </td>
-                    </tr>";
-
-
+                    <td hidden>" . htmlspecialchars($row['idformulario']) . "</td>
+                    <td>" . htmlspecialchars($row['nombre']) . "</td>
+                    <td>" . htmlspecialchars($row['apellidos']) . "</td>
+                    <td>" . htmlspecialchars($row['teléfono']) . "</td>
+                    <td>" . htmlspecialchars($row['email']) . "</td>
+                    <td>" . nl2br(htmlspecialchars($row['mensaje'])) . "</td>
+                    <td>" . htmlspecialchars($row['submitted_at']) . "</td>
+                    <td>
+                        <a href='mailto:" . htmlspecialchars($row['email']) .
+                "?subject=Consulta%20desde%20el%20formulario&body=Hola%20" . urlencode($row['nombre']) . ",%0A%0AGracias%20por%20contactar.%0A%0AResponderemos%20a%20la%20mayor%20brevedad.' class='btn btn-sm btn-primary' title='Reply'>
+                            <i class='fas fa-envelope'></i>
+                        </a>
+                        <button class='btn btn-sm btn-danger delete-formtab-btn'>Delete</button>
+                    </td>
+                  </tr>";
         }
         echo "</tbody></table>";
     } else {
-        echo "<p>No hay envíos de formulario aún.</p>";
+        echo "<p>No contact form submissions yet.</p>";
     }
 
     exit;

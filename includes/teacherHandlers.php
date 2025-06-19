@@ -2,10 +2,10 @@
 /**
  * teacherHandlers.php
  *
- * Handles AJAX requests for the teacher dashboard, including:
- * - Fetching students and grades
- * - Updating student grades
- * - Fetching class schedule
+ * Handles AJAX requests for the teacher dashboard:
+ *  - Retrieve students and their grades
+ *  - Update student grades
+ *  - View class schedule
  *
  * PHP version 7+
  *
@@ -14,25 +14,32 @@
  * @license    MIT License
  */
 
-// ===================== DATABASE INITIALIZATION =====================
-
+// ============================================================================
+// DATABASE CONNECTION
+// ============================================================================
 if (!isset($con)) {
     require_once __DIR__ . '/../src/models/Database.php';
     try {
         $con = Database::connect();
     } catch (Exception $e) {
-        // Optionally log error
+        // Optional: log the error
     }
 }
 
-// ===================== SESSION VARIABLES =====================
+// ============================================================================
+// SESSION VARIABLES
+// ============================================================================
+/** @var int|null $teacher_id Logged-in teacher's ID */
 $teacher_id = $_SESSION['user_id'] ?? null;
+
+/** @var int|null $teacherClassId Class assigned to the teacher */
 $teacherClassId = $_SESSION['curso'] ?? null;
 
-// ===================== FETCH CLASS NAME =====================
+// ============================================================================
+// FETCH CLASS NAME
+// ============================================================================
 /**
- * Loads the class name for the teacher's assigned class.
- * Sets $className if $teacherClassId is set.
+ * Retrieves and sets the class name of the teacher's assigned class.
  */
 $className = '';
 if ($teacherClassId) {
@@ -44,33 +51,38 @@ if ($teacherClassId) {
     $stmt->close();
 }
 
-// ===================== ACTION: GET STUDENTS AND GRADES =====================
+// ============================================================================
+// ACTION: GET STUDENTS AND GRADES
+// ============================================================================
 /**
- * Handles GET requests for students and their grades.
- * Responds with an HTML table or an error message.
+ * AJAX: Retrieves students in the teacher's class and their grades.
+ * Outputs an HTML table with student and grade information.
  */
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'getStudentsAndGrades') {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' &&
+    isset($_GET['action']) &&
+    $_GET['action'] === 'getStudentsAndGrades') {
+
     if (!$teacherClassId) {
         http_response_code(400);
-        echo "<div class='alert alert-warning'>No tienes una clase asignada.</div>";
+        echo "<div class='alert alert-warning'>You are not assigned to a class.</div>";
         exit;
     }
 
-    $stmt = $con->prepare(
-        "SELECT u.user_id, u.username, c.classname, n.Nota1, n.Nota2, n.Nota3
-         FROM users u
-         LEFT JOIN clases c ON u.class = c.classid
-         LEFT JOIN notas n ON u.user_id = n.idAlumno
-         WHERE u.ulevel = 3 AND u.class = ?
-         ORDER BY u.username"
-    );
+    $stmt = $con->prepare("
+        SELECT u.user_id, u.username, c.classname, n.Nota1, n.Nota2, n.Nota3
+        FROM users u
+        LEFT JOIN clases c ON u.class = c.classid
+        LEFT JOIN notas n ON u.user_id = n.idAlumno
+        WHERE u.ulevel = 3 AND u.class = ?
+        ORDER BY u.username
+    ");
     $stmt->bind_param("i", $teacherClassId);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result && $result->num_rows > 0) {
         echo "<table class='table table-striped'><thead><tr>
-                <th>Alumno</th><th>Curso</th><th>Nota 1</th><th>Nota 2</th><th>Nota 3</th><th>Acciones</th>
+                <th>Student</th><th>Class</th><th>Grade 1</th><th>Grade 2</th><th>Grade 3</th><th>Actions</th>
               </tr></thead><tbody>";
         while ($row = $result->fetch_assoc()) {
             echo "<tr data-id='" . htmlspecialchars($row['user_id']) . "'>
@@ -80,33 +92,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['act
                     <td class='nota2'>" . (isset($row['Nota2']) ? htmlspecialchars($row['Nota2']) : '') . "</td>
                     <td class='nota3'>" . (isset($row['Nota3']) ? htmlspecialchars($row['Nota3']) : '') . "</td>
                     <td>
-                        <button class='btn btn-sm btn-warning edit-nota-btn'>Editar</button>
-                        <button class='btn btn-sm btn-success save-nota-btn d-none'>Guardar</button>
-                        <button class='btn btn-sm btn-secondary cancel-nota-btn d-none'>Cancelar</button>
+                        <button class='btn btn-sm btn-warning edit-nota-btn'>Edit</button>
+                        <button class='btn btn-sm btn-success save-nota-btn d-none'>Save</button>
+                        <button class='btn btn-sm btn-secondary cancel-nota-btn d-none'>Cancel</button>
                     </td>
                   </tr>";
         }
         echo "</tbody></table>";
     } else {
-        echo "<p>No hay notas registradas.</p>";
+        echo "<p>No grades found.</p>";
     }
 
     $stmt->close();
     exit;
 }
 
-// ===================== ACTION: SAVE/UPDATE GRADES =====================
+// ============================================================================
+// ACTION: UPDATE GRADES
+// ============================================================================
 /**
- * Handles POST requests to update a student's grades.
- * Validates that the student belongs to the teacher's class.
- * Responds with "success" or an error message.
+ * AJAX: Updates a student's grades (insert or update).
+ * Only permitted if the student belongs to the teacher's class.
  */
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateNota'], $_POST['idAlumno'])) {
-    $alumno_id = $_POST['idAlumno'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
+    isset($_POST['updateNota'], $_POST['idAlumno'])) {
+
+    $alumno_id = intval($_POST['idAlumno']);
 
     /**
-     * Sanitizes and converts grade input.
-     * @param mixed $val
+     * Parse grade values.
+     *
+     * @param mixed $val Grade input
      * @return float|null
      */
     function parseNota($val) {
@@ -117,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateNota'], $_POST[
     $nota2 = parseNota($_POST['nota2'] ?? null);
     $nota3 = parseNota($_POST['nota3'] ?? null);
 
-    // Verify student belongs to the teacher's class
+    // Validate that student belongs to teacher's class
     $stmt = $con->prepare("SELECT class FROM users WHERE user_id = ? AND ulevel = 3");
     $stmt->bind_param("i", $alumno_id);
     $stmt->execute();
@@ -127,20 +143,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateNota'], $_POST[
 
     if ((int)$alumno_class !== (int)($teacherClassId ?? -1)) {
         http_response_code(403);
-        echo "No tienes permiso para modificar este alumno.";
+        echo "You do not have permission to modify this student.";
         exit;
     }
 
-    // Insert or update grades
+    // Perform upsert of grades
     $idClase = $teacherClassId;
-    $stmt = $con->prepare(
-        "INSERT INTO notas (idAlumno, idClase, Nota1, Nota2, Nota3)
-         VALUES (?, ?, ?, ?, ?)
-         ON DUPLICATE KEY UPDATE
+    $stmt = $con->prepare("
+        INSERT INTO notas (idAlumno, idClase, Nota1, Nota2, Nota3)
+        VALUES (?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
             Nota1 = VALUES(Nota1),
             Nota2 = VALUES(Nota2),
-            Nota3 = VALUES(Nota3)"
-    );
+            Nota3 = VALUES(Nota3)
+    ");
     $stmt->bind_param("iiddd", $alumno_id, $idClase, $nota1, $nota2, $nota3);
 
     if ($stmt->execute()) {
@@ -154,51 +170,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateNota'], $_POST[
     exit;
 }
 
-// ===================== ACTION: GET CLASS SCHEDULE =====================
+// ============================================================================
+// ACTION: GET CLASS SCHEDULE
+// ============================================================================
 /**
- * Handles GET requests for the teacher's class schedule.
- * Responds with an HTML table or a message if no schedule is found.
+ * AJAX: Retrieves the weekly schedule for the teacher's assigned class.
+ * Returns an HTML table or a message if not found.
  */
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'getClassSchedule') {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' &&
+    isset($_GET['action']) &&
+    $_GET['action'] === 'getClassSchedule') {
+
     $classId = $_SESSION['curso'] ?? null;
 
-    $stmt = $con->prepare(
-        "SELECT s.day_id, s.week_day,
-                c1.classname AS firstclass_name,
-                c2.classname AS secondclass_name,
-                c3.classname AS thirdclass_name
-         FROM schedule s
-         LEFT JOIN clases c1 ON s.firstclass = c1.classid
-         LEFT JOIN clases c2 ON s.secondclass = c2.classid
-         LEFT JOIN clases c3 ON s.thirdclass = c3.classid
-         WHERE s.firstclass = ? OR s.secondclass = ? OR s.thirdclass = ?
-         ORDER BY FIELD(s.day_id, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes')"
-    );
+    $stmt = $con->prepare("
+        SELECT s.day_id, s.week_day,
+               c1.classname AS firstclass_name,
+               c2.classname AS secondclass_name,
+               c3.classname AS thirdclass_name
+        FROM schedule s
+        LEFT JOIN clases c1 ON s.firstclass = c1.classid
+        LEFT JOIN clases c2 ON s.secondclass = c2.classid
+        LEFT JOIN clases c3 ON s.thirdclass = c3.classid
+        WHERE s.firstclass = ? OR s.secondclass = ? OR s.thirdclass = ?
+        ORDER BY FIELD(s.day_id, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes')
+    ");
     $stmt->bind_param("iii", $classId, $classId, $classId);
-
     $stmt->execute();
     $res = $stmt->get_result();
 
     if ($res && $res->num_rows > 0) {
         echo "<table class='table table-striped'><thead><tr>
-                <th>Día</th>
-                <th>Primera Clase</th>
-                <th>Segunda Clase</th>
-                <th>Tercera Clase</th>
+                <th>Day</th>
+                <th>First Class</th>
+                <th>Second Class</th>
+                <th>Third Class</th>
               </tr></thead><tbody>";
 
         while ($row = $res->fetch_assoc()) {
             echo "<tr data-id='" . htmlspecialchars($row['day_id']) . "'>
                     <td class='weekday'>" . htmlspecialchars($row['week_day']) . "</td>
-                    <td class='firstclass'>" . ($row['firstclass_name'] ?? '') . "</td>
-                    <td class='secondclass'>" . ($row['secondclass_name'] ?? '') . "</td>
-                    <td class='thirdclass'>" . ($row['thirdclass_name'] ?? '') . "</td>
+                    <td class='firstclass'>" . htmlspecialchars($row['firstclass_name'] ?? '') . "</td>
+                    <td class='secondclass'>" . htmlspecialchars($row['secondclass_name'] ?? '') . "</td>
+                    <td class='thirdclass'>" . htmlspecialchars($row['thirdclass_name'] ?? '') . "</td>
                   </tr>";
         }
 
         echo "</tbody></table>";
     } else {
-        echo "<p>No hay horarios registrados para esta clase.</p>";
+        echo "<p>No schedule found for this class.</p>";
     }
 
     $stmt->close();

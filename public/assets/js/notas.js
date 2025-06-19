@@ -1,15 +1,23 @@
 /**
- * @fileoverview
+ * @file notas.js
+ * @description
  * Handles grade (notas) management for the admin dashboard.
- * Includes AJAX calls for loading, editing, validating, and saving student grades,
- * as well as dynamic editing of grade rows in the UI.
+ * Includes:
+ * - Loading grades table via AJAX
+ * - Inline editing and validation of grades
+ * - Saving updated grades
  *
- * @author Jonathan Ray Hendrix <jrhendrixdev@gmail.com>
+ * @author Jonathan Ray Hendrix
  * @license MIT
  */
 
+//////////////////////////////
+// LOAD GRADES
+//////////////////////////////
+
 /**
- * Loads the list of student grades from the server and injects them into the DOM.
+ * Loads the list of student grades from the server
+ * and injects the resulting HTML into the DOM.
  *
  * @function
  * @returns {void}
@@ -18,16 +26,20 @@ function loadNotas() {
     $.get('/api/admin?loadNotas=1', function (data) {
         $('#notas-table-container').html(data);
     }).fail(function (xhr) {
-        console.error('Fallo al cargar notas:', xhr.responseText);
+        console.error('Failed to load grades:', xhr.responseText);
     });
 }
 
+//////////////////////////////
+// INLINE EDITING
+//////////////////////////////
+
 /**
- * Handles the click event for editing a grade row.
- * Replaces the grade cells with input fields for editing.
+ * Enables inline editing of a grade row.
+ * Replaces the grade cells with <input type="number"> fields.
  *
- * @event click
- * @param {Event} e - The click event.
+ * @param {Event} e - Click event
+ * @returns {void}
  */
 function handleEditNotaBtnClick(e) {
     const row = $(this).closest('tr');
@@ -38,27 +50,26 @@ function handleEditNotaBtnClick(e) {
     });
 
     row.find('.edit-nota-btn').addClass('d-none');
-    row.find('.save-nota-btn').removeClass('d-none');
-    row.find('.cancel-nota-btn').removeClass('d-none');
+    row.find('.save-nota-btn, .cancel-nota-btn').removeClass('d-none');
 }
 
 /**
- * Handles the click event for canceling grade edit.
- * Refreshes all tabs to restore the original state.
+ * Cancels the edit operation and reloads all dashboard tabs
+ * to restore the original grade table.
  *
- * @event click
- * @param {Event} e - The click event.
+ * @param {Event} e - Click event
+ * @returns {void}
  */
 function handleCancelNotaBtnClick(e) {
     refreshAllTabs();
 }
 
 /**
- * Handles the click event for saving grade edits.
- * Validates input and sends an AJAX POST request to update the grades.
+ * Saves the updated grades by sending a POST request.
+ * Performs validation: values must be null or between 0–10.
  *
- * @event click
- * @param {Event} e - The click event.
+ * @param {Event} e - Click event
+ * @returns {void}
  */
 function handleSaveNotaBtnClick(e) {
     const row = $(this).closest('tr');
@@ -66,40 +77,46 @@ function handleSaveNotaBtnClick(e) {
     const nota2val = row.find('.nota2 input').val();
     const nota3val = row.find('.nota3 input').val();
 
-    // Accept "" as a valid value (meaning "no grade")
     const nota1 = nota1val === "" ? null : parseFloat(nota1val);
     const nota2 = nota2val === "" ? null : parseFloat(nota2val);
     const nota3 = nota3val === "" ? null : parseFloat(nota3val);
 
-    // Only validate if not empty
-    if ([nota1, nota2, nota3].some(n => n !== null && (isNaN(n) || n < 0 || n > 10))) {
-        alert('Las notas deben estar entre 0 y 10 o vacías.');
+    // Validate input: must be null or between 0 and 10
+    const invalid = [nota1, nota2, nota3].some(n => n !== null && (isNaN(n) || n < 0 || n > 10));
+    if (invalid) {
+        alert('Grades must be between 0 and 10 or left blank.');
         return;
     }
 
-    $.post('/api/admin?', {
+    $.post('/api/admin', {
         updateNota: 1,
         idAlumno: row.data('id'),
-        nota1: nota1,
-        nota2: nota2,
-        nota3: nota3
+        nota1,
+        nota2,
+        nota3
     }).done(function (response) {
-        console.log('Respuesta al guardar nota:', response);
+        console.log('Server response on saving grade:', response);
         if (response.trim() === 'success') {
             refreshAllTabs();
         } else if (response.includes('fuera de rango')) {
-            alert('Las notas deben estar entre 0 y 10');
+            alert('Grades must be between 0 and 10.');
         } else {
-            alert('Error al guardar notas');
+            alert('Failed to save grades.');
         }
     }).fail(function (xhr) {
-        console.error('Fallo al guardar notas:', xhr.responseText);
-        alert('Error al guardar notas');
+        console.error('Error saving grades:', xhr.responseText);
+        alert('Failed to save grades.');
     });
 }
 
+//////////////////////////////
+// INITIALIZATION
+//////////////////////////////
+
 /**
- * Initializes the grade management UI and binds event handlers.
+ * Initializes the grade module:
+ * - Loads the grades table
+ * - Binds event listeners for edit, cancel, and save buttons
  *
  * @function
  * @returns {void}
@@ -107,13 +124,14 @@ function handleSaveNotaBtnClick(e) {
 function initializeNotasModule() {
     loadNotas();
 
-    // Event delegation for dynamic elements and handlers
     $(document).on('click', '.edit-nota-btn', handleEditNotaBtnClick);
     $(document).on('click', '.cancel-nota-btn', handleCancelNotaBtnClick);
     $(document).on('click', '.save-nota-btn', handleSaveNotaBtnClick);
 }
 
-// Document ready: bind all event handlers and initialize UI
+/**
+ * Binds all event handlers and initializes the UI once the DOM is ready.
+ */
 $(document).ready(function () {
     initializeNotasModule();
 });

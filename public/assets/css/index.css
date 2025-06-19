@@ -2,38 +2,41 @@
 
 /**
  * @file index.css
- * @description Main stylesheet for Business First English Center public site.
-
+ * @description Main stylesheet for Business First English Center public-facing site.
+ * @author Jonathan Ray Hendrix
+ * @license MIT License
  *
  * @sections
  *   1. Navbar & Demo Notice
- *   2. HOME Page Layout
+ *   2. Home Page Layout
  *   3. Footer
- *   4. General Typography & Tables
+ *   4. Typography & Tables
  *   5. IC, Exams, Special Classes
- *   6. Admin, Teacher, Student Layout
+ *   6. Dashboard Layouts (Admin, Teacher, Student)
  *   7. Login Screen
- *   8. Thank you screen
+ *   8. Thank You Screen
+ *   9. Responsive Media Queries (Tablet & Mobile)
  */
 
 /* ==========================================================================
    1. NAVBAR STYLES & DEMO NOTICE
    ========================================================================== */
-/* Navbar container */
+
+/* Main navbar container */
 .navbar {
     background-color: midnightblue !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    padding: 0.5rem 2rem; /* tighter height + horizontal spacing */
+    padding: 0.5rem 2rem;
 }
 
-/* Navbar items container */
+/* Navbar item container */
 .navbar-nav {
     display: flex;
     align-items: center;
-    gap: 60px; /* slightly closer than 80px */
+    gap: 60px;
 }
 
-/* Links */
+/* Link styling and hover effect */
 .nav-link {
     color: white;
     font-size: 18px;
@@ -44,7 +47,6 @@
     transition: all 0.3s ease;
 }
 
-/* Hover underline effect with fade-in */
 .nav-link::after {
     content: '';
     position: absolute;
@@ -65,23 +67,23 @@
     background-color: rgba(255, 255, 255, 0.05);
 }
 
-/* Responsive logo size */
+/* Logo responsiveness */
 #Navbar_Logo {
     width: 240px;
     height: auto;
     margin-left: 100px;
 }
-/* Dropdown items */
+
+/* Dropdown styling */
 .dropdown-item {
-    padding: 10px 20px;               /* tighter vertical padding */
-    font-size: 16px;                  /* slightly smaller text */
+    padding: 10px 20px;
+    font-size: 16px;
     color: white;
     background-color: midnightblue;
-    border-bottom: 1px solid #111;    /* optional separator */
+    border-bottom: 1px solid #111;
     transition: background-color 0.3s ease;
 }
 
-/* Last item: remove separator line */
 .dropdown-item:last-child {
     border-bottom: none;
 }
@@ -91,14 +93,13 @@
     color: white !important;
 }
 
-/* Dropdown menu styling */
 .dropdown-menu {
     opacity: 0;
     transform: translateY(-10px);
     transition: opacity 0.3s ease, transform 0.3s ease;
-    display: block; /* so it doesn’t break */
+    display: block;
     pointer-events: none;
-    overflow: hidden; /* <-- hides overflow rendering glitches */
+    overflow: hidden;
     margin-top: 0;
     padding: 0;
     border: none;
@@ -107,37 +108,30 @@
     border-radius: 6px;
 }
 
-
-
 .dropdown:hover .dropdown-menu {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
 }
 
+/* Dropdown caret customization */
 .custom-caret {
-    display: inline-block;
     margin-left: 8px;
-    width: 0;
-    height: 0;
-    vertical-align: middle;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid crimson; /* Or white, depending on theme */
+    border-top: 5px solid crimson;
     transition: transform 0.3s ease;
 }
 
 .dropdown-toggle::after {
-    display: none; /* disable Bootstrap’s default caret if needed */
+    display: none;
 }
 
-
-/* Optional: rotate on open */
 .nav-item.show .custom-caret {
     transform: rotate(180deg);
 }
 
-/* General text tweaks */
+/* Navbar list text styles */
 nav ul li {
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
@@ -146,25 +140,23 @@ nav ul li {
     text-transform: uppercase;
 }
 
-/* Navbar menu style */
+/* Menu styling background */
 .Menu-Style,
 #Navegación {
     background-color: midnightblue;
 }
 
 #Navbar_Login {
-    padding: 15px 0 15px 0;
+    padding: 15px 0;
 }
 
-
-/* Navbar link colors */
+/* Link coloring */
 .list-color a,
 .list-color span {
     color: white !important;
 }
 
-/* ========= DEMO NOTICE ========= */
-
+/* Demo/maintenance banner */
 .demo-notice {
     position: fixed;
     top: 0;
@@ -195,42 +187,33 @@ nav ul li {
 }
 
 #close-notice:hover {
-    color: #000000;
+    color: black;
 }
-
 
 /* ==========================================================================
    2. HOME PAGE LAYOUT
    ========================================================================== */
 
-/* Responsive images */
-img {
-    max-width: 100%;
-    height: auto;
-}
-
-/* titular image */
+/* Hero image container */
 #banner-container {
     width: 100%;
-    max-height: 450px; /* Optional: control max height */
+    max-height: 450px;
+    background-color: #0c145a;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #0c145a; /* fallback background if image fails */
     height: 350px;
 }
 
 #Title-Image {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* crop and scale to fill */
+    object-fit: cover;
     display: block;
 }
 
-
-
-/* Anchor offset for smooth scroll */
+/* Smooth scroll offset anchor */
 a.anchor {
     display: block;
     position: relative;
@@ -238,7 +221,7 @@ a.anchor {
     visibility: hidden;
 }
 
-/* Panel link overlay */
+/* Panel overlay for clickable areas */
 .panel-link {
     position: absolute;
     width: 100%;
@@ -248,7 +231,7 @@ a.anchor {
     z-index: 1;
 }
 
-/* Row styles */
+/* Even and uneven row styling */
 .Row-Even,
 .Row-Uneven {
     height: auto;
@@ -259,31 +242,26 @@ a.anchor {
 .Row-Even {
     background-color: aliceblue;
 }
+
 .Row-Even:hover {
     background-color: white;
-}
-.Row-Even:hover img,
-.Row-Uneven:hover img {
-    border-style: solid;
-    border-color: navy;
-    border-width: thin;
 }
 
 .Row-Uneven {
     background-color: lightsteelblue;
 }
+
 .Row-Uneven:hover {
     background-color: rgb(219, 224, 230);
 }
 
-.Row-Even::after,
-.Row-Uneven::after {
-    content: '';
-    display: table;
-    clear: both;
+/* Row hover effects */
+.Row-Even:hover img,
+.Row-Uneven:hover img {
+    border: thin solid navy;
 }
 
-/* Row content */
+/* Typography & structure */
 .row-pic {
     width: 32%;
     max-height: 350px;
@@ -301,6 +279,7 @@ a.anchor {
     font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
 }
 
+/* Row header */
 .Row-Header {
     background-color: midnightblue;
     color: white;
@@ -309,10 +288,7 @@ a.anchor {
     outline-color: crimson;
 }
 
-.row-text {
-    float: none;
-}
-
+/* Link buttons with icons */
 .link-icon {
     margin-left: 10px;
     color: crimson;
@@ -341,8 +317,6 @@ a.anchor {
 .icon-button i {
     font-size: 16px;
 }
-
-
 /* ==========================================================================
    3. FOOTER STYLES
    ========================================================================== */
@@ -663,14 +637,11 @@ table tr th {
 
 
 /* ==========================================================================
-   7. Login Screen
+   7. LOGIN SCREEN
    ========================================================================== */
-
-.login-container{
+.login-container {
     text-align: center;
     margin: 5rem 40rem 10rem;
-
-
 }
 
 .login-container label {
@@ -679,16 +650,15 @@ table tr th {
     margin-bottom: 0.25rem;
     font-weight: bold;
 }
-
 /* ==========================================================================
-   8. Thank you screen
+   8. THANK YOU SCREEN
    ========================================================================== */
 
 .return-button {
     margin-bottom: 4.7rem;
     padding: 12px 24px;
     font-size: 1.1rem;
-    background-color: #3b82f6; /* Tailwind's blue-500 */
+    background-color: #3b82f6;
     color: white;
     border: none;
     border-radius: 8px;
@@ -697,7 +667,7 @@ table tr th {
 }
 
 .return-button:hover {
-    background-color: #2563eb; /* Tailwind's blue-600 */
+    background-color: #2563eb;
     transform: scale(1.05);
 }
 
@@ -705,9 +675,8 @@ table tr th {
     transform: scale(0.97);
 }
 
-
 /* ==========================================================================
-   MEDIA QUERIES FOR TABLETS & PHONES ONLY
+   MEDIA QUERIES FOR TABLETS & PHONES
    ========================================================================== */
 @media (max-width: 768px) {
     .navbar-nav {

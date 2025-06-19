@@ -1,86 +1,92 @@
 /**
- * @fileoverview
- * Handles class management (CRUD) for the admin dashboard.
- * Includes AJAX calls for loading, creating, updating, and deleting classes,
- * as well as dynamic teacher dropdown population and user form dropdown refresh.
+ * @file clases.js
+ * @description
+ * Manages class-related CRUD operations in the admin dashboard.
+ * Handles:
+ *  - Loading class list
+ *  - Creating, updating, and deleting classes via AJAX
+ *  - Dynamic dropdowns for available teachers
+ *  - Refreshing dropdowns in related forms
  *
- * @author Jonathan Ray Hendrix <jrhendrixdev@gmail.com>
+ * @author Jonathan Ray Hendrix
  * @license MIT
  */
 
+/// ======================= LOAD & UI INIT ===========================
+
 /**
- * Loads the list of classes from the server and injects them into the DOM.
+ * Loads the list of classes from the server and injects it into the class table container.
  *
  * @function
  * @returns {void}
  */
 function loadClasses() {
-    $.get('/api/admin?loadClasses=1', function(data) {
+    $.get('/api/admin?loadClasses=1', function (data) {
         $('#class-table-container').html(data);
-    }).fail(function(xhr) {
-        console.error('Fallo al cargar clases:', xhr.responseText);
+    }).fail(function (xhr) {
+        console.error('Failed to load classes:', xhr.responseText);
     });
 }
 
 /**
- * Fetches available teachers for assignment to a class.
- * Returns a jQuery <select> element with teacher options.
+ * Fetches a list of available teachers for the class form.
+ * Builds a <select> dropdown with options.
  *
  * @function
- * @param {?number|string} [selectedId=null] - The ID of the teacher to pre-select (if any).
- * @returns {Promise<jQuery>} Promise resolving to a jQuery <select> element.
+ * @param {?number|string} [selectedId=null] - Teacher ID to preselect.
+ * @returns {Promise<jQuery>} A promise resolving to a <select> element.
  */
 function fetchAvailableTeachers(selectedId = null) {
     return $.get('/api/admin?availableTeachers=1').then(function (optionsHtml) {
         const select = $('<select class="form-control" name="profesor"></select>')
-            .append(`<option value="">-- Sin asignar --</option>`, optionsHtml);
+            .append(`<option value="">-- Unassigned --</option>`, optionsHtml);
         if (selectedId) {
             select.find(`option[value='${selectedId}']`).prop('selected', true);
         }
         return select;
-    }).fail(function(xhr) {
-        console.error('Fallo al obtener profesores disponibles:', xhr.responseText);
+    }).fail(function (xhr) {
+        console.error('Failed to fetch available teachers:', xhr.responseText);
     });
 }
 
 /**
- * Loads the teacher dropdown for the class creation form.
+ * Injects the teacher dropdown into the class creation form.
  *
  * @function
  * @returns {void}
  */
 function loadTeacherDropdown() {
-    fetchAvailableTeachers().then(function(select) {
+    fetchAvailableTeachers().then(function (select) {
         $('#class-create-form select[name="profesor"]').replaceWith(select);
     });
 }
 
 /**
- * Refreshes the class dropdown in the user creation form and resets the user level dropdown.
- * This ensures the user creation form always has the latest class list and the user level is reset.
+ * Updates class dropdown and resets user level in the user creation form.
  *
  * @function
  * @returns {void}
  */
 function refreshUserFormDropdowns() {
     if (typeof fetchAvailableClasses === "function") {
-        fetchAvailableClasses().then(function(select) {
+        fetchAvailableClasses().then(function (select) {
             $('#user-create-form select[name="class"]').replaceWith(select);
-            // Reset user level dropdown to its default option ("Rango de usuario")
             const $ulevel = $('#user-create-form select[name="ulevel"]');
             if ($ulevel.length) {
-                $ulevel.prop('selectedIndex', 0); // Select the first option
+                $ulevel.prop('selectedIndex', 0);
             }
         });
     }
 }
 
+/// ======================= CLASS CREATION ===========================
+
 /**
- * Handles the submission of the class creation form.
- * Sends an AJAX POST request to create a new class.
+ * Handles submission of the class creation form.
+ * Sends class data via AJAX to the server.
  *
- * @event submit
- * @param {Event} e - The submit event.
+ * @param {Event} e - Submit event
+ * @returns {void}
  */
 function handleClassCreateFormSubmit(e) {
     e.preventDefault();
@@ -92,39 +98,41 @@ function handleClassCreateFormSubmit(e) {
         classname: classname,
         profesor: profesor || ''
     }).done(function (response) {
-        console.log('Respuesta del servidor al crear clase:', response);
+        console.log('Server response on class create:', response);
         response = response.trim();
         if (response === 'success') {
             $('#create-class-feedback')
                 .removeClass('text-danger')
                 .addClass('text-success')
-                .text('Clase creada correctamente.');
+                .text('Class created successfully.');
             $('#class-create-form')[0].reset();
             refreshAllTabs();
             loadTeacherDropdown();
-            refreshUserFormDropdowns(); // Ensures user form dropdowns are updated after class creation
+            refreshUserFormDropdowns();
         } else {
-            console.error('Error en respuesta:', response);
+            console.error('Unexpected server response:', response);
             $('#create-class-feedback')
                 .removeClass('text-success')
                 .addClass('text-danger')
-                .text('Error al crear la clase.');
+                .text('Error creating class.');
         }
     }).fail(function (xhr) {
-        console.error('Fallo AJAX al crear clase:', xhr.responseText);
+        console.error('AJAX error on class creation:', xhr.responseText);
         $('#create-class-feedback')
             .removeClass('text-success')
             .addClass('text-danger')
-            .text('Error al crear la clase.');
+            .text('Error creating class.');
     });
 }
 
+/// ======================= EDIT CLASS ===========================
+
 /**
- * Handles the click event for editing a class row.
- * Replaces the row's cells with editable inputs and dropdowns.
+ * Enables inline editing of a class row.
+ * Replaces content with input fields and dropdowns.
  *
- * @event click
- * @param {Event} e - The click event.
+ * @param {Event} e - Click event
+ * @returns {void}
  */
 async function handleEditClassBtnClick(e) {
     const row = $(this).closest('tr');
@@ -137,27 +145,25 @@ async function handleEditClassBtnClick(e) {
     const select = await fetchAvailableTeachers(profesorId);
     row.find('.profesor').html(select);
 
-    row.find('.edit-class-btn').replaceWith('<button class="btn btn-sm btn-success save-class-btn">Guardar</button>');
-    row.find('.delete-class-btn').replaceWith('<button class="btn btn-sm btn-secondary cancel-class-btn">Cancelar</button>');
+    row.find('.edit-class-btn').replaceWith('<button class="btn btn-sm btn-success save-class-btn">Save</button>');
+    row.find('.delete-class-btn').replaceWith('<button class="btn btn-sm btn-secondary cancel-class-btn">Cancel</button>');
 }
 
 /**
- * Handles the click event for canceling class edit.
- * Refreshes all tabs to restore the original state.
+ * Cancels edit mode and reloads the class list.
  *
- * @event click
- * @param {Event} e - The click event.
+ * @param {Event} e - Click event
+ * @returns {void}
  */
 function handleCancelClassBtnClick(e) {
     refreshAllTabs();
 }
 
 /**
- * Handles the click event for saving class edits.
- * Sends an AJAX POST request to update the class.
+ * Saves the edited class data via AJAX.
  *
- * @event click
- * @param {Event} e - The click event.
+ * @param {Event} e - Click event
+ * @returns {void}
  */
 function handleSaveClassBtnClick(e) {
     const row = $(this).closest('tr');
@@ -171,52 +177,59 @@ function handleSaveClassBtnClick(e) {
         classname: classname,
         profesor: profesor || ''
     }).done(function (response) {
-        console.log('Respuesta del servidor al actualizar clase:', response);
+        console.log('Server response on class update:', response);
         if (response.trim() === 'success') {
             refreshAllTabs();
             loadTeacherDropdown();
-            refreshUserFormDropdowns(); // Ensures user form dropdowns are updated after class edit
+            refreshUserFormDropdowns();
         } else {
-            console.error('Error en respuesta al actualizar clase:', response);
-            alert('Error al actualizar la clase');
+            console.error('Unexpected server response on update:', response);
+            alert('Error updating class.');
         }
     }).fail(function (xhr) {
-        console.error('Fallo al actualizar clase:', xhr.responseText);
-        alert('Error al actualizar la clase');
+        console.error('AJAX error updating class:', xhr.responseText);
+        alert('Error updating class.');
     });
 }
 
+/// ======================= DELETE CLASS ===========================
+
 /**
- * Handles the click event for deleting a class.
- * Sends an AJAX POST request to delete the class after confirmation.
+ * Confirms and deletes a class via AJAX.
  *
- * @event click
- * @param {Event} e - The click event.
+ * @param {Event} e - Click event
+ * @returns {void}
  */
 function handleDeleteClassBtnClick(e) {
     const row = $(this).closest('tr');
     const classid = row.data('id');
-    if (confirm('¿Estás seguro de que quieres eliminar esta clase?')) {
+
+    if (confirm('Are you sure you want to delete this class?')) {
         $.post('/api/admin', {
             deleteClass: 1,
             classid: classid
         }).done(function (response) {
-            console.log('Respuesta del servidor al eliminar clase:', response);
+            console.log('Server response on delete:', response);
             if (response.trim() === 'success') {
                 refreshAllTabs();
                 loadTeacherDropdown();
             } else {
-                console.error('Error en respuesta al eliminar clase:', response);
-                alert('Error al eliminar la clase');
+                console.error('Unexpected server response on delete:', response);
+                alert('Error deleting class.');
             }
         }).fail(function (xhr) {
-            console.error('Fallo al eliminar clase:', xhr.responseText);
-            alert('Error al eliminar la clase');
+            console.error('AJAX error deleting class:', xhr.responseText);
+            alert('Error deleting class.');
         });
     }
 }
 
-// CLASS CREATION FORM TOGGLE. HANDLED DIFFERENTLY THAN IN USER
+/// ======================= FORM TOGGLE ===========================
+
+/**
+ * Toggles the visibility of the class creation form and button text.
+ * Adds +/− indicator to the toggle button.
+ */
 document.addEventListener("DOMContentLoaded", function () {
     const toggleClassBtn = document.getElementById("toggleClassForm");
     const classFormContainer = document.getElementById("classFormContainer");
@@ -224,30 +237,24 @@ document.addEventListener("DOMContentLoaded", function () {
     if (toggleClassBtn && classFormContainer) {
         toggleClassBtn.addEventListener("click", function () {
             classFormContainer.classList.toggle("show");
-
-            // Toggle +/− and text
             const isVisible = classFormContainer.classList.contains("show");
-            toggleClassBtn.textContent = isVisible ? "− Ocultar formulario" : "+ Añadir clase";
+            toggleClassBtn.textContent = isVisible ? "− Hide Form" : "+ Add Class";
         });
     }
 });
 
+/// ======================= INIT ON PAGE LOAD ===========================
 
-
-// ON PAGE LOAD: Bind all event handlers and initialize UI. On page load.
+/**
+ * Binds all class-related event handlers and loads initial data.
+ */
 $(document).ready(function () {
     loadClasses();
     loadTeacherDropdown();
 
-    // Event delegation for dynamic elements and handlers
     $('#class-create-form').on('submit', handleClassCreateFormSubmit);
     $(document).on('click', '.edit-class-btn', handleEditClassBtnClick);
     $(document).on('click', '.cancel-class-btn', handleCancelClassBtnClick);
     $(document).on('click', '.save-class-btn', handleSaveClassBtnClick);
     $(document).on('click', '.delete-class-btn', handleDeleteClassBtnClick);
-
-
-
-
-
 });

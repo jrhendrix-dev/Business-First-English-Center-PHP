@@ -1,15 +1,23 @@
 /**
- * @fileoverview
- * Handles schedule (horarios) management for the admin dashboard.
- * Includes AJAX calls for loading and updating class schedules,
- * and dynamic editing of schedule rows in the UI.
+ * @file horarios.js
+ * @description
+ * Admin dashboard module for managing weekly class schedules.
+ * Handles:
+ *  - Loading schedule table via AJAX
+ *  - Inline editing of schedule rows
+ *  - Saving or cancelling edits
  *
- * @author Jonathan Ray Hendrix <jrhendrixdev@gmail.com>
+ * @author Jonathan Ray Hendrix
  * @license MIT
  */
 
+//////////////////////////////
+// LOAD DATA
+//////////////////////////////
+
 /**
- * Loads the list of class schedules from the server and injects them into the DOM.
+ * Loads the list of class schedules from the server
+ * and injects the resulting HTML into the DOM.
  *
  * @function
  * @returns {void}
@@ -18,26 +26,29 @@ function loadHorarios() {
     $.get('/api/admin?loadHorarios=1', function (data) {
         $('#horarios-table-container').html(data);
     }).fail(function (xhr) {
-        console.error('Error al cargar horarios:', xhr.responseText);
+        console.error('Failed to load schedule:', xhr.responseText);
     });
 }
 
+//////////////////////////////
+// INLINE EDITING
+//////////////////////////////
+
 /**
- * Handles the click event for editing a schedule row.
- * Replaces the row's class cells with <select> dropdowns for editing.
+ * Enables inline editing of a schedule row.
+ * Replaces class name cells with <select> dropdowns.
  *
- * @event click
- * @param {Event} e - The click event.
+ * @param {Event} e - Click event
+ * @returns {void}
  */
 function handleEditHorarioBtnClick(e) {
     const row = $(this).closest('tr');
 
     ['firstclass', 'secondclass', 'thirdclass'].forEach(col => {
         const originalText = row.find('.' + col).text().trim();
-        const currentOption = window.classOptions;
-        const select = $('<select class="form-control"></select>').append(currentOption);
+        const select = $('<select class="form-control"></select>').append(window.classOptions);
 
-        // Try to select the option by visible text
+        // Try to match option by visible text
         select.find('option').filter(function () {
             return $(this).text().trim() === originalText;
         }).prop('selected', true);
@@ -50,22 +61,21 @@ function handleEditHorarioBtnClick(e) {
 }
 
 /**
- * Handles the click event for canceling schedule edit.
- * Refreshes all tabs to restore the original state.
+ * Cancels editing and reloads the schedule table to reset state.
  *
- * @event click
- * @param {Event} e - The click event.
+ * @param {Event} e - Click event
+ * @returns {void}
  */
 function handleCancelHorarioBtnClick(e) {
     refreshAllTabs();
 }
 
 /**
- * Handles the click event for saving schedule edits.
- * Sends an AJAX POST request to update the schedule for the day.
+ * Saves the updated schedule data to the server.
+ * Sends AJAX POST request with selected class IDs.
  *
- * @event click
- * @param {Event} e - The click event.
+ * @param {Event} e - Click event
+ * @returns {void}
  */
 function handleSaveHorarioBtnClick(e) {
     const row = $(this).closest('tr');
@@ -74,7 +84,7 @@ function handleSaveHorarioBtnClick(e) {
     const secondclass = row.find('.secondclass select').val();
     const thirdclass = row.find('.thirdclass select').val();
 
-    $.post('/api/admin?', {
+    $.post('/api/admin', {
         updateHorario: 1,
         day_id,
         firstclass,
@@ -84,16 +94,22 @@ function handleSaveHorarioBtnClick(e) {
         if (response.trim() === 'success') {
             refreshAllTabs();
         } else {
-            alert('Error al guardar horario');
+            alert('Failed to save schedule.');
         }
     }).fail(function (xhr) {
-        console.error('Error al guardar horario:', xhr.responseText);
-        alert('Error al guardar horario');
+        console.error('Error saving schedule:', xhr.responseText);
+        alert('Failed to save schedule.');
     });
 }
 
+//////////////////////////////
+// INITIALIZATION
+//////////////////////////////
+
 /**
- * Initializes the schedule management UI and binds event handlers.
+ * Initializes the schedule module:
+ * - Loads the schedule table
+ * - Binds event listeners to edit, save, and cancel buttons
  *
  * @function
  * @returns {void}
@@ -101,13 +117,14 @@ function handleSaveHorarioBtnClick(e) {
 function initializeHorariosModule() {
     loadHorarios();
 
-    // Event delegation for dynamic elements and handlers
     $(document).on('click', '.edit-horario-btn', handleEditHorarioBtnClick);
     $(document).on('click', '.cancel-horario-btn', handleCancelHorarioBtnClick);
     $(document).on('click', '.save-horario-btn', handleSaveHorarioBtnClick);
 }
 
-// Document ready: bind all event handlers and initialize UI
+/**
+ * Binds all events and initializes the UI once the DOM is ready.
+ */
 $(document).ready(function () {
     initializeHorariosModule();
 });

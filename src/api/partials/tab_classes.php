@@ -10,12 +10,10 @@
 
 
 // ========================== SAFEGUARDS FOR TEMPLATE VARIABLES ==========================
-$classOptions = $classOptions ?? '';
 $teacherOptions = $teacherOptions ?? '';
 ?>
 
 <script>
-    window.classOptions = `<?php echo $classOptions; ?>`;
     window.teacherOptions = `<?php echo $teacherOptions; ?>`;
 </script>
 

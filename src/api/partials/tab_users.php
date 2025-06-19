@@ -12,12 +12,10 @@
 
 // ========================== SAFEGUARDS FOR TEMPLATE VARIABLES ==========================
 $classOptions = $classOptions ?? '';
-$teacherOptions = $teacherOptions ?? '';
 ?>
 
 <script>
     window.classOptions = `<?php echo $classOptions; ?>`;
-    window.teacherOptions = `<?php echo $teacherOptions; ?>`;
 </script>
 
 <div class="tab-pane fade show active" id="usuarios" role="tabpanel">
