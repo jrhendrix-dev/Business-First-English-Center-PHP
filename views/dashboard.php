@@ -15,11 +15,10 @@ require_once __DIR__ . '/../src/models/Database.php';
 if (!check_login()) {
     if (!headers_sent()) {
         header("Location: login_screen?expired=1");
-        exit();
     } else {
         echo "Error: los headers ya fueron enviados.";
-        exit();
     }
+    exit();
 }
 
 $con = Database::connect();
@@ -30,7 +29,7 @@ include_once __DIR__ . '/header.php';
 
 
     <div class="content">
-        <h2  id="dashboard-header">Bienvenido/a, <?php echo htmlspecialchars($_SESSION["user"]); ?>.</h2>
+        <h2  id="dashboard-header">Usuario: <?php echo htmlspecialchars($_SESSION["user"]); ?>.</h2>
 
         <?php
         switch ($_SESSION["lvl"]) {

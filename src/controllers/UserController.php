@@ -70,8 +70,6 @@ if (isset($_POST['username'], $_POST['email'], $_POST['pword'], $_POST['ulevel']
     exit;
 }
 
-
-
 // ==================== UPDATE HANDLERS ===================//
 /**
  * Update user information.

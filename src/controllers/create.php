@@ -5,6 +5,11 @@ require_once __DIR__ . '/../models/Database.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $con = Database::connect();
 
+    date_default_timezone_set('Europe/Madrid'); //Controla que la hora marcada sea la que yo quiero, no la del server
+    $fecha = date('Y-m-d H:i:s');
+
+
+
     $nombre    = trim($_POST['nombre'] ?? '');
     $apellidos = trim($_POST['apellidos'] ?? '');
     $telefono  = trim($_POST['teléfono'] ?? '');
@@ -12,8 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mensaje   = trim($_POST['mensaje'] ?? '');
 
     if ($nombre && $apellidos && $email && $mensaje) {
-        $stmt = $con->prepare("INSERT INTO formulario (nombre, apellidos, teléfono, email, mensaje) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $nombre, $apellidos, $telefono, $email, $mensaje);
+        $stmt = $con->prepare("INSERT INTO formulario (nombre, apellidos, teléfono, email, mensaje, submitted_at) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssss", $nombre, $apellidos, $telefono, $email, $mensaje, $fecha);
 
         if ($stmt->execute()) {
             header("Location: /thanks");
