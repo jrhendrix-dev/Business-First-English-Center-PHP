@@ -253,3 +253,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadHorarios'])) {
     exit;
 }
 
+// ============================================================================
+// FORMULARIO HANDLERS
+// ============================================================================
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'getFormulario') {
+    $result = $con->query("SELECT * FROM formulario ORDER BY submitted_at DESC");
+
+    if ($result && $result->num_rows > 0) {
+        echo "<table class='table table-striped'><thead>
+                <tr><th hidden>Id</th><th>Nombre</th><th>Apellidos</th><th>Teléfono</th><th>Email</th><th>Mensaje</th><th>Fecha</th><th>Acciones</th></tr>
+              </thead><tbody>";
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr data-id='{$row['idformulario']}'>
+                        <td hidden>" . htmlspecialchars($row['idformulario']) . "</td>
+                        <td data-label='Nombre: '>" . htmlspecialchars($row['nombre']) . "</td>
+                        <td data-label='Apellidos: '>" . htmlspecialchars($row['apellidos']) . "</td>
+                        <td data-label='Teléfono: '>" . htmlspecialchars($row['teléfono']) . "</td>
+                        <td data-label='Correo: '>" . htmlspecialchars($row['email']) . "</td>
+                        <td data-label='Mensaje: '>" . nl2br(htmlspecialchars($row['mensaje'])) . "</td>
+                        <td data-label='Fecha envío: '>" . htmlspecialchars($row['submitted_at']) . "</td>
+                        <td>
+                            <a href='mailto:" . htmlspecialchars($row['email']) .
+                                    "?subject=Consulta%20desde%20el%20formulario" .
+                                    "&body=Hola%20" . urlencode($row['nombre']) . ",%0A%0AGracias%20por%20contactar%20con%20nosotros.%0A%0AResponderemos%20a%20la%20mayor%20brevedad.'" .
+                                    " class='btn btn-sm btn-primary' title='Responder'>" .
+                                    "<i class='fas fa-envelope'></i></a>
+                            <button class='btn btn-sm btn-danger delete-formtab-btn'>Borrar</button>
+                        </td>
+                    </tr>";
+
+
+        }
+        echo "</tbody></table>";
+    } else {
+        echo "<p>No hay envíos de formulario aún.</p>";
+    }
+
+    exit;
+}
