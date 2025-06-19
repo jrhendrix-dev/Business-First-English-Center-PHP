@@ -53,7 +53,7 @@ include_once __DIR__ . '/../views/header.php';
                 </ul>
 
 
-            <form id="entryform" method="POST" action="/Business-First-English-Center/src/controllers/create.php">
+            <form id="entryform" method="POST" action="/create">
                 <table class="table table-bordered infotable">
                     <thead>
                     <tr>
@@ -124,5 +124,3 @@ include_once __DIR__ . '/../views/header.php';
 <!-- Footer -->
 <?php include_once __DIR__ . '/../views/footer.php'; ?>
 
-</body>
-</html>

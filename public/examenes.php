@@ -48,63 +48,62 @@ include_once __DIR__ . '/../views/header.php';
                         para informarte<br> sobre nuesros precios, niveles, horarios, modalidades, etc.
                     Responderemos a todas tus preguntas y podrás visitar<br> nuestras instalaciones. </li>
                 </ul>
-                
-                
+
+
+            <form id="entryform" method="POST" action="/create">
                 <table class="table table-bordered infotable">
                     <thead>
-                        <tr>
-                            <th colspan="2"><h2>Formulario</h2></th>
-                        </tr>
-                                        
+                    <tr>
+                        <th colspan="2"><h2>Formulario</h2></th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <form id="entryform">
-                        <tr>
-                            <th>Nombre:</th>
-                            <td>
-                                <input type="text" id="form_nombre" maxlength="20" class="entry-form-input" required>
-                                <span id="nombremsg" class="text-danger"></span>
-                            </td>                            
-                        </tr>
-                        <tr>
-                            <th>Apellidos:</th>
-                            <td>
-                                <input type="text" id="form_apellidos" maxlength="20" class="entry-form-input" required>
-                                <span id="apellidosmsg" class="text-danger"></span>
-                            </td>                            
-                        </tr>  
-                        <tr>
-                            <th>Teléfono:</th>
-                            <td>
-                            <input type="tel" id="form_tel" maxlength="9" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}"  class="entry-form-input" onkeyup="this.value = this.value.replace(/[^0-9-]/g, '');" required><br>
-                            <span id="telmsg" class="text-danger"></span>                               
-                            </td>                            
-                        </tr>
-                        <tr>
-                            <th>Email:</th>
-                            <td>
-                                <input type="email" id="form_email" class="entry-form-input" required><br>
-                                <span id="emailmsg" class="text-danger"></span>
-                            </td>                            
-                        </tr>
-                        <tr>
-                            <th>Mensaje:</th>
-                            <td><input type="text" id="form_msg" maxlength="50" class="entry-form-input"></td>                            
-                        </tr>                                                                                            
-                    </tbody>       
+                    <tr>
+                        <th>Nombre:</th>
+                        <td>
+                            <input type="text" name="nombre" maxlength="20" class="entry-form-input" required>
+                            <span id="nombremsg" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Apellidos:</th>
+                        <td>
+                            <input type="text" name="apellidos" maxlength="20" class="entry-form-input" required>
+                            <span id="apellidosmsg" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Teléfono:</th>
+                        <td>
+                            <input type="tel" name="teléfono" maxlength="9" pattern="[0-9]{9}" class="entry-form-input" required>
+                            <span id="telmsg" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>
+                            <input type="email" name="email" class="entry-form-input" required>
+                            <span id="emailmsg" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Mensaje:</th>
+                        <td><input type="text" name="mensaje" maxlength="50" class="entry-form-input"></td>
+                    </tr>
+                    </tbody>
                     <tfoot>
-                        <tr>
-                            <th colspan="2">
-                                <div class="container">
-                                <button type="button" name="ic_submit_button" class="btn btn-success" id="entryform_submit_button" onclick="forminsert();">Enviar</button>
+                    <tr>
+                        <th colspan="2">
+                            <div class="container">
+                                <button type="submit" class="btn btn-success">Enviar</button>
                                 <input type="reset" class="btn btn-danger"/><br>
-                                <span id="form_log" class="text-danger"></span>      
-                                </div>               
-                            </th>
-                        </tr>
-                        </form>
-                    </tfoot>          
+                                <span id="form_log" class="text-danger"></span>
+                            </div>
+                        </th>
+                    </tr>
+                    </tfoot>
                 </table>
+            </form>
         </div> <!--Div pagecontent End-->   
 
 
@@ -120,5 +119,3 @@ include_once __DIR__ . '/../views/header.php';
 </div> <!-- Div Wrapper End-->
 <!-- Footer -->
 <?php include_once __DIR__ . '/../views/footer.php'; ?>
-</body>
-</html>
