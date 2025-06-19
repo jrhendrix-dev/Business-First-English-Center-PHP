@@ -19,6 +19,7 @@ require_once __DIR__ . '/../../src/controllers/UserController.php';
 require_once __DIR__ . '/../../src/controllers/ClassController.php';
 require_once __DIR__ . '/../../src/controllers/GradesController.php';
 require_once __DIR__ . '/../../src/controllers/ScheduleController.php';
+require_once __DIR__ . '/../../src/controllers/FormTabController.php';
 require_once __DIR__ . '/../../includes/adminHandlers.php';         // Lógica de carga de usuarios, clases, etc.
 
 // ========================== CONEXIÓN A BASE DE DATOS =========================
@@ -111,6 +112,9 @@ if (isset($_POST['nombre'], $_POST['apellidos'], $_POST['teléfono'], $_POST['em
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="horarios-tab" data-toggle="tab" href="#horarios" role="tab">Horarios</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="formulario-tab" data-toggle="tab" href="#formulario" role="tab">Formulario</a>
             </li>
         </ul>
 
@@ -227,6 +231,15 @@ if (isset($_POST['nombre'], $_POST['apellidos'], $_POST['teléfono'], $_POST['em
                 </div>
             </div>
 
+            <!-- ======================== PESTAÑA FORMULARIO ======================== -->
+            <div class="tab-pane fade" id="formulario" role="tabpanel">
+                <div class="admin-section">
+                    <h4>Captación</h4>
+                    <!-- Aquí se carga la tabla de captación de clientes vía AJAX -->
+                    <div id="formulario-table-container"></div>
+                </div>
+            </div>
+
         </div><!-- Tab Content End -->
     </div>
 </div>
@@ -239,3 +252,4 @@ if (isset($_POST['nombre'], $_POST['apellidos'], $_POST['teléfono'], $_POST['em
 <script src="/assets/js/clases.js"></script>
 <script src="/assets/js/notas.js"></script>
 <script src="/assets/js/horarios.js"></script>
+<script src="/assets/js/formulario.js"></script>
