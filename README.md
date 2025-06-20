@@ -1,101 +1,117 @@
+
+
+
+
+
 # Business First English Center
+
+[![Live Site](https://img.shields.io/badge/Live%20Site-businessfirstacademy.net-blue?style=flat-square)](https://businessfirstacademy.net/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](https://mit-license.org/)
+
+A complete web-based management system for an English academy focused on corporate language training.
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Security](#security)
+- [Database & Triggers](#database--triggers)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Project Workflow](#project-workflow)
+- [Contributing](#contributing)
+- [Future Improvements](#future-improvements)
+- [License](#license)
+
+---
 
 ## Overview
 
 Business First English Center is a web-based application designed to streamline the management of an academic institution. It enables administrators to manage users, classes, grades, and schedules efficiently. The system offers dedicated views and interactions for administrators, teachers, and students.
 
+- **Live Site:** [https://businessfirstacademy.net/](https://businessfirstacademy.net/)
+- **GitHub:** [github.com/jrhendrix-dev](https://github.com/jrhendrix-dev)
+- **LinkedIn:** [linkedin.com/in/jonathan-hendrix-dev](https://www.linkedin.com/in/jonathan-hendrix-dev)
+
+---
+
 ## Features
 
-- **Secure HTTPS**: All data transmission is encrypted using HTTPS, ensuring user credentials and sensitive information are protected.
-- **User Authentication**: Secure login system with session management, brute-force protection, and session security best practices.
-- **Role-Based Access Control**: Different interfaces and privileges for Admins, Teachers, and Students.
-- **Class Management**: Create, edit, assign, and delete classes.
-- **Grade Book**: Record, update, and view student grades across trimesters.
-- **Schedule Management**: Assign daily class schedules dynamically.
-- **Responsive Design**: Built with Bootstrap for compatibility on all devices.
-- **Persistent Storage**: MySQL backend with robust data structure.
-- **SQL Triggers**: Uses MySQL triggers to automate and enforce data integrity for student creation, updates, and deletions.
-- **Brute Force Protection**: Login system includes rate limiting and lockout countdown to prevent brute force attacks.
-- **AJAX-Powered Dashboards**: All dashboards (Admin, Teacher, Student) use AJAX for dynamic content updates and smooth UX.
-- **Auto-gap ID Logic**: Skips deleted IDs when creating new users/classes.
-- **Automatic Foreign-Key Linking**: Student creation triggers notas row.
-- **Input Validation and Error Handling**: Prevents misuse or inconsistent state.
-- **Centralized Bootstrap Initialization**: All PHP entry points include a `bootstrap.php` for secure session and DB setup.
-- **Documented JavaScript and PHP**: All core scripts and handlers include JSDoc/PHPDoc for maintainability.
+- **Secure HTTPS:** All data transmission is encrypted, protecting user credentials and sensitive information.
+- **User Authentication:** Secure login system with session management, brute-force protection, and session security best practices.
+- **Role-Based Access Control:** Different interfaces and privileges for Admins, Teachers, and Students.
+- **Class Management:** Create, edit, assign, and delete classes.
+- **Grade Book:** Record, update, and view student grades across trimesters.
+- **Schedule Management:** Assign daily class schedules dynamically.
+- **Responsive Design:** Built with Bootstrap for compatibility on all devices.
+- **Persistent Storage:** MySQL backend with robust data structure.
+- **SQL Triggers:** Automate and enforce data integrity for student creation, updates, and deletions.
+- **Brute Force Protection:** Login system includes rate limiting and lockout countdown.
+- **AJAX-Powered Dashboards:** Dynamic content updates and smooth UX for all dashboards.
+- **Auto-gap ID Logic:** Skips deleted IDs when creating new users/classes.
+- **Automatic Foreign-Key Linking:** Student creation triggers related records.
+- **Input Validation and Error Handling:** Prevents misuse or inconsistent state.
+- **Centralized Bootstrap Initialization:** All PHP entry points include a `bootstrap.php` for secure session and DB setup.
+- **Documented JavaScript and PHP:** All core scripts and handlers include JSDoc/PHPDoc for maintainability.
 
+---
 
 ## Screenshots
 
-### Home Banner
-![Banner](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/pics/banner.jpg)
-The main landing page of the application, featuring the banner and introductory interface.
-
----
-
 ### Responsive Layout
-![Responsive](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/Responsive.png)  
-Demonstrates how the application adapts to various screen sizes, ensuring usability across devices.
-
----
+![Responsive](assets/screenshots/Responsive.png)(https://www.loom.com/share/0d58e653abae44d38d164d00ee485bb5?sid=b8969b15-ec1a-4b51-bd62-b49f152b0dad)  
+Demonstrates how the application adapts to various screen sizes.
 
 ### Admin User List
-![AdminUserList](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/AdminUserList.png)  
-Displays the administrative interface for managing users, including search and filtering options.
-
----
-
-### Create User Form
-![AdminUserCreate](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/AdminUserCreate.png)  
-Form used to register new users, including roles, classes, and validation constraints.
-
----
+![AdminUserList](assets/screenshots/AdminUserList.png)  
+Administrative interface for managing users, including search and filtering.
 
 ### Admin Form Controls
-![AdminFormControl](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/AdminFormControl.png)  
-Field-level controls and validation logic implemented for user and class data.
-
----
+![AdminFormControl](assets/screenshots/AdminFormControl.png)(https://www.loom.com/share/61802637c1cc4f5e8dca8f4c3a94f872?sid=7445760b-7e7f-4ed1-8707-ffd90a6effae)  
+Field-level controls and validation logic for user and class data.
 
 ### Grade Editing Panel
-![AdminGradesEdit](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/AdminGradesEdit.png)  
-Interface for administrators to view, assign, or update student grades per subject.
-
----
+![AdminGradesEdit](assets/screenshots/AdminGradesEdit.png)  
+Interface for administrators to view, assign, or update student grades.
 
 ### Trigger: Create Student
-![TriggerStudentCreate](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/TriggerStudentCreate.png)  
-Internal trigger logic that handles the creation of a new student record in the system.
-
----
+![TriggerStudentCreate](assets/screenshots/TriggerStudentCreate.png)  
+Internal trigger logic for new student records.
 
 ### Trigger: Update Student
-![TriggerStudentUpdate](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/TriggerStudentUpdate.png)  
-Trigger and interface to update student data and reflect changes in the database.
-
----
+![TriggerStudentUpdate](assets/screenshots/TriggerStudentUpdate.png)  
+Trigger and interface to update student data.
 
 ### Trigger: Delete Student
-![TriggerStudentDelete](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/TriggerStudentDelete.png)  
-Deletion workflow with confirmation steps to ensure safe record removal.
-
----
+![TriggerStudentDelete](assets/screenshots/TriggerStudentDelete.png)  
+Deletion workflow with confirmation steps.
 
 ### Application Footer
-![Footer](https://github.com/jrhendrix-dev/Business-First-English-Center-PHP/blob/main/assets/screenshots/Footer.png)  
-The footer section of the application, containing version info and navigation links.
+![Footer](assets/screenshots/Footer.png)  
+Footer section with version info and navigation links.
+
+---
 
 ## Security
 
-- **HTTPS**: All pages and forms are served over HTTPS for encrypted communication.
-- **Session Security**: Session cookies are set with `HttpOnly` and `Secure` flags, and session configuration is centralized in `bootstrap.php`.
-- **Brute Force Protection**: Login attempts are rate-limited with a lockout countdown and visual feedback.
-- **Password Hashing**: Passwords are securely hashed using PHP's `password_hash()` and verified with `password_verify()`.
-- **Centralized Initialization**: All entry points include `bootstrap.php` to enforce consistent security and DB connection.
+- **HTTPS:** All pages and forms are served over HTTPS for encrypted communication.
+- **Session Security:** Session cookies use `HttpOnly` and `Secure` flags; session configuration is centralized in `bootstrap.php`.
+- **Brute Force Protection:** Login attempts are rate-limited with lockout countdown and visual feedback.
+- **Password Hashing:** Passwords are securely hashed using PHP's `password_hash()` and verified with `password_verify()`.
+- **Centralized Initialization:** All entry points include `bootstrap.php` to enforce consistent security and DB connection.
+
+---
 
 ## Database & Triggers
 
-- **MySQL Triggers**: The application uses SQL triggers to automatically manage related records when students are created, updated, or deleted. This ensures data consistency and reduces the risk of orphaned or inconsistent data.
-- **Schema**: See `/schema.sql` for table definitions and trigger logic.
+- **MySQL Triggers:** Automatically manage related records when students are created, updated, or deleted, ensuring data consistency.
+- **Schema:** See `/schema.sql` for table definitions and trigger logic.
+
+---
 
 ## Technologies Used
 
@@ -105,166 +121,144 @@ The footer section of the application, containing version info and navigation li
 - Bootstrap 4
 - HTML5/CSS3
 
+---
+
 ## Installation
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/yourusername/business-first-english-center.git
-   cd business-first-english-center
+   git clone https://github.com/jrhendrix-dev/Business-First-English-Center-PHP.git
+   cd Business-First-English-Center-PHP
    ```
+
 2. **Configure the Database**
-
-   - Import the schema.sql (or equivalent) into your MySQL server.
-
-   - Update your DB credentials in /src/models/Database.php.
+  - Import `schema.sql` into your MySQL server.
+  - Update your DB credentials in `/src/models/Database.php` or the relevant config file.
 
 3. **Run the Server**
-
-   - Serve the project using Apache or PHP’s built-in server:
-```bash
-      php -S localhost:8000 -t public/
-```
+  - Serve the project using Apache/Nginx or PHP’s built-in server:
+    ```bash
+    php -S localhost:8000 -t public/
+    ```
 
 4. **Access the App**
-   - Open your browser and go to http://localhost:8000.
+  - Open your browser and go to [http://localhost:8000](http://localhost:8000).
+
+---
 
 ## Project Structure
+
 ```
 Business-First-English-Center/
-│
-├── public/                  # Public-facing entry point and assets
-│   ├── assets/              # CSS, JS, images
-│   └── index.php
-│
+├── public/                # Public routes and static files
+│   ├── index.php         # Main entry
+│   ├── login.php         # Login API
+│   └── assets/           # CSS, JS, images
 ├── src/
-│   ├── controllers/         # Backend handlers (CRUD)
-│   └── models/              # DB connection & logic
-│
-├── views/                   # Reusable view fragments (HTML/PHP)
-├── includes/                # AJAX handlers and shared session logic
-├── bootstrap.php            # Global session and DB initialization (included everywhere)
-├── schema.sql               # Database schema and triggers
+│   ├── api/
+│   │   ├── dashboard_admin.php
+│   │   ├── dashboard_teacher.php
+│   │   ├── dashboard_student.php
+│   │   └── partials/     # Dynamic tab content
+│   ├── controllers/      # Modular controllers for each domain
+│   ├── models/           # DB layer and schema
+│   └── views/            # Shared view fragments
+├── includes/             # AJAX endpoints per user role
+├── bootstrap.php         # Global init (session + DB)
+├── composer.json         # Doctum dependencies (optional)
+├── docs/                 # PHPDoc, markdown, and Doctum cache
 └── README.md
-
 ```
 
-# Project Workflow
-
-This section explains the typical workflow of the **Business First English Center** web application, from user entry to feature usage, covering both user experience and system processes.
-
 ---
 
-## 1. **User Access and Entry Point**
+## Project Workflow
 
-- Users (Admins, Teachers, Students, or Visitors) access the application via the main entry point:  
-  `public/index.php`
-- The application enforces secure session management by setting strict session cookie parameters before starting the session.
-- The header (`views/header.php`) is included, providing navigation and login/logout controls based on session state.
+### 1. User Access and Entry Point
 
----
+- Users (Admins, Teachers, Students, or Visitors) access the application via `public/index.php`.
+- Secure session management is enforced before starting the session.
+- The header (`views/header.php`) provides navigation and login/logout controls based on session state.
 
-## 2. **Authentication and Role-Based Access**
+### 2. Authentication and Role-Based Access
 
-- **Visitors** can browse public information and view available courses and services.
-- **Login Modal**:  
-  - Users can log in via a modal form in the header.
-  - Credentials are submitted (typically via AJAX) and validated against the database.
-  - Upon successful login, the session is updated with user information and role (`lvl`).
-- **Role-Based Navigation**:  
-  - The navigation bar dynamically changes based on the user's role:
-    - **Admin**: Access to admin dashboard and management features.
-    - **Teacher**: Access to teacher dashboard and class/grade management.
-    - **Student**: Access to student dashboard and personal grades/schedule.
+- **Visitors:** Browse public information and view available courses.
+- **Login Modal:** Users log in via a modal form; credentials are validated against the database.
+- **Role-Based Navigation:** Navigation bar changes based on user role:
+  - **Admin:** Access to admin dashboard and management features.
+  - **Teacher:** Access to teacher dashboard and class/grade management.
+  - **Student:** Access to student dashboard and personal grades/schedule.
 
----
+### 3. Feature Access and Core Functionality
 
-## 3. **Feature Access and Core Functionality**
+- **Class Management (Admins):** Create, edit, assign, and delete classes; assign teachers and students.
+- **Grade Book (Teachers):** Record, update, and view student grades.
+- **Schedule Management (Admins/Teachers):** Assign and view daily class schedules.
+- **Student Portal:** View assigned classes, schedules, and grades.
 
-- **Class Management** (Admins):
-  - Create, edit, assign, and delete classes.
-  - Assign teachers and students to classes.
-- **Grade Book** (Teachers):
-  - Record, update, and view student grades for each trimester.
-- **Schedule Management** (Admins/Teachers):
-  - Assign and view daily class schedules.
-- **Student Portal**:
-  - View assigned classes, schedules, and grades.
+### 4. Data Flow and Persistence
 
----
+- All data operations (CRUD) are handled by controllers in `src/controllers/`.
+- Business logic and DB interactions are managed by models in `src/models/`.
+- Data is stored in MySQL, with triggers enforcing integrity for student records.
+- AJAX is used for dynamic updates and form submissions.
+- AJAX handlers are located in `/includes/` and follow best practices with PHPDoc and input validation.
 
-## 4. **Data Flow and Persistence**
-
-- All data operations (CRUD) are handled by controllers in src/controllers/.
-- Business logic and database interactions are managed by models in src/models/.
-- Data is stored in a MySQL database, with triggers enforcing integrity for student records.
-- AJAX is used for dynamic updates and form submissions, providing a responsive user experience.
-- All AJAX handlers (for admin, teacher, and student dashboards) are located in /includes/ and follow best practices with PHPDoc and input validation.
-
----
-
-## 5. **Security and Best Practices**
+### 5. Security and Best Practices
 
 - **HTTPS** is enforced for all data transmission.
-- **Session Security**:  
-  - Cookies are set as `HttpOnly` and `Secure` (when using HTTPS).
-  - Session management prevents unauthorized access.
-- **Brute Force Protection**:  
-  - Login attempts are rate-limited and lockouts are enforced after repeated failures.
-- **Role-Based Access Control**:  
-  - Each user role has access only to permitted features and views.
-- **Input Validation**:
-  - All AJAX handlers and forms validate input and handle errors gracefully.
-- **Code Documentation**:
-  - All major PHP and JavaScript files include PHPDoc/JSDoc comments for maintainability.
----
+- **Session Security:** Cookies are set as `HttpOnly` and `Secure`.
+- **Brute Force Protection:** Login attempts are rate-limited and lockouts are enforced.
+- **Role-Based Access Control:** Each user role has access only to permitted features and views.
+- **Input Validation:** All AJAX handlers and forms validate input and handle errors gracefully.
+- **Code Documentation:** All major PHP and JavaScript files include PHPDoc/JSDoc comments.
 
-## 6. **Frontend and User Experience**
+### 6. Frontend and User Experience
 
-- **Responsive Design**:  
-  - The UI is built with Bootstrap 4 for compatibility across devices.
-- **Reusable Views**:  
-  - Common UI components (header, footer, modals) are included across pages for consistency.
-- **Dynamic Content**:  
-  - jQuery and AJAX are used for interactive elements and real-time updates.
-- **AJAX Handlers**:
-  - All dashboard tables (users, classes, grades, schedules) are loaded and updated via AJAX for a seamless experience.
----
+- **Responsive Design:** Built with Bootstrap 4 for compatibility across devices.
+- **Reusable Views:** Common UI components (header, footer, modals) are included across pages.
+- **Dynamic Content:** jQuery and AJAX are used for interactive elements and real-time updates.
 
+### 7. Typical User Workflow Example
 
-## 7. **Typical User Workflow Example**
-
-1. **Visitor** lands on the homepage and browses available courses.
-2. **User** clicks "Iniciar Sesión" and logs in.
-3. **System** authenticates and redirects user to their dashboard based on role.
-4. **Admin** manages classes, teachers, and students.
-5. **Teacher** records grades and manages class schedules.
-6. **Student** views their grades and class schedule.
-7. **All users** can log out securely, ending their session.
+1. Visitor lands on the homepage and browses available courses.
+2. User clicks "Iniciar Sesión" and logs in.
+3. System authenticates and redirects user to their dashboard based on role.
+4. Admin manages classes, teachers, and students.
+5. Teacher records grades and manages class schedules.
+6. Student views their grades and class schedule.
+7. All users can log out securely, ending their session.
 
 ---
-
-For more details on installation and setup, see the [Installation](#installation) section above.
 
 ## Contributing
-1. Fork the repository
 
-2. Create a feature branch: git checkout -b feature-name
+1. Fork the repository.
+2. Create a feature branch:  
+   `git checkout -b feature-name`
+3. Commit your changes:  
+   `git commit -m "Add feature"`
+4. Push to the branch:  
+   `git push origin feature-name`
+5. Submit a Pull Request.
 
-3. Commit your changes: git commit -m "Add feature"
-
-4. Push to the branch: git push origin feature-name
-
-5. Submit a Pull Request
+---
 
 ## Future Improvements
 
 - Add CSV export for reports
-
 - Enable messaging between users
-
 - Add automated testing (PHPUnit)
-
 - Translate UI for multilingual support
+- Make user email field unique
+- Allow Admin and Teachers to order lists by different columns
+- Enforce User list being limited to showing 10 users in a div window with arrows to move from page to page
+
+---
 
 ## License
+
 This project is licensed under the [MIT License](https://mit-license.org/).
+
+```
+
