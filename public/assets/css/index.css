@@ -572,6 +572,26 @@ table tr th {
     font-weight: bold;
 }
 
+.edit-btn-class{
+    background-color: midnightblue;
+    color: white;
+}
+
+.edit-btn-class:hover{
+    background-color: #1856cb;
+    color: white;
+}
+
+.delete-btn{
+    background-color: crimson;
+    color: white;
+}
+
+.delete-btn:hover{
+    background-color: darkred;
+    color: white;
+}
+
 /* USER CREATION TOGGLE */
 .user-toggle-wrapper {
     max-width: 600px;
