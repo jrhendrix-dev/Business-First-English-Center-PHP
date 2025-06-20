@@ -135,13 +135,15 @@ Footer section with version info and navigation links.
   - Import `schema.sql` into your MySQL server.
   - Update your DB credentials in `/src/models/Database.php` or the relevant config file.
 
-3. **Run the Server**
-  - Serve the project using Apache/Nginx or PHP’s built-in server:
+3. **Run the Server (Development Only)**
+
+   - If you're testing locally:
     ```bash
     php -S localhost:8000 -t public/
     ```
 
 4. **Access the App**
+  - Production: https://businessfirstacademy.net
   - Open your browser and go to [http://localhost:8000](http://localhost:8000).
 
 ---
@@ -260,5 +262,5 @@ Business-First-English-Center/
 
 This project is licensed under the [MIT License](https://mit-license.org/).
 
-```
+
 
