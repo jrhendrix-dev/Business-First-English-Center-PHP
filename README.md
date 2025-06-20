@@ -63,35 +63,35 @@ Business First English Center is a web-based application designed to streamline 
 ## Screenshots
 
 ### Responsive Layout
-![Responsive](assets/screenshots/Responsive.png)(https://www.loom.com/share/0d58e653abae44d38d164d00ee485bb5?sid=b8969b15-ec1a-4b51-bd62-b49f152b0dad)  
+![Responsive](public/assets/screenshots/Responsive.png)(https://www.loom.com/share/0d58e653abae44d38d164d00ee485bb5?sid=b8969b15-ec1a-4b51-bd62-b49f152b0dad)  
 Demonstrates how the application adapts to various screen sizes.
 
 ### Admin User List
-![AdminUserList](assets/screenshots/AdminUserList.png)  
+![AdminUserList](public/assets/screenshots/AdminUserList.png)  
 Administrative interface for managing users, including search and filtering.
 
 ### Admin Form Controls
-![AdminFormControl](assets/screenshots/AdminFormControl.png)(https://www.loom.com/share/61802637c1cc4f5e8dca8f4c3a94f872?sid=7445760b-7e7f-4ed1-8707-ffd90a6effae)  
+![AdminFormControl](public/assets/screenshots/AdminFormControl.png)(https://www.loom.com/share/61802637c1cc4f5e8dca8f4c3a94f872?sid=7445760b-7e7f-4ed1-8707-ffd90a6effae)  
 Field-level controls and validation logic for user and class data.
 
 ### Grade Editing Panel
-![AdminGradesEdit](assets/screenshots/AdminGradesEdit.png)  
+![AdminGradesEdit](public/assets/screenshots/AdminGradesEdit.png)  
 Interface for administrators to view, assign, or update student grades.
 
 ### Trigger: Create Student
-![TriggerStudentCreate](assets/screenshots/TriggerStudentCreate.png)  
+![TriggerStudentCreate](public/assets/screenshots/TriggerStudentCreate.png)  
 Internal trigger logic for new student records.
 
 ### Trigger: Update Student
-![TriggerStudentUpdate](assets/screenshots/TriggerStudentUpdate.png)  
+![TriggerStudentUpdate](public/assets/screenshots/TriggerStudentUpdate.png)  
 Trigger and interface to update student data.
 
 ### Trigger: Delete Student
-![TriggerStudentDelete](assets/screenshots/TriggerStudentDelete.png)  
+![TriggerStudentDelete](public/assets/screenshots/TriggerStudentDelete.png)  
 Deletion workflow with confirmation steps.
 
 ### Application Footer
-![Footer](assets/screenshots/Footer.png)  
+![Footer](public/assets/screenshots/Footer.png)  
 Footer section with version info and navigation links.
 
 ---
