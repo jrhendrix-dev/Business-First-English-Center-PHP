@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadUsers'])) {
                     <td class='class' data-classid='{$row['class']}' data-label='class: '>" . htmlspecialchars($row['classname'] ?? '') . "</td>
                     <td class='ulevel' data-label='level: '>{$row['ulevel']}</td>
                     <td>
-                        <button class='btn btn-sm btn-warning edit-btn'>Edit</button>
+                        <button class='btn btn-sm btn-warning edit-btn edit-btn-class'>Edit</button>
                         <button class='btn btn-sm btn-danger delete-btn'>Delete</button>
                     </td>
                   </tr>";
@@ -155,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadClasses'])) {
                     <td class='classname' data-label='class: '>" . htmlspecialchars($row['classname']) . "</td>
                     <td class='profesor' data-label='teacher: ' data-profid='{$row['user_id']}'>" . htmlspecialchars($row['username'] ?? '') . "</td>
                     <td>
-                        <button class='btn btn-sm btn-warning edit-class-btn'>Edit</button>
+                        <button class='btn btn-sm btn-warning edit-class-btn edit-btn-class'>Edit</button>
                         <button class='btn btn-sm btn-danger delete-class-btn'>Delete</button>
                     </td>
                   </tr>";
@@ -196,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadNotas'])) {
                     <td class='nota2' data-label='grade 2: '>" . htmlspecialchars($row['Nota2'] ?? '') . "</td>
                     <td class='nota3' data-label='grade 3: '>" . htmlspecialchars($row['Nota3'] ?? '') . "</td>
                     <td>
-                        <button class='btn btn-sm btn-warning edit-nota-btn'>Edit</button>
+                        <button class='btn btn-sm btn-warning edit-nota-btn edit-btn-class'>Edit</button>
                         <button class='btn btn-sm btn-success save-nota-btn d-none'>Save</button>
                         <button class='btn btn-sm btn-secondary cancel-nota-btn d-none'>Cancel</button>
                     </td>
@@ -240,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadHorarios'])) {
                 <td class='secondclass' data-label='class 2: '>" . ($row['secondclass_name'] ?? '') . "</td>
                 <td class='thirdclass' data-label='class 3: '>" . ($row['thirdclass_name'] ?? '') . "</td>
                 <td>
-                    <button class='btn btn-sm btn-warning edit-horario-btn'>Edit</button>
+                    <button class='btn btn-sm btn-warning edit-horario-btn edit-btn-class'>Edit</button>
                     <button class='btn btn-sm btn-success save-horario-btn d-none'>Save</button>
                     <button class='btn btn-sm btn-secondary cancel-horario-btn d-none'>Cancel</button>
                 </td>

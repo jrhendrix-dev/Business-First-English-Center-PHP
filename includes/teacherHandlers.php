@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' &&
                     <td class='nota2'>" . (isset($row['Nota2']) ? htmlspecialchars($row['Nota2']) : '') . "</td>
                     <td class='nota3'>" . (isset($row['Nota3']) ? htmlspecialchars($row['Nota3']) : '') . "</td>
                     <td>
-                        <button class='btn btn-sm btn-warning edit-nota-btn'>Edit</button>
+                        <button class='btn btn-sm btn-warning edit-nota-btn edit-btn-class'>Edit</button>
                         <button class='btn btn-sm btn-success save-nota-btn d-none'>Save</button>
                         <button class='btn btn-sm btn-secondary cancel-nota-btn d-none'>Cancel</button>
                     </td>
