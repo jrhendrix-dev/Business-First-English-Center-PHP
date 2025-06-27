@@ -23,6 +23,12 @@
    ========================================================================== */
 
 /* Main navbar container */
+
+@media (min-width: 992px) {
+    #Navbar_Logo {
+        margin-left: 100px;
+    }
+}
 .navbar {
     background-color: midnightblue !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -71,7 +77,7 @@
 #Navbar_Logo {
     width: 240px;
     height: auto;
-    margin-left: 100px;
+    /*margin-left: 100px;*/
 }
 
 /* Dropdown styling */
@@ -924,6 +930,17 @@ table tr th {
 
 /* END OF MOBILE/TABLET STYLES */
 
+
+/* Prevent horizontal scroll on all screens */
+body, html {
+    overflow-x: hidden;
+}
+
+@media (min-width: 992px) {
+    #Navbar_Logo {
+        margin-left: 100px;
+    }
+}
 /* ==========================================================================
    END OF FILE
    ========================================================================== */
