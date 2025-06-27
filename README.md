@@ -255,6 +255,11 @@ Business-First-English-Center/
 - Make user email field unique
 - Allow Admin and Teachers to order lists by different columns
 - Enforce User list being limited to showing 10 users in a div window with arrows to move from page to page
+- Add payment option for testing
+- login with social media authentication
+- password change request
+- forgotten password recovery
+- check if email exists
 
 ---
 

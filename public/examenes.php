@@ -111,7 +111,7 @@ include_once __DIR__ . '/../views/header.php';
                 <img src="assets/pics/estudiantes.png" alt="equipo de estudiantes"/>
                 <p>Learn fast, expect the best.</p>
                 <br>
-                <img src="assets/pics/estudiantes de inglés.png" alt="estudiantes de inglés"/>
+                <img src="assets/pics/Estudiantes de inglés.png" alt="estudiantes de inglés"/>
                 <p>Estudia con nosotros.<br>
                    Invierte en tu futuro, no te arrepentirás.</p>
         </div><!-- DIV pageside end-->
