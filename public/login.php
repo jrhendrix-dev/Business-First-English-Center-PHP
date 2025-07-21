@@ -140,7 +140,7 @@ handle_login();
 
 // === Optional login expiration redirect (only applies in session expiration scenarios) ===
 // This block may never run because handle_login() ends with `exit()`, but kept for safety.
-if (!check_login()) {
-    header("Location: login.php?expired=1");
-    exit();
-}
+//if (!handle_login()) {
+//    header("Location: login.php?expired=1");
+//    exit();
+//}

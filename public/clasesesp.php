@@ -123,4 +123,3 @@ include_once __DIR__ . '/../views/header.php';
 </div> <!-- Div Wrapper End-->
 <!-- Footer -->
 <?php include_once __DIR__ . '/../views/footer.php'; ?>
-

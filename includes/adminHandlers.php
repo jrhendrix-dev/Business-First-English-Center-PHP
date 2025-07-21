@@ -161,6 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['loadClasses'])) {
                   </tr>";
         }
         echo "</tbody></table>";
+
     } else {
         echo "<p>No classes found.</p>";
     }
